@@ -35,7 +35,7 @@ final class HelloController
     }
     public function helloAction(Request $request, Response $response, array $args)
     {
-        echo "holaa";
+
         return $this
             ->container
             ->get('view')

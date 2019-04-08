@@ -6,6 +6,16 @@
     {% endblock %}
 </head>
 <body>
+<div class="jumbotron text-center">
+    {% block header %}
+    {% endblock %}
+</div>
 {% block content %}{% endblock %}
+
+
+    <footer class="jumbotron text-center" style="margin-bottom:0">
+        {% block footer %}{% endblock %}
+    </footer>
+
 </body>
 </html>

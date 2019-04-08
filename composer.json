@@ -1,6 +1,21 @@
 {
-    "name": "mireiacastillejo/slim-test",
-
+    "name": "PW_PWPOP_GROUP_10",
+    "description": "Wallapop for PWPOP",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Judit Villanueva",
+            "email": "judit.villanueva@students.salleurl.edu"
+        },
+        {
+            "name": "Rafael Rebollo ",
+            "email": "rafael.rebollo@students.salleurl.edu"
+        },
+        {
+            "name":"Mireia Castillejo",
+            "email": "mireia.castillejo@students.salleurl.edu"
+        }
+    ],
     "require": {
         "slim/slim": "^3.12",
         "slim/twig-view": "^2.4"
