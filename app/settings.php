@@ -1,5 +1,6 @@
 <?php
-return ['settings' => [
+return [
+    'settings' => [
     'displayErrorDetails'=> true,
-],
+    ],
 ];

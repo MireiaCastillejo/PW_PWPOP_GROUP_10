@@ -1,0 +1,24 @@
+{% extends "base.twig" %}
+{% block styles %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ base_url() }}/assets/css/styles.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+{% endblock %}
+{% block title %}
+    Pwpop page
+{% endblock %}
+
+ {% block header %}
+     <h1>PWPOP</h1>
+ {% endblock %}
+
+
+{% block content %}
+    <h1>PWPOP</h1>
+    <!-- <p>Hello {{ name }}!</p> -->
+{% endblock %}
+
+
+{% block footer %}
+    Copyright {{"now"|date('Y')}}
+{% endblock %}
