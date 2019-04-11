@@ -2,7 +2,7 @@
 use SallePW\SlimApp\Controller\HelloController;
 use SallePW\SlimApp\Controller\Middleware\TestMiddleware;
 use SallePW\SlimApp\Controller\Middleware\SessionMiddleware;
-use SallePW\SlimApp\Controller\FlashController;
+//use SallePW\SlimApp\Controller\FlashController;
 
 
 
@@ -17,4 +17,4 @@ $app
 
 $app->add(SessionMiddleware::class);
 
-$app->get('/flash', FlashController::class);
+//$app->get('/flash', FlashController::class);

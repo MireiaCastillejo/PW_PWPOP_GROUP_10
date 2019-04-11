@@ -26,9 +26,9 @@ final class HelloController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        $messages = $this->container
+        /*$messages = $this->container
             ->get('flash')
-            ->getMessage('test');
+            ->getMessage('test');*/
 
         $adviceCookie = FigRequestCookies::get($request, self::COOKIES_ADVICE);
 
@@ -46,7 +46,7 @@ final class HelloController
             //'name' => $args['name'],
             'visits' => $_SESSION['counter'],
             'isWarned' => $isWarned,
-            'messages' => $messages,
+            //'messages' => $messages,
         ]);
     }
 

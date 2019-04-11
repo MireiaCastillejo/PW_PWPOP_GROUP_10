@@ -1,6 +1,6 @@
 <?php
 
-use Slim\Flash\Messages;
+//use Slim\Flash\Messages;
 
 $container = $app->getContainer();
 
@@ -13,7 +13,7 @@ $container['view'] = function ($container) {
 
     return $view;
 };
-$container['flash'] = function () {
+/*$container['flash'] = function () {
     return new Messages();
-};
+};*/
 
