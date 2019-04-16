@@ -7,8 +7,7 @@
     <meta name="description" content="PWPOP" />
     <meta name="author" content="Judit Villanueva,Rafael Rebollo,Mireia Castillejo" />
     <title>PWPOP10</title>
-    {% block styles %}
-    {% endblock %}
+    {% block styles %}{% endblock %}
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
@@ -40,15 +39,14 @@
     </div>
 </nav>
 <div class="jumbotron text-center">
-    {% block header %}
-    {% endblock %}
+    {% block header %}{% endblock %}
 </div>
 {% block content %}{% endblock %}
 
 
-<footer class="jumbotron text-center" style="margin-bottom:0">
+<nav class="navbar fixed-bottom navbar-dark">
     {% block footer %}{% endblock %}
-</footer>
+</nav>
 
 </body>
 </html>

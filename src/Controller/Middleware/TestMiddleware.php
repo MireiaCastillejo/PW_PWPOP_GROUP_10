@@ -19,12 +19,12 @@ class TestMiddleware
         Callable $next
     )
     {
-       // $response->getBody()->write('Before');
+        $response->getBody()->write('Before');
 
         /** @var Response $response */
         $response = $next($request, $response);
 
-      //  $response->getBody()->write('After');
+        $response->getBody()->write('After');
 
         return $response;
 
