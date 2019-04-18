@@ -4,7 +4,7 @@ use SallePW\SlimApp\Controller\Middleware\TestMiddleware;
 use SallePW\SlimApp\Controller\Middleware\SessionMiddleware;
 use SallePW\SlimApp\Controller\ProfileController;
 use SallePW\SlimApp\Controller\FlashController;
-
+use SallePW\SlimApp\Controller\RegController;
 
 
 //UNA RUTA POR CONTROLADOR
@@ -18,3 +18,5 @@ $app->get('/', HelloController::class)
 
 $app->get('/profile', ProfileController::class);
     //->add(TestMiddleware::class);
+
+$app->get('/register', RegController::class);
