@@ -2,8 +2,32 @@ body {
     background-color: #05ff97;
     height: 100%;
     margin: 0;
+    padding: 0px;
 }
+
 h1{
     font-size: 30%;
-    font-family:"Times New Roman";
+    font-family: "Times New Roman", serif;
+    color: black;
+}
+
+#topNav{
+    background-color: #9162e4;
+    padding: 0.5em 1em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container{
+    width: 960px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+#botNav{
+    background-color: #9162e4;
+}
+
+.jumbotron{
+    margin: 0;
 }

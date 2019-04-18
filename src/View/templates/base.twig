@@ -7,26 +7,27 @@
     <meta name="description" content="PWPOP" />
     <meta name="author" content="Judit Villanueva,Rafael Rebollo,Mireia Castillejo" />
 
-    <title >PWPOP10</title>
+    <title >
+        {% block title %}{% endblock %}
+    </title>
+    <link rel="stylesheet" type="text/css" href="{{ base_url() }}/assets/css/styles.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    {% block styles %}
 
+    {% block styles %}{% endblock %}
+    {% block scripts %}{% endblock %}
 
-    {% endblock %}
-    {% block scripts %}
-
-
-    {% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand mb-0 h1" href="#">PWPOP</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top" id="topNav">
+    <div class="container">
+        <a class="navbar-brand mb-0 h1" href="#">PWPOP</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
@@ -49,20 +50,43 @@
     {% block buttons %}{% endblock %}
 
 
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link disabled" href="#">Dropdown</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
 </nav>
 {% block modal %}{% endblock %}
 
 
-<div class="jumbotron text-center" style="margin-bottom:0">
+<div class="jumbotron text-center">
     {% block header %}{% endblock %}
 </div>
+
+<div class="container">
 {% block content %}{% endblock %}
+</div>
 
-
-<footer class="jumbotron text-center" style="margin-bottom:0">
-    {% block footer %}{% endblock %}
-</footer>
-
+<nav class="navbar fixed-bottom navbar-dark" id="botNav">
+    <p style="margin: 0;margin: 0 auto;">Copyright {{"now"|date('M Y')}}
+        {% block footer %}{% endblock %}
+    </p>
+</nav>
 
 </body>
 </html>

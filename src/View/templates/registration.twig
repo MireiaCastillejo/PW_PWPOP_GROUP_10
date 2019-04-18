@@ -3,23 +3,24 @@
 
 {% block styles %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ base_url() }}/assets/css/styles.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
 {% endblock %}
 
 {% block scripts %}
     <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js" ></script>
     <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
-
     <script src="../assets/js/reg.js"></script>
+{% endblock %}
 
+
+{% block title %}
+    Pwpop page
 {% endblock %}
 
 {% block header %}
-     <h1>PWPOP</h1>
- {% endblock %}
+    <h1>PWPOP</h1>
+{% endblock %}
+
 
 {% block content %}
     <h1 class="form_title">Registration form</h1>
@@ -48,5 +49,4 @@
 {% endblock %}
 
 {% block footer %}
-    Copyright {{"now"|date('Y')}}
 {% endblock %}

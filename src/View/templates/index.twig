@@ -1,9 +1,14 @@
 {% extends "base.twig" %}
 {% block styles %}
+    {{ parent() }}
 {% endblock %}
 
 {% block scripts %}
 <!-- Latest compiled and minified CSS <script src="assets/js/homepage.js"></script> -->
+{% endblock %}
+
+{% block title %}
+    PWPOP
 {% endblock %}
 
 {% block buttons %}
@@ -14,6 +19,7 @@
 
      <button  id="myBtn" type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#myModal" >Search</button>
  {% endblock %}
+
 
 {% block modal %}
     <!-- Modal -->
@@ -68,6 +74,7 @@
 {% block header %}
      <h1>PWPOP</h1>
  {% endblock %}
+
 
 {% block content %}
     <div class="album py-5 bg-light">
@@ -160,6 +167,6 @@
 </div>
 {% endblock %}
 
+
 {% block footer %}
-    Copyright {{"now"|date('Y')}}
 {% endblock %}
