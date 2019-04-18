@@ -1,107 +1,75 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: universidad
+ * Date: 2019-04-17
+ * Time: 17:37
+ */
 
-namespace SallePW\Model;
+namespace SallePW\SlimApp\Model;
 
-final class User
+
+class User
 {
-
-    private $name;
-    private $username;
-    private $email;
-    private $birth;
-    private $phone;
+    private $id;
+    private $userName;
     private $password;
-    private $image;
+    private $email;
+    private $birthDate;
+    private $created_at;
+    private $updated_at;
 
-    public function __construct($name, $username,$email, $birth, $phone, $password, $image)
+    /**
+     * User constructor.
+     * @param $id
+     * @param $userName
+     * @param $password
+     * @param $email
+     * @param $birthDate
+     * @param $created_at
+     * @param $updated_at
+     */
+    public function __construct($id, $userName, $password, $email, $birthDate, $created_at, $updated_at)
     {
-        $this->name = $name;
-        $this->username = $username;
-        $this->email = $email;
-        $this->birth = $birth;
-        $this->phone = $phone;
+        $this->id = $id;
+        $this->userName = $userName;
         $this->password = $password;
-        $this->image = $image;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * @param mixed $username
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @param mixed $email
-     */
-    public function setEmail($email)
-    {
         $this->email = $email;
+        $this->birthDate = $birthDate;
+        $this->created_at = $created_at;
+        $this->updated_at = $updated_at;
     }
 
     /**
      * @return mixed
      */
-    public function getBirth()
+    public function getId()
     {
-        return $this->birth;
+        return $this->id;
     }
 
     /**
-     * @param mixed $birth
+     * @param mixed $id
      */
-    public function setBirth($birth)
+    public function setId($id): void
     {
-        $this->birth = $birth;
+        $this->id = $id;
     }
 
     /**
      * @return mixed
      */
-    public function getPhone()
+    public function getUserName()
     {
-        return $this->phone;
+        return $this->userName;
     }
 
     /**
-     * @param mixed $phone
+     * @param mixed $userName
      */
-    public function setPhone($phone)
+    public function setUserName($userName): void
     {
-        $this->phone = $phone;
+        $this->userName = $userName;
     }
 
     /**
@@ -115,7 +83,7 @@ final class User
     /**
      * @param mixed $password
      */
-    public function setPassword($password)
+    public function setPassword($password): void
     {
         $this->password = $password;
     }
@@ -123,19 +91,66 @@ final class User
     /**
      * @return mixed
      */
-    public function getImage()
+    public function getEmail()
     {
-        return $this->image;
+        return $this->email;
     }
 
     /**
-     * @param mixed $image
+     * @param mixed $email
      */
-    public function setImage($image)
+    public function setEmail($email): void
     {
-        $this->image = $image;
+        $this->email = $email;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getBirthDate()
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param mixed $birthDate
+     */
+    public function setBirthDate($birthDate): void
+    {
+        $this->birthDate = $birthDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * @param mixed $created_at
+     */
+    public function setCreatedAt($created_at): void
+    {
+        $this->created_at = $created_at;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * @param mixed $updated_at
+     */
+    public function setUpdatedAt($updated_at): void
+    {
+        $this->updated_at = $updated_at;
+    }
 
 
 
