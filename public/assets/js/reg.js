@@ -1,3 +1,4 @@
+/*
 
 $(document).ready(function(){
     console.log("antes");
@@ -19,7 +20,6 @@ $(document).ready(function(){
                 required: true,
                 alphanumeric: true,
                 maxlength: 20,
-                //unico ???
 
             },
             email: {
@@ -29,10 +29,11 @@ $(document).ready(function(){
             date:{
                 date: true,
             },
-            phone_number:{
+            phonenumber:{
                 required: true,
-                numeric: true,
-                //formato ???
+                pattern: /[0-9]{3}[ ][0-9]{3}[ ][0-9]{3}/,
+                minlength : 9,
+
             },
             password:{
                 required: true,
@@ -40,7 +41,7 @@ $(document).ready(function(){
             },
             c_password:{
                 required: true,
-                equalTo: password,
+                equalTo: $('input[name=password]'),
 
             }
 
@@ -61,6 +62,22 @@ $(document).ready(function(){
                 required: "This field is required",
                 email: "Please enter a valid email",
             },
+            date: {
+                date:"Please enter a valid date",
+            },
+            phonenumber: {
+                required: "This field is required",
+                pattern: "Please follow the format xxx xxx xxx, only numbers",
+                minlength:"Minimum length of 9 characters"
+            },
+            password: {
+                required: "This field is required",
+                minlength: "Password must be at least 6 characters",
+            },
+            c_password: {
+                required: "This field is required",
+                equalTo: "Password doesn't match",
+            },
         },
 
         //Funcion para mostrar el error
@@ -74,7 +91,9 @@ $(document).ready(function(){
             form.submit();
         }
     });
-    console.log("DESPUES");
+    console.log("server 234567 ");
+
 
    ;
 });
+*/

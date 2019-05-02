@@ -18,3 +18,8 @@ $app->get('/register', RegController::class);
 
 $app->get('/profile', ProfileController::class);
     //->add(TestMiddleware::class);
+
+
+$app
+    ->post('/register', RegController::class . ':regAction')
+    ->setName('register');

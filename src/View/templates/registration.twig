@@ -14,7 +14,7 @@
 
 
 {% block title %}
-    Pwpop page
+    Register
 {% endblock %}
 
 {% block header %}
@@ -24,7 +24,7 @@
 
 {% block content %}
     <h1 class="form_title">Registration form</h1>
-    <form id="form" class="form_content" action="" method="POST" enctype="multipart/form-data">
+    <form id="form" class="form_content" action="{{ path_for('register') }}" method="POST" enctype="multipart/form-data">
         Name:<br>
         <input type="text" name="name"><br>
         Username:<br>
@@ -34,13 +34,13 @@
         Birthdate:<br>
         <input type="date" name="birthdate"><br>
         Phone number:<br>
-        <input type="tel" name="phone_number"><br>
+        <input type="text" name="phonenumber"><br>
         Password:<br>
         <input type="password" name="password"><br>
         Confirm password:<br>
         <input type="password" name="c_password"><br>
         Profile image:<br>
-        <input type="file" name="profile_image"><br>
+        <input type="file" name="profile"><br>
         <br>
         <button type="submit" class="btn btn-outline-primary">Register</button><br>
     </form>
