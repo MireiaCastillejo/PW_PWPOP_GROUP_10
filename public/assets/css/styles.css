@@ -2,7 +2,7 @@ body {
     background-color: #05ff97;
     height: 100%;
     margin: 0;
-    padding: 0px;
+    padding: 0;
 }
 
 h1{
@@ -20,7 +20,7 @@ h1{
 
 .container{
     width: 900px;
-    margin: 0 auto;
+    margin: 0;
     text-align: center;
 }
 
@@ -28,6 +28,7 @@ h1{
     background-color: #9162e4;
 }
 
-.jumbotron{
-    margin: 0;
+#topJumbo{
+    margin: 56px 0 0;
+    padding: 0.5em 0;
 }

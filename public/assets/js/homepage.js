@@ -1,6 +1,5 @@
 $(document).ready(function(){
-    $("#myBtn").click(function(){
-        $("#myModal").modal({show: true});
+    $("#searchBtn").click(function(){
+        $("#searchModal").modal({show: true});
     });
-
 });

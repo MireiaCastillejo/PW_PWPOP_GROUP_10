@@ -10,20 +10,24 @@
     <title >
         {% block title %}{% endblock %}
     </title>
-    <link rel="stylesheet" type="text/css" href="{{ base_url() }}/assets/css/styles.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    {% block styles %}{% endblock %}
-    {% block scripts %}{% endblock %}
+    {% block styles %}
+        <link rel="stylesheet" type="text/css" href="{{ base_url() }}/assets/css/styles.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    {% endblock %}
+
+    {% block scripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% endblock %}
 
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark fixed-top" id="topNav">
     <div class="container">
-        <a class="navbar-brand mb-0 h1" href="#">PWPOP</a>
+        <a class="navbar-brand mb-0 h1" href="/" onclick="location.href='/'">PWPOP</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -31,14 +35,11 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <li class="nav-item">
+                <a class="nav-link active" href="#" onclick="location.href='/profile'">My Profile</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
+                <a class="nav-link disabled" onclick="location.href='/myproducts'">My Products</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link disabled" href="#">Dropdown</a>
@@ -54,7 +55,7 @@
 {% block modal %}{% endblock %}
 
 
-<div class="jumbotron text-center">
+<div class="jumbotron text-center" id="topJumbo">
     {% block header %}{% endblock %}
 </div>
 
@@ -63,7 +64,7 @@
 </div>
 
 <nav class="navbar fixed-bottom navbar-dark" id="botNav">
-    <p style="margin: 0;margin: 0 auto;">Copyright {{"now"|date('M Y')}}
+    <p style="margin: 0;margin: 0 auto;">Copyright {{"now"|date('Y')}}
         {% block footer %}{% endblock %}
     </p>
 </nav>
