@@ -1,0 +1,36 @@
+{% extends "base.twig" %}
+
+
+{% block styles %}
+    {{ parent() }}
+{% endblock %}
+
+
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block header %}
+    <h1>PWPOP</h1>
+{% endblock %}
+
+
+{% block content %}
+    <h1 class="form_title">Login form</h1>
+    <form id="form" class="form_content" action="{{ path_for('register') }}" method="POST" enctype="multipart/form-data">
+
+        Username:<br>
+        <input type="text" name="username"><br>
+
+        Password:<br>
+        <input type="password" name="password"><br>
+
+        <button type="submit" class="btn btn-outline-primary">Register</button><br>
+    </form>
+
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

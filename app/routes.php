@@ -23,3 +23,5 @@ $app->get('/profile', ProfileController::class);
 $app
     ->post('/register', RegController::class . ':regAction')
     ->setName('register');
+
+

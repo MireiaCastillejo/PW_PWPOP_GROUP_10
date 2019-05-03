@@ -11,65 +11,63 @@ namespace SallePW\SlimApp\Model;
 
 class User
 {
-    private $id;
-    private $userName;
-    private $password;
+
+    private $name;
+    private $username;
     private $email;
-    private $birthDate;
-    private $created_at;
-    private $updated_at;
+    private $birthdate;
+    private $phonenumber;
+    private $password;
+    private $profileimage;
+    private $enabled;
+    private $createdat;
+    private $updatedat;
+
+
 
     /**
      * User constructor.
-     * @param $id
-     * @param $userName
-     * @param $password
+     * @param $name
+     * @param $username
      * @param $email
-     * @param $birthDate
-     * @param $created_at
-     * @param $updated_at
+     * @param $birthdate
+     * @param $phonenumber
+     * @param $password
+     * @param $profileimage
+     * @param $enabled
+     * @param $createdat
+     * @param $updatedat
      */
-    public function __construct($id, $userName, $password, $email, $birthDate, $created_at, $updated_at)
+    public function __construct( $name, $username, $email, $birthdate, $phonenumber, $password, $profileimage, $enabled, $createdat, $updatedat)
     {
-        $this->id = $id;
-        $this->userName = $userName;
-        $this->password = $password;
+
+        $this->name = $name;
+        $this->username = $username;
         $this->email = $email;
-        $this->birthDate = $birthDate;
-        $this->created_at = $created_at;
-        $this->updated_at = $updated_at;
+        $this->birthdate = $birthdate;
+        $this->phonenumber = $phonenumber;
+        $this->password = $password;
+        $this->profileimage = $profileimage;
+        $this->enabled = $enabled;
+        $this->createdat = $createdat;
+        $this->updatedat = $updatedat;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
 
     /**
      * @return mixed
      */
     public function getUserName()
     {
-        return $this->userName;
+        return $this->username;
     }
 
     /**
-     * @param mixed $userName
+     * @param mixed $username
      */
-    public function setUserName($userName): void
+    public function setUserName($username): void
     {
-        $this->userName = $userName;
+        $this->username = $username;
     }
 
     /**
@@ -109,15 +107,15 @@ class User
      */
     public function getBirthDate()
     {
-        return $this->birthDate;
+        return $this->birthdate;
     }
 
     /**
-     * @param mixed $birthDate
+     * @param mixed $birthdate
      */
-    public function setBirthDate($birthDate): void
+    public function setBirthDate($birthdate): void
     {
-        $this->birthDate = $birthDate;
+        $this->birthdate = $birthdate;
     }
 
     /**
@@ -125,15 +123,15 @@ class User
      */
     public function getCreatedAt()
     {
-        return $this->created_at;
+        return $this->createdat;
     }
 
     /**
-     * @param mixed $created_at
+     * @param mixed $createdat
      */
-    public function setCreatedAt($created_at): void
+    public function setCreatedAt($createdat): void
     {
-        $this->created_at = $created_at;
+        $this->createdat = $createdat;
     }
 
     /**
@@ -141,17 +139,80 @@ class User
      */
     public function getUpdatedAt()
     {
-        return $this->updated_at;
+        return $this->updatedat;
     }
 
     /**
-     * @param mixed $updated_at
+     * @param mixed $updatedat
      */
-    public function setUpdatedAt($updated_at): void
+    public function setUpdatedAt($updatedat): void
     {
-        $this->updated_at = $updated_at;
+        $this->updatedat = $updatedat;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhonenumber()
+    {
+        return $this->phonenumber;
+    }
+
+    /**
+     * @param mixed $phonenumber
+     */
+    public function setPhonenumber($phonenumber): void
+    {
+        $this->phonenumber = $phonenumber;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProfileimage()
+    {
+        return $this->profileimage;
+    }
+
+    /**
+     * @param mixed $profileimage
+     */
+    public function setProfileimage($profileimage): void
+    {
+        $this->profileimage = $profileimage;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * @param mixed $enabled
+     */
+    public function setEnabled($enabled): void
+    {
+        $this->enabled = $enabled;
+    }
 
 
 }

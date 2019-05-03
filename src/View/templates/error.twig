@@ -1,0 +1,42 @@
+{% extends "base.twig" %}
+
+
+{% block styles %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block header %}
+    <h1>PWPOP</h1>
+{% endblock %}
+
+
+{% block content %}
+    <h1>CAPACHAO</h1>
+
+    <h2> Realmente no lo sabemos</h2>
+
+    <h3> ¯\_(ツ)_/¯ </h3>
+
+    <h5>Pero quizás esto tiene algo que ver</h5>
+
+    {% if errors is defined %}
+        <ol>
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ol>
+    {% endif %}
+
+
+
+{% endblock %}
+
+
+
+{% block footer %}
+{% endblock %}

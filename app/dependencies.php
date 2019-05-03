@@ -1,6 +1,10 @@
 <?php
 
 //use Slim\Flash\Messages;
+use SallePW\SlimApp\Model\Database\PDORepository;
+use SallePW\SlimApp\Model\Database\Database;
+use Slim\Container;
+
 
 $container = $app->getContainer();
 
@@ -15,6 +19,20 @@ $container['view'] = function ($container) {
 };
 
 // BASE DE DATOS
+
+$container['db'] = function (Container $c) {
+    return Database::getInstance(
+        $c['settings']['db']['username'],
+        $c['settings']['db']['password'],
+        $c['settings']['db']['host'],
+        $c['settings']['db']['dbName']
+    );
+};
+
+$container['user_repo'] = function (Container $c) {
+    return new PDORepository($c->get('db'));
+};
+
 
 //$container['database'] = new \SallePW\Model\Services\PostUserService(new \SallePW\Model\MySQLUserRepository());
 

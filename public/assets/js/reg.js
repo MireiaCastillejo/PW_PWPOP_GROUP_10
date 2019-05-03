@@ -1,4 +1,4 @@
-/*
+
 
 $(document).ready(function(){
     console.log("antes");
@@ -91,9 +91,8 @@ $(document).ready(function(){
             form.submit();
         }
     });
-    console.log("server 234567 ");
+
 
 
    ;
 });
-*/

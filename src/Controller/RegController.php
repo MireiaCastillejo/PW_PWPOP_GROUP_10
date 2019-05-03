@@ -12,6 +12,8 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\UploadedFileInterface;
+use SallePW\SlimApp\Model\User;
+use DateTime;
 
 
 class RegController
@@ -48,17 +50,72 @@ class RegController
     }
     public function regAction(Request $request, Response $response): Response
     {
-        // This method decodes the received json
-        $data = $request->getParsedBody();
-
-        //Validamos los campos y guardamos los errores
-        $errors = $this->validate($data, $request, $response);
 
         //poner return de la vista
-        if (count($errors) > 0) {
-            return $response->withJson(['errors' => $errors,], 404);
+
+
+        try {
+            // This method decodes the received json
+            $data = $request->getParsedBody();
+
+            /** @var PDORepository $repository */
+            $repository = $this->container->get('user_repo');
+
+            //Validamos los campos y guardamos los errores
+            $errors = $this->validate($data, $request, $response);
+
+            //Control de los campos opcionales que son unos hijos de puta
+            if(empty($data['birthdate'])){
+                $aux= new DateTime("1000-01-01 00:00:00");
+                $data['birthdate'] = $aux->format('Y-m-d H:i:s');
+            }
+
+            if(empty($data['profileimage'])){
+                $data['profileimage'] = 'defaultProfile.png';
+            }
+
+
+
+            if(empty($errors)){
+                //Como la seda
+                $user = new User(
+                    $data['name'],
+                    $data['username'],
+                    $data['email'],
+                    $data['birthdate'],
+                    $data['phonenumber'],
+                    $data['password'],
+                    $data['profileimage'],
+                    0,                       //enabled, a 0 de saque
+                    new DateTime(),
+                    new DateTime()
+                );
+
+                $repository->save($user);
+            }else{
+                //Algo ha ido mal
+
+                throw new \Exception('The validation went wrong');
+            }
+
+
+
+
+        } catch (\Exception $e) {
+
+            //Si algo va mal al validar, mostramos la ventana de error
+
+            $response->getBody()->write('Unexpected error: ' . $e->getMessage());
+            $this->container->get('view')->render($response, 'error.twig', [
+                'errors' => $errors,
+            ]);
+            return $response->withStatus(500);
         }
-        return $response->withJson([], 200);
+        $this->container->get('view')->render($response, 'login.twig');
+
+        return $response->withStatus(201);
+
+
 
     }
 
@@ -150,10 +207,12 @@ class RegController
         $uploadedFiles = $request->getUploadedFiles();
 
 
-        if (!empty($uploadedFiles['profile'])) {
+
+        if (isset($uploadedFiles['file'] )) {
+
+
             $errors['profile_image']= $this->imageChecking($uploadedFiles['profile'], $data['username']);
         }
-
 
 
         return $errors;
