@@ -1,0 +1,18 @@
+DROP TABLE IF EXISTS user CASCADE;
+
+CREATE TABLE user (
+                      id int(11) unsigned NOT NULL AUTO_INCREMENT,
+                      name varchar(255) NOT NULL DEFAULT '',
+                      username varchar(255) NOT NULL DEFAULT '',
+                      email varchar(255) NOT NULL DEFAULT '',
+                      birthdate datetime NOT NULL ,
+                      phonenumber varchar(11) NOT NULL DEFAULT '',
+                      password varchar(255) NOT NULL DEFAULT '',
+                      profileimage varchar(255) NOT NULL DEFAULT '',
+                      enabled boolean NOT NULL DEFAULT 0,
+                      is_active boolean NOT NULL DEFAULT 1,
+                      created_at datetime NOT NULL,
+                      updated_at datetime NOT NULL,
+
+                      PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
