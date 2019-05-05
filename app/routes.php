@@ -1,7 +1,5 @@
 <?php
 use SallePW\SlimApp\Controller\HelloController;
-use SallePW\SlimApp\Controller\Middleware\TestMiddleware;
-use SallePW\SlimApp\Controller\Middleware\SessionMiddleware;
 use SallePW\SlimApp\Controller\ProfileController;
 use SallePW\SlimApp\Controller\RegController;
 
@@ -20,8 +18,12 @@ $app->get('/profile', ProfileController::class);
     //->add(TestMiddleware::class);
 
 
+
+
 $app
     ->post('/register', RegController::class . ':regAction')
     ->setName('register');
+
+$app ->get('/verify',RegController::class . ':verifyUser');
 
 

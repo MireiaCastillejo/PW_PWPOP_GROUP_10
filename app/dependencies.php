@@ -3,6 +3,7 @@
 //use Slim\Flash\Messages;
 use SallePW\SlimApp\Model\Database\PDORepository;
 use SallePW\SlimApp\Model\Database\Database;
+use SallePW\SlimApp\Model\Email;
 use Slim\Container;
 
 
@@ -33,6 +34,9 @@ $container['user_repo'] = function (Container $c) {
     return new PDORepository($c->get('db'));
 };
 
+$container['email'] = function (Container $c) {
+    return new Email();
+};
 
 //$container['database'] = new \SallePW\Model\Services\PostUserService(new \SallePW\Model\MySQLUserRepository());
 

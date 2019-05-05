@@ -58,11 +58,11 @@ class RegController
             // This method decodes the received json
             $data = $request->getParsedBody();
 
-            /** @var PDORepository $repository */
+            /** @var PDORepository $repository**/
             $repository = $this->container->get('user_repo');
 
             //Validamos los campos y guardamos los errores
-            $errors = $this->validate($data, $request, $response);
+            $errors = $this->validate($data, $request);
 
             //Control de los campos opcionales que son unos hijos de puta
             if(empty($data['birthdate'])){
@@ -86,7 +86,8 @@ class RegController
                     $data['phonenumber'],
                     $data['password'],
                     $data['profileimage'],
-                    0,                       //enabled, a 0 de saque
+                    0, //enabled, a 0 de saque
+                    1,
                     new DateTime(),
                     new DateTime()
                 );
@@ -105,13 +106,20 @@ class RegController
 
             //Si algo va mal al validar, mostramos la ventana de error
 
-            $response->getBody()->write('Unexpected error: ' . $e->getMessage());
+            //$response->getBody()->write('Unexpected error: ' . $e->getMessage());
             $this->container->get('view')->render($response, 'error.twig', [
                 'errors' => $errors,
             ]);
             return $response->withStatus(500);
         }
-        $this->container->get('view')->render($response, 'login.twig');
+
+
+        //Enviamos el correo de verificacion
+        $e = $this->container->get('email');
+        $e->sendEmail($data['email']);
+
+        //Mostramos la vista del login
+        $this->container->get('view')->render($response, 'index.twig');
 
         return $response->withStatus(201);
 
@@ -120,7 +128,7 @@ class RegController
     }
 
     //Funcion para validar todos los campos antes de guardarlo
-    private function validate(array $data, Request $request, Response $response): array
+    private function validate(array $data, Request $request): array
     {
         $errors = [];
 
@@ -142,16 +150,37 @@ class RegController
             if(strlen($data['username']) > 20){
                 $errors['username'] = 'The username must have max. 20 characters';
             }
+
+            /** @var PDORepository $repository */
+            $repository = $this->container->get('user_repo');
+
+            $res = $repository->checkUniqueUsername($data['username']);
+
+            if($res !== false){
+                $errors['username']='This username already exists ';
+            }
         }
 
-        //FALTA AQUI LA MOVIDA CON LA BDDD PARA VER SI ES UNICO
+
 
 
         //EMAIL
         if (empty($data['email'])) {
             $errors['email'] = 'The email cannot be empty.';
-        }elseif(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
-            $errors['email'] = 'The email is not valid.';
+        }else{
+
+            if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
+                $errors['email'] = 'The email is not valid.';
+            }
+
+            /** @var PDORepository $repository */
+            $repository = $this->container->get('user_repo');
+
+            $res = $repository->checkUniqueEmail($data['email']);
+
+            if($res !== false){
+                $errors['email']='This email already exists';
+            }
         }
 
 
@@ -261,9 +290,16 @@ class RegController
         return in_array($extension, self::ALLOWED_EXTENSIONS, true);
     }
 
+    public function verifyUser(){
+
+        /** @var PDORepository $repository */
+        $repository = $this->container->get('user_repo');
+        //var_dump($_GET['email']);
+
+
+        $repository->enableUser($_GET['email']);
+
+    }
 }
 
 
-
-
-//PHP MAILER, SMTP, MAILNATOR

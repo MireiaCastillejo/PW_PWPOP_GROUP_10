@@ -23,8 +23,8 @@ final class PDORepository implements UserRepositoryInterface
     public function save(User $user)
     {
         $statement = $this->database->getConnection()->prepare(
-            "INSERT into user(name, username, email, birthdate, phonenumber, password, profileimage, enabled, created_at, updated_at) 
-                        values(:name, :username, :email,:birthdate,:phonenumber, :password, :profileimage, :enabled, :created_at, :updated_at)"
+            "INSERT into user(name, username, email, birthdate, phonenumber, password, profileimage, enabled, is_active, created_at, updated_at) 
+                        values(:name, :username, :email,:birthdate,:phonenumber, :password, :profileimage, :enabled, :is_active, :created_at, :updated_at)"
         );
 
         $name = $user->getName();
@@ -35,6 +35,7 @@ final class PDORepository implements UserRepositoryInterface
         $password = sha1($user->getPassword());
         $profileimage = $user->getProfileimage();
         $enabled = $user->getEnabled();
+        $is_active = $user->getisActive();
         $createdAt = $user->getCreatedAt()->format('Y-m-d H:i:s');
         $updatedAt = $user->getUpdatedAt()->format('Y-m-d H:i:s');
 
@@ -47,9 +48,64 @@ final class PDORepository implements UserRepositoryInterface
         $statement->bindParam('password', $password, PDO::PARAM_STR);
         $statement->bindParam('profileimage', $profileimage, PDO::PARAM_STR);
         $statement->bindParam('enabled', $enabled, PDO::PARAM_STR);
+        $statement->bindParam('is_active', $is_active, PDO::PARAM_STR);
         $statement->bindParam('created_at', $createdAt, PDO::PARAM_STR);
         $statement->bindParam('updated_at', $updatedAt, PDO::PARAM_STR);
 
         $statement->execute();
+    }
+
+    public function checkUniqueUsername(string $username)
+    {
+
+        $statement = $this->database->getConnection()->prepare(
+
+            "SELECT username FROM user WHERE username = :username;"
+        );
+
+        $statement->bindParam('username', $username, PDO::PARAM_STR);
+
+
+
+        $statement->execute();
+
+        $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+
+        return $res;
+
+
+
+    }
+
+    public function checkUniqueEmail(string $email)
+    {
+
+        $statement = $this->database->getConnection()->prepare(
+            "SELECT * FROM user WHERE email = :email;"
+        );
+
+        $statement->bindParam('email', $email, PDO::PARAM_STR);
+
+        $statement->execute();
+
+        $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+        return $res;
+
+
+    }
+
+    public function enableUser(string $email){
+        $statement = $this->database->getConnection()->prepare(
+            "UPDATE user SET enabled = 1 WHERE email = :email ;"
+
+        );
+
+        $statement->bindParam('email', $email, PDO::PARAM_STR);
+
+        return $res= $statement->execute();
     }
 }

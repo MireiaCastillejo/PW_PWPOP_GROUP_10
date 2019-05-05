@@ -20,6 +20,7 @@ class User
     private $password;
     private $profileimage;
     private $enabled;
+    private $is_active;
     private $createdat;
     private $updatedat;
 
@@ -35,10 +36,11 @@ class User
      * @param $password
      * @param $profileimage
      * @param $enabled
+     * @param $is_active
      * @param $createdat
      * @param $updatedat
      */
-    public function __construct( $name, $username, $email, $birthdate, $phonenumber, $password, $profileimage, $enabled, $createdat, $updatedat)
+    public function __construct( $name, $username, $email, $birthdate, $phonenumber, $password, $profileimage, $enabled, $is_active, $createdat, $updatedat)
     {
 
         $this->name = $name;
@@ -49,6 +51,7 @@ class User
         $this->password = $password;
         $this->profileimage = $profileimage;
         $this->enabled = $enabled;
+        $this->is_active= $is_active;
         $this->createdat = $createdat;
         $this->updatedat = $updatedat;
     }
@@ -214,5 +217,21 @@ class User
         $this->enabled = $enabled;
     }
 
+
+    /**
+     * @return mixed
+     */
+    public function getisActive()
+    {
+        return $this->is_active;
+    }
+
+    /**
+     * @param mixed $is_active
+     */
+    public function setIsActive($is_active): void
+    {
+        $this->is_active = $is_active;
+    }
 
 }

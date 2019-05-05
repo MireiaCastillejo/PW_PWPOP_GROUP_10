@@ -3,7 +3,8 @@
 $(document).ready(function(){
     console.log("antes");
 
-    var validator = $("#form");
+    // language=JQuery-CSS
+    var validator = $('#form');
     validator.validate({
         // Specify validation rules
 
@@ -82,17 +83,19 @@ $(document).ready(function(){
 
         //Funcion para mostrar el error
         errorPlacement: function(error, element) {
-            element.after(error);
+            element.before(error);
         },
 
         // Make sure the form is submitted to the destination defined
         // in the "action" attribute of the form when valid
         submitHandler: function(form) {
+
+            //TODO: quizas aqui una variable a 1 o 0 y fuera ya lo enviamos
             form.submit();
         }
     });
 
 
 
-   ;
+
 });
