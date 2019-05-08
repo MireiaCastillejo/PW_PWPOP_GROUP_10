@@ -3,8 +3,15 @@
 
 {% block styles %}
     {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="../assets/css/estilo.css" />
 {% endblock %}
 
+{% block scripts %}
+    <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js" ></script>
+    <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+    <script src="../assets/js/log.js"></script>
+{% endblock %}
 
 
 {% block title %}
@@ -17,17 +24,44 @@
 
 
 {% block content %}
-    <h1 class="form_title">Login form</h1>
-    <form id="form" class="form_content" action="{{ path_for('register') }}" method="POST" enctype="multipart/form-data">
+    <h1 >Login form</h1>
 
-        Username:<br>
-        <input type="text" name="username"><br>
+    <div class="container">
+        <form id="form" action="{{ path_for('login') }}" method="POST" enctype="multipart/form-data" >
+            <div class="form-group">
+                <label for="email">Email/username</label>
+                <input class="form-control input-lg" type="text" name="login" id="login" placeholder="juanita@gmail.com or lajuani24" />
+                <div class="invalid">
 
-        Password:<br>
-        <input type="password" name="password"><br>
+                    {% if errors is defined %}
+                        {{ errors['email'] }}
+                        {{ errors['username'] }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input class="form-control input-lg" type="password" name="password" placeholder="*******" />
+                <div class="invalid">
+                    {% if errors is defined %}
+                        {{ errors['password'] }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group">
 
-        <button type="submit" class="btn btn-outline-primary">Register</button><br>
-    </form>
+                <input type="checkbox" name="rememberme" > Remember me<br>
+            </div>
+            <div class="form-group">
+
+                <button class="btn btn-primary" type="submit">Log in</button>
+            </div>
+        </form>
+    </div>
+
+
+
+
 
 
 {% endblock %}

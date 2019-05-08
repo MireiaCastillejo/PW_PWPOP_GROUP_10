@@ -3,6 +3,7 @@
 
 {% block styles %}
     {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="../assets/css/estilo.css" />
 {% endblock %}
 
 {% block scripts %}
@@ -23,27 +24,101 @@
 
 
 {% block content %}
+
     <h1 class="form_title">Registration form</h1>
-    <form id="form" class="form_content" action="{{ path_for('register') }}" method="POST" enctype="multipart/form-data">
-        Name:<br>
-        <input type="text" name="name"><br>
-        Username:<br>
-        <input type="text" name="username"><br>
-        Email:<br>
-        <input type="email" name="email"><br>
-        Birthdate:<br>
-        <input type="date" name="birthdate"><br>
-        Phone number:<br>
-        <input type="text" name="phonenumber"><br>
-        Password:<br>
-        <input type="password" name="password"><br>
-        Confirm password:<br>
-        <input type="password" name="c_password"><br>
-        Profile image:<br>
-        <input type="file" name="profile"><br>
-        <br>
-        <button type="submit" class="btn btn-outline-primary">Register</button><br>
+
+
+    <form id="form" action="{{ path_for('register') }}" method="POST" enctype="multipart/form-data" >
+
+
+        <div class="form-row">
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom01" class="formlabel">Name</label>
+
+                <input type="text" name="name" class="form-control" id="validationCustom01" placeholder="Joshua">
+                <div class="invalid">
+                {% if errors is defined %}
+                   {{ errors['name'] }}
+                {% endif %}
+                </div>
+
+
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="validationCustom02">Username</label>
+                <input type="text" name="username" class="form-control" id="validationCustom02" placeholder="eljosu34" >
+                <div class="invalid">
+                    {% if errors is defined %}
+                        {{ errors['username'] }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label for="validationCustomUsername">Email</label>
+                <input type="email" name="email" class="form-control" id="validationCustom03" placeholder="jooosuuuxd@gmail.com" >
+                <div class="invalid">
+                    {% if errors is defined %}
+                        {{ errors['email'] }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6 mb-3">
+                <label for="validationCustom03">Birthdate</label>
+                <input type="date" name="birthdate" class="form-control" id="validationCustom04">
+                <div class="invalid">
+                    {% if errors is defined %}
+                        {{ errors['birthdate'] }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="validationCustom03">Phone number</label>
+                <input type="text" name="phonenumber" class="form-control" id="validationCustom05" placeholder="123 123 123">
+                <div class="invalid">
+                    {% if errors is defined %}
+                        {{ errors['phonenumber'] }}
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-row">
+
+            <div class="col-md-6 mb-3">
+                <label for="validationCustom03">Password</label>
+                <input type="password" name="password" class="form-control" id="validationCustom06" >
+                <div class="invalid">
+                    {% if errors is defined %}
+                        {{ errors['password'] }}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="validationCustom03">Confirm password</label>
+                <input type="password" name="c_password" class="form-control" id="validationCustom07" >
+                <div class="invalid">
+                    {% if errors is defined %}
+                        {{ errors['c_password'] }}
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+            <label for="validationCustom03">Profile image</label>
+            <input type="file" name="profile" class="form-control" id="validationCustom08">
+            <div class="invalid">
+                {% if errors is defined %}
+                    {{ errors['profileimage'] }}
+                {% endif %}
+            </div>
+
+        <button class="btn btn-primary" type="submit">Register</button>
     </form>
+
 
 
 {% endblock %}

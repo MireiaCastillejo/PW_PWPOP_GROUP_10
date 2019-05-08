@@ -42,7 +42,7 @@ class RegController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        echo 'ok';
+
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'registration.twig', [
             'name' => 'ouh mama',
@@ -107,7 +107,7 @@ class RegController
             //Si algo va mal al validar, mostramos la ventana de error
 
             //$response->getBody()->write('Unexpected error: ' . $e->getMessage());
-            $this->container->get('view')->render($response, 'error.twig', [
+            $this->container->get('view')->render($response, 'registration.twig', [
                 'errors' => $errors,
             ]);
             return $response->withStatus(500);
@@ -119,7 +119,9 @@ class RegController
         $e->sendEmail($data['email']);
 
         //Mostramos la vista del login
-        $this->container->get('view')->render($response, 'index.twig');
+       $this->container->get('view')->render($response, 'login.twig');
+
+        //location.assign( path_for('login') );
 
         return $response->withStatus(201);
 
@@ -298,6 +300,8 @@ class RegController
 
 
         $repository->enableUser($_GET['email']);
+
+        echo ("Successful validation!");
 
     }
 }
