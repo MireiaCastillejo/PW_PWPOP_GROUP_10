@@ -108,4 +108,109 @@ final class PDORepository implements UserRepositoryInterface
 
         return $res= $statement->execute();
     }
+
+    public function checkUser(bool $ismail, string $param){
+
+        //Nos pasan un email
+        if($ismail){
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT email FROM user WHERE  email = :param ;"
+            );
+
+            $statement->bindParam('param', $param, PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+            return $res;
+        }else{
+            //Nos pasan un username
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT username FROM user WHERE  username = :param ;"
+            );
+
+            $statement->bindParam('param', $param, PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+            return $res;
+        }
+
+    }
+
+    public function checkPassword(bool $ismail, string $password, string $login){
+        //Nos pasan un email
+
+        $password = sha1($password);
+        if($ismail){
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT password,email FROM user WHERE  email = :email AND password = :password;"
+            );
+
+            $statement->bindParam('email', $login, PDO::PARAM_STR);
+            $statement->bindParam('password', $password, PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+            return $res;
+        }else{
+            //Nos pasan un username
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT password,username FROM user WHERE  username = :username AND password = :password;"
+            );
+
+            $statement->bindParam('username', $login, PDO::PARAM_STR);
+            $statement->bindParam('password', $password, PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+            return $res;
+        }
+    }
+
+    public function checkEnabled(bool $ismail, string $login){
+
+        //Nos pasan un email
+
+
+        if($ismail){
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT enabled FROM user WHERE  email = :email;"
+            );
+
+            $statement->bindParam('email', $login, PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+            return $res;
+        }else{
+            //Nos pasan un username
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT enabled FROM user WHERE  username = :username;"
+            );
+
+            $statement->bindParam('username', $login, PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+            return $res;
+        }
+    }
 }

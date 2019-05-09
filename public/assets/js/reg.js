@@ -1,7 +1,7 @@
 
 
 $(document).ready(function(){
-    console.log("antes");
+
 
 
     var validator = $('#form');
@@ -98,7 +98,7 @@ $(document).ready(function(){
             form.submit();
         }else{
             e.preventDefault();
-            alert(getvalues("myform"));
+            //alert(getvalues("myform"));
         }
     });
 

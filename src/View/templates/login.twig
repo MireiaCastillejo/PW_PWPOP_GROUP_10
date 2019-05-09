@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block scripts %}
+
     <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js" ></script>
     <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
@@ -36,6 +37,7 @@
                     {% if errors is defined %}
                         {{ errors['email'] }}
                         {{ errors['username'] }}
+
                     {% endif %}
                 </div>
             </div>
@@ -53,8 +55,16 @@
                 <input type="checkbox" name="rememberme" > Remember me<br>
             </div>
             <div class="form-group">
+                <div class="invalid">
+                    {% if bbdderrors is defined %}
+                        {{ bbdderrors }}
+                    {% endif %}
+                </div>
 
-                <button class="btn btn-primary" type="submit">Log in</button>
+            </div>
+            <div class="form-group">
+
+                <button class="btn btn-primary" onclick="onclick2()" type="submit">Log in</button>
             </div>
         </form>
     </div>
