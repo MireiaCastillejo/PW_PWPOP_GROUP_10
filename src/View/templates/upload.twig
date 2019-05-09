@@ -1,0 +1,71 @@
+{% extends "base.twig" %}
+
+
+{% block styles %}
+    {{ parent() }}
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+    <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+  <script src="../assets/js/uploadpage.js"></script>
+{% endblock %}
+
+
+{% block title %}
+    Upload product
+{% endblock %}
+
+{% block header %}
+    <h1>PWPOP</h1>
+{% endblock %}
+
+
+{% block content %}
+    <h1 class="form_title">Upload product</h1>
+<div class="col-sm-6 offset-sm-3 text-center">
+
+    <form id="form" class="form_content" action="{{ path_for('upload') }}" method="POST" enctype="multipart/form-data">
+
+        Title:<br>
+        <input class="form-control" type="text" name="title"><br>
+
+        <div class="form-group">
+            <label for="comment">Description:</label>
+            <textarea name="description" class="form-control" rows="3" id="comment"></textarea>
+        </div><br>
+
+        <div class="input-group mb-9">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Price €</span>
+            </div>
+            <input  name="price" type="text" class="form-control" aria-label="Amount">
+        </div><br>
+
+        Product image:<br>
+        <input  id="product_image" type="file" name="product_image" accept="image/png, image/jpeg"><br>
+
+        <label>Select Product:</label><br>
+        <select class="product" name="category">
+            <option class="dropdown-item" value="Computers and electronic">Computers and electronic</option>
+            <option class="dropdown-item" value="Cars">Cars</option>
+            <option  class="dropdown-item" value="Sports">Sports</option>
+            <option  class="dropdown-item" value="Games">Games</option>
+            <option  class="dropdown-item" value="Fashion">Fashion</option>
+            <option  class="dropdown-item" value="Home">Home</option>
+            <option  class="dropdown-item" value="Other">Other</option>
+        </select>
+        <br><br>
+
+        <button type="submit" class="btn btn-outline-primary">Upload</button>
+        <br>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

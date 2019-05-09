@@ -6,6 +6,9 @@
 
 {% block scripts %}
     {{ parent() }}
+    <script src="{{ base_url() }}/assets/js/profilepage.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
 {% endblock %}
 
 {% block title %}
@@ -38,7 +41,7 @@
         </div>
         <div class="col-md-2" >
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Name</li>
+                <li class="list-group-item"id="profileName">Name</li>
                 <li class="list-group-item disabled">Username</li>
                 <li class="list-group-item">Email</li>
                 <li class="list-group-item">Password</li>
@@ -61,12 +64,44 @@
     </div>
 
     <div style="padding-top: 5em;">
-        <button type="button" class="btn btn-link" style="color: red;text-decoration: none;">Delete Account</button>
+        <button  id="deleteBtn" type="button" class="btn btn-link" style="color: red;text-decoration: none;" data-toggle="modal" data-target="#deleteModal" >
+            <span class="fa fa-search"></span>
+            Delete Account
+        </button>
     </div>
 
 
 {% endblock %}
+{% block modal %}
+    <!-- Modal -->
+    <div class="modal fade" id="deleteModal" role="dialog" tabindex="-5" role="dialog">
+        <div class="modal-dialog" >
 
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Are you sure?</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Do you really want to delete these records? This process cannot be undone.</p>
+                </div>
+                <div class="modal-footer">
+
+                    <form id="form" class="form_content" action="{{ path_for('update') }}" method="POST" enctype="multipart/form-data">
+
+                    <input type="submit" name="delete" id="delete" value="Delete" /><br/>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+{% endblock %}
 
 {% block footer %}
 {% endblock %}

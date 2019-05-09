@@ -23,8 +23,8 @@ final class PDORepository implements UserRepositoryInterface
     public function save(User $user)
     {
         $statement = $this->database->getConnection()->prepare(
-            "INSERT into user(name, username, email, birthdate, phonenumber, password, profileimage, enabled, is_active, created_at, updated_at) 
-                        values(:name, :username, :email,:birthdate,:phonenumber, :password, :profileimage, :enabled, :is_active, :created_at, :updated_at)"
+            "INSERT into user(name, username, email, birthdate, phonenumber, password, profileimage, enabled, created_at, updated_at) 
+                        values(:name, :username, :email,:birthdate,:phonenumber, :password, :profileimage, :enabled, :created_at, :updated_at)"
         );
 
         $name = $user->getName();
@@ -35,7 +35,6 @@ final class PDORepository implements UserRepositoryInterface
         $password = sha1($user->getPassword());
         $profileimage = $user->getProfileimage();
         $enabled = $user->getEnabled();
-        $is_active = $user->getisActive();
         $createdAt = $user->getCreatedAt()->format('Y-m-d H:i:s');
         $updatedAt = $user->getUpdatedAt()->format('Y-m-d H:i:s');
 
@@ -48,11 +47,18 @@ final class PDORepository implements UserRepositoryInterface
         $statement->bindParam('password', $password, PDO::PARAM_STR);
         $statement->bindParam('profileimage', $profileimage, PDO::PARAM_STR);
         $statement->bindParam('enabled', $enabled, PDO::PARAM_STR);
-        $statement->bindParam('is_active', $is_active, PDO::PARAM_STR);
         $statement->bindParam('created_at', $createdAt, PDO::PARAM_STR);
         $statement->bindParam('updated_at', $updatedAt, PDO::PARAM_STR);
 
         $statement->execute();
+    }
+    public function deleteAccount(){
+        $statement = $this->database->getConnection()->prepare(
+            "UPDATE user SET is_active = 1 WHERE id='1'"
+        );
+
+        $statement->execute();
+
     }
 
     public function checkUniqueUsername(string $username)
@@ -107,5 +113,75 @@ final class PDORepository implements UserRepositoryInterface
         $statement->bindParam('email', $email, PDO::PARAM_STR);
 
         return $res= $statement->execute();
+    }
+
+    public function checkUser(bool $ismail, string $param){
+
+        //Nos pasan un email
+        if($ismail){
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT email FROM user WHERE  email = :param ;"
+            );
+
+            $statement->bindParam('param', $param, PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+            return $res;
+        }else{
+            //Nos pasan un username
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT username FROM user WHERE  username = :param ;"
+            );
+
+            $statement->bindParam('param', $param, PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+            return $res;
+        }
+
+    }
+
+    public function checkPassword(bool $ismail, string $password, string $login){
+        //Nos pasan un email
+
+        $password = sha1($password);
+        if($ismail){
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT password,email FROM user WHERE  email = :email AND password = :password;"
+            );
+
+            $statement->bindParam('email', $login, PDO::PARAM_STR);
+            $statement->bindParam('password', $password, PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+            return $res;
+        }else{
+            //Nos pasan un username
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT password,username FROM user WHERE  username = :username AND password = :password;"
+            );
+
+            $statement->bindParam('username', $login, PDO::PARAM_STR);
+            $statement->bindParam('password', $password, PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+            return $res;
+        }
     }
 }
