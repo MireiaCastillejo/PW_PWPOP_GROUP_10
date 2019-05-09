@@ -54,6 +54,14 @@ final class PDORepository implements UserRepositoryInterface
 
         $statement->execute();
     }
+    public function deleteAccount(){
+        $statement = $this->database->getConnection()->prepare(
+            "UPDATE user SET is_active = 1 WHERE id='1'"
+        );
+
+        $statement->execute();
+
+    }
 
     public function checkUniqueUsername(string $username)
     {

@@ -1,36 +1,39 @@
 <?php
 use SallePW\SlimApp\Controller\HelloController;
+use SallePW\SlimApp\Controller\Middleware\TestMiddleware;
+use SallePW\SlimApp\Controller\Middleware\SessionMiddleware;
 use SallePW\SlimApp\Controller\ProfileController;
 use SallePW\SlimApp\Controller\RegController;
-use SallePW\SlimApp\Controller\LogController;
+use SallePW\SlimApp\Controller\UserController;
+use SallePW\SlimApp\Controller\ProductController;
 
 
 
 //UNA RUTA POR CONTROLADOR
-
+//La pagina principal
 $app->get('/',HelloController::class);
-    //->add('SallePW\SlimApp\Controller\Middleware\TestMiddleware');
 
+//La pagina de registro
 $app->get('/register', RegController::class);
-   // ->add(TestMiddleware::class)
-    //->add(SessionMiddleware::class);
+// ->add(TestMiddleware::class)
+//->add(SessionMiddleware::class);
 
-$app->get('/login', LogController::class);
+//La pagina de perfil
+$app
+    ->get('/profile', ProfileController::class );
+//->add(TestMiddleware::class);
 
-$app->get('/profile', ProfileController::class);
-    //->add(TestMiddleware::class);
+$app->get('/uploadproduct',ProductController::class );
 
+$app->post('/uploadproduct',ProductController::class . ':uploadAction')
+    ->setName("upload");
 
-
-
+//La accion del registro
 $app
     ->post('/register', RegController::class . ':regAction')
     ->setName('register');
 
+//La accion del delete
 $app
-    ->post('/login', LogController::class.':logAction')
-    ->setName('login');
-
-$app ->get('/verify',RegController::class . ':verifyUser');
-
-
+    ->post('/update', UserController::class . ':put')
+    ->setName('update');

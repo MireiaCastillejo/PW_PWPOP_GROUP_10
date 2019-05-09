@@ -117,8 +117,7 @@ class RegController
 
             //Si algo va mal al validar, mostramos la ventana de error
 
-            $response->getBody()->write('Unexpected error: ' . $e->getMessage());
-            var_dump($errors);
+            //$response->getBody()->write('Unexpected error: ' . $e->getMessage());
             $this->container->get('view')->render($response, 'registration.twig', [
                 'errors' => $errors,
             ]);
@@ -131,7 +130,7 @@ class RegController
         $e->sendEmail($data['email']);
 
         //Mostramos la vista del login
-        //$this->container->get('view')->render($response, 'login.twig');
+       //$this->container->get('view')->render($response, 'login.twig');
 
         //location.assign( path_for('login') );
 

@@ -11,6 +11,8 @@ namespace SallePW\SlimApp\Model;
 
 class Product
 {
+    private $id;
+    private $id_user;
     private $title;
     private $description;
     private $price;
@@ -19,7 +21,7 @@ class Product
     private $isActive;
 
     /**
-     * User constructor.
+     * Product constructor.
      * @param $title
      * @param $description
      * @param $price
@@ -27,15 +29,49 @@ class Product
      * @param $category
      * @param $isActive
      */
-
-    public function __construct($title, $description, $price, $product_image, $category)
+    public function __construct($title, $description, $price, $product_image, $category, $isActive)
     {
-        $this->$title = $title;
-        $this->$description = $description;
-        $this->$price = $price;
-        $this->$product_image = $product_image;
-        $this->$category = $category;
+        $this->title = $title;
+        $this->description = $description;
+        $this->price = $price;
+        $this->product_image = $product_image;
+        $this->category = $category;
+        $this->isActive = $isActive;
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIdUser()
+    {
+        return $this->id_user;
+    }
+
+    /**
+     * @param mixed $id_user
+     */
+    public function setIdUser($id_user): void
+    {
+        $this->id_user = $id_user;
+    }
+
 
     /**
      * @return mixed
