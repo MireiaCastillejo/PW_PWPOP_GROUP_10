@@ -70,8 +70,19 @@ class RegController
                 $data['birthdate'] = $aux->format('Y-m-d H:i:s');
             }
 
-            if(empty($data['profileimage'])){
-                $data['profileimage'] = 'defaultProfile.png';
+            $uploadedFiles = $request->getUploadedFiles();
+            $name = $uploadedFiles['profile']->getClientFilename();
+            $fileInfo = pathinfo($name);
+
+            $format = $fileInfo['extension'];
+
+
+            if(empty($uploadedFiles['profile']->getClientFilename())){
+
+                $data['profile'] = 'defaultProfile.png';
+            }else{
+
+                $data['profile'] = $data['username'].'.'.$format;
             }
 
 
@@ -85,7 +96,7 @@ class RegController
                     $data['birthdate'],
                     $data['phonenumber'],
                     $data['password'],
-                    $data['profileimage'],
+                    $data['profile'],
                     0, //enabled, a 0 de saque
                     1,
                     new DateTime(),
@@ -106,7 +117,8 @@ class RegController
 
             //Si algo va mal al validar, mostramos la ventana de error
 
-            //$response->getBody()->write('Unexpected error: ' . $e->getMessage());
+            $response->getBody()->write('Unexpected error: ' . $e->getMessage());
+            var_dump($errors);
             $this->container->get('view')->render($response, 'registration.twig', [
                 'errors' => $errors,
             ]);
@@ -119,7 +131,7 @@ class RegController
         $e->sendEmail($data['email']);
 
         //Mostramos la vista del login
-       $this->container->get('view')->render($response, 'login.twig');
+        $this->container->get('view')->render($response, 'login.twig');
 
         //location.assign( path_for('login') );
 
@@ -239,20 +251,28 @@ class RegController
 
 
 
-        if (isset($uploadedFiles['file'] )) {
+        $aux = $uploadedFiles['profile']->getClientFilename();
+
+        if ($aux !== ""){
 
 
-            $errors['profile_image']= $this->imageChecking($uploadedFiles['profile'], $data['username']);
+            $temp= $this->imageChecking($uploadedFiles['profile'], $data['username']);
+
+            
+            if(isset($temp)){
+                $errors['profile_image'] = $temp;
+            }
+
         }
 
 
         return $errors;
     }
 
-    private function imageChecking(UploadedFileInterface $file, String $username): array
+    private function imageChecking(UploadedFileInterface $file, String $username)
     {
 
-        $errors = [];
+
 
         if ($file->getError() !== UPLOAD_ERR_OK) {
 
@@ -262,7 +282,7 @@ class RegController
 
         $name = $file->getClientFilename();
 
-       $size = $file->getSize();
+        $size = $file->getSize();
 
         $fileInfo = pathinfo($name);
 
@@ -283,7 +303,7 @@ class RegController
             // We generate a custom name here instead of using the one coming form the form
         $file->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $username . "." . $format);
 
-        return $errors;
+
 
     }
 
