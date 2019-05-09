@@ -145,6 +145,7 @@ class RegController
     {
         $errors = [];
 
+
         //NAME
         if (empty($data['name'])) {
             $errors['name'] = 'The name cannot be empty.';
