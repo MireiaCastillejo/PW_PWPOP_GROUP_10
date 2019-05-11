@@ -22,6 +22,9 @@ final class PDORepository implements UserRepositoryInterface
 
     public function save(User $user)
     {
+
+        echo '<script>console.log("inside save PDORepo")</script>';
+
         $statement = $this->database->getConnection()->prepare(
             "INSERT into user(name, username, email, birthdate, phonenumber, password, profileimage, enabled, is_active, created_at, updated_at) 
                         values(:name, :username, :email,:birthdate,:phonenumber, :password, :profileimage, :enabled, :is_active, :created_at, :updated_at)"
@@ -54,6 +57,40 @@ final class PDORepository implements UserRepositoryInterface
 
         $statement->execute();
     }
+
+    public function update(User $user){
+
+
+        echo '<script>console.log("inside update PDORepo")</script>';
+
+        $statement = $this->database->getConnection()->prepare(
+            "UPDATE user SET name = :name, email = :email, birthdate = :birthdate, phonenumber = :phonenumber, password = :password, profileimage = :profileimage, updated_at = :updated_at
+                      WHERE username = :username;"
+        );
+
+        $name = $user->getName();
+        $username = $user->getUserName();
+        $email = $user->getEmail();
+        $birthdate = $user->getBirthDate();
+        $phonenumber = $user->getPhonenumber();
+        $password = sha1($user->getPassword());
+        $profileimage = $user->getProfileimage();
+        $updatedAt = date('Y-m-d H:i:s');
+
+        $statement->bindParam('name', $name, PDO::PARAM_STR);
+        $statement->bindParam('username', $username, PDO::PARAM_STR);
+        $statement->bindParam('email', $email, PDO::PARAM_STR);
+        $statement->bindParam('birthdate', $birthdate, PDO::PARAM_STR);
+        $statement->bindParam('phonenumber', $phonenumber, PDO::PARAM_STR);
+        $statement->bindParam('password', $password, PDO::PARAM_STR);
+        $statement->bindParam('profileimage', $profileimage, PDO::PARAM_STR);
+        $statement->bindParam('updated_at', $updatedAt, PDO::PARAM_STR);
+
+        echo '<script>console.log("before execute")</script>';
+        $statement->execute();
+    }
+
+
     public function deleteAccount(){
         $statement = $this->database->getConnection()->prepare(
             "UPDATE user SET is_active = 1 WHERE id='1'"

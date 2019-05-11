@@ -6,9 +6,8 @@
 
 {% block scripts %}
     {{ parent() }}
-    <script src="{{ base_url() }}/assets/js/profilepage.js"></script>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-
+    <script src="{{ base_url() }}/assets/js/homepage.js"></script>
+    <script src="{{ base_url() }}/assets/js/profile.js"></script>
 {% endblock %}
 
 {% block title %}
@@ -16,18 +15,181 @@
 {% endblock %}
 
 {% block buttons %}
-    <div class="col-md-3 text-right">
-        <button type="button" class="btn btn-outline-light" onclick="location.href='/'" >Logout</button>
+    <div class="col-md-10 text-right">
+        <button type="button" class="btn btn-outline-light" onclick="location.href='/'">Logout</button>
     </div>
 
-    <button  id="myBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" >
+    <button  id="myBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal">
         <span class="fa fa-search"></span> Search
     </button>
 {% endblock %}
 
- {% block header %}
-     <h1>PWPOP Profile</h1>
- {% endblock %}
+{% block modal %}
+    <div class="modal fade" id="searchModal" role="dialog" tabindex="-5">
+        <div class="modal-dialog" >
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Search your product</h5>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="TitleInput">Title</label>
+                            <input type="text" class="form-control" id="TitleInput" placeholder="Title">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="TitleInput">Select your product:</label>
+                            <div class="dropdown">
+                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Products
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Tecnología</a>
+                                    <a class="dropdown-item" href="#">Ropa</a>
+                                    <a class="dropdown-item" href="#">Juguetes</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Min">Min</label>
+                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01" placeholder="MIN"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="Max">Max</label>
+                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01" placeholder="MAX"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="deleteModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Delete account</h4>
+                </div>
+
+                <div class="modal-body">
+                    <label>Are you sure you want to delete your account?</label>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="updateModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4>Update Data</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="form" action="{{ path_for('update-info') }}" method="POST" enctype="multipart/form-data" >
+                        <div class="form-group">
+                            <label for="validationName" class="formlabel">Name</label>
+
+                            <input type="text" name="name" class="form-control" id="newName" placeholder="userName">
+                            <div class="invalid">
+                                {% if errors is defined %}
+                                    {{ errors['name'] }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="validationMail" class="formlabel">Email</label>
+
+                            <input type="text" name="email" class="form-control" id="newEmail" placeholder="userEmail">
+                            <div class="invalid">
+                                {% if errors is defined %}
+                                    {{ errors['email'] }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationBirthdate">Birthdate</label>
+                                <input type="date" name="birthdate" class="form-control" id="newBirth" placeholder="userBirth">
+                                <div class="invalid">
+                                    {% if errors is defined %}
+                                        {{ errors['birthdate'] }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationPhone">Phone number</label>
+                                <input type="text" name="phonenumber" class="form-control" id="newPhone" placeholder="userPhone">
+                                <div class="invalid">
+                                    {% if errors is defined %}
+                                        {{ errors['phonenumber'] }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationPassword">Password</label>
+                                <input type="password" name="password" class="form-control" id="newPassword" placeholder="********">
+                                <div class="invalid">
+                                    {% if errors is defined %}
+                                        {{ errors['password'] }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationPassword2">Confirm password</label>
+                                <input type="password" name="c_password" class="form-control" id="newPassword2" placeholder="********">
+                                <div class="invalid">
+                                    {% if errors is defined %}
+                                        {{ errors['c_password'] }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="validationImage">Profile image</label>
+                            <input type="file" name="profile" class="form-control" id="newImage">
+                            <div class="invalid">
+                                {% if errors is defined %}
+                                    {{ errors['profile'] }}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block header %}
+    <h1>User Profile</h1>
+{% endblock %}
 
 
 {% block content %}
@@ -37,12 +199,13 @@
     <div class="row" style="max-height: 100%; align-items: center;">
 
         <div class="col-md-5">
-            <img src="{{ base_url() }}/assets/images/defaultProfile.png" style="height: 200px; width: 200px;">
+            <img src="{{ base_url() }}/assets/images/defaultProfile.png" id="profileImage">
         </div>
+
         <div class="col-md-2" >
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"id="profileName">Name</li>
-                <li class="list-group-item disabled">Username</li>
+                <li class="list-group-item">Name</li>
+                <li class="list-group-item">Username</li>
                 <li class="list-group-item">Email</li>
                 <li class="list-group-item">Password</li>
                 <li class="list-group-item">Birthdate</li>
@@ -52,56 +215,25 @@
 
         <div class="col-md-3">
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">name_surname</li>
-                <li class="list-group-item disabled">username123456789000</li>
-                <li class="list-group-item">user1234@gmail.com</li>
+                <li class="list-group-item" id="userName">name_surname</li>
+                <li class="list-group-item disabled" id="username">username123456789000</li>
+                <li class="list-group-item" id="userEmail">user1234@gmail.com</li>
                 <li class="list-group-item">********</li>
-                <li class="list-group-item">1/1/1996</li>
-                <li class="list-group-item">123 456 789</li>
+                <li class="list-group-item" id="userBirth">1/1/1996</li>
+                <li class="list-group-item" id="userPhone">123 456 789</li>
             </ul>
         </div>
         <div class="col-md-1"></div>
     </div>
 
     <div style="padding-top: 5em;">
-        <button  id="deleteBtn" type="button" class="btn btn-link" style="color: red;text-decoration: none;" data-toggle="modal" data-target="#deleteModal" >
-            <span class="fa fa-search"></span>
-            Delete Account
-        </button>
+        <button type="button" class="btn btn-link" id="updateButton" data-toggle="modal" data-target="#updateModal">Update Info</button>
+        <button type="button" class="btn btn-link" id="deleteButton" data-toggle="modal" data-target="#deleteModal">Delete Account</button>
     </div>
 
 
 {% endblock %}
-{% block modal %}
-    <!-- Modal -->
-    <div class="modal fade" id="deleteModal" role="dialog" tabindex="-5" role="dialog">
-        <div class="modal-dialog" >
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Are you sure?</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Do you really want to delete these records? This process cannot be undone.</p>
-                </div>
-                <div class="modal-footer">
-
-                    <form id="form" class="form_content" action="{{ path_for('update') }}" method="POST" enctype="multipart/form-data">
-
-                    <input type="submit" name="delete" id="delete" value="Delete" /><br/>
-
-                    </form>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-
-
-{% endblock %}
 
 {% block footer %}
 {% endblock %}

@@ -62,7 +62,7 @@ class RegController
             $repository = $this->container->get('user_repo');
 
             //Validamos los campos y guardamos los errores
-            $errors = $this->validate($data, $request);
+            $errors = $this->validate($data, $request, false);
 
             //Control de los campos opcionales que son unos hijos de puta
             if(empty($data['birthdate'])){
@@ -141,7 +141,7 @@ class RegController
     }
 
     //Funcion para validar todos los campos antes de guardarlo
-    private function validate(array $data, Request $request): array
+    public function validate(array $data, Request $request, $updateFlag): array
     {
         $errors = [];
 
@@ -157,21 +157,24 @@ class RegController
         if (empty($data['username'])) {
             $errors['username'] = 'The username cannot be empty.';
         }else{
-            if(!ctype_alnum($data['username'])) {
-                $errors['username'] = 'The username must be alphanumeric.';
-            }
 
-            if(strlen($data['username']) > 20){
-                $errors['username'] = 'The username must have max. 20 characters';
-            }
+            if (!$updateFlag) {
+                if (!ctype_alnum($data['username'])) {
+                    $errors['username'] = 'The username must be alphanumeric.';
+                }
 
-            /** @var PDORepository $repository */
-            $repository = $this->container->get('user_repo');
+                if (strlen($data['username']) > 20) {
+                    $errors['username'] = 'The username must have max. 20 characters';
+                }
 
-            $res = $repository->checkUniqueUsername($data['username']);
+                /** @var PDORepository $repository */
+                $repository = $this->container->get('user_repo');
 
-            if($res !== false){
-                $errors['username']='This username already exists ';
+                $res = $repository->checkUniqueUsername($data['username']);
+
+                if ($res !== false) {
+                    $errors['username'] = 'This username already exists ';
+                }
             }
         }
 
@@ -183,17 +186,19 @@ class RegController
             $errors['email'] = 'The email cannot be empty.';
         }else{
 
-            if(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)){
-                $errors['email'] = 'The email is not valid.';
-            }
+            if (!$updateFlag) {
+                if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                    $errors['email'] = 'The email is not valid.';
+                }
 
-            /** @var PDORepository $repository */
-            $repository = $this->container->get('user_repo');
+                /** @var PDORepository $repository */
+                $repository = $this->container->get('user_repo');
 
-            $res = $repository->checkUniqueEmail($data['email']);
+                $res = $repository->checkUniqueEmail($data['email']);
 
-            if($res !== false){
-                $errors['email']='This email already exists';
+                if ($res !== false) {
+                    $errors['email'] = 'This email already exists';
+                }
             }
         }
 

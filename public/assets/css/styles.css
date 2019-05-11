@@ -12,7 +12,7 @@ h1{
 }
 
 #topNav{
-    background-color: #9162e4;
+    background-color: #7355a0;
     padding: 0.5em 1em;
     margin-left: auto;
     margin-right: auto;
@@ -22,13 +22,35 @@ h1{
     width: 900px;
     margin: 0;
     text-align: center;
+    padding-top: 15px;
 }
 
 #botNav{
-    background-color: #9162e4;
+    background-color: /*#9162e4*/#7355a0;
 }
 
 #topJumbo{
-    margin: 56px 0 0;
+    margin: 70px 0 0;
     padding: 0.5em 0;
+    background-color: white;
+}
+
+#profileImage{
+    max-height: 250px;
+    max-width: 250px;
+    border-radius: 50%;
+    width: 100%;
+}
+
+#deleteButtonContainer{
+    padding-top: 5em;
+}
+
+#deleteButton{
+    color: red;
+    text-decoration: none;
+}
+
+#updateButton{
+    text-decoration: none;
 }

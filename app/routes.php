@@ -19,8 +19,7 @@ $app->get('/register', RegController::class);
 //->add(SessionMiddleware::class);
 
 //La pagina de perfil
-$app
-    ->get('/profile', ProfileController::class );
+$app->get('/profile', ProfileController::class );
 //->add(TestMiddleware::class);
 
 $app->get('/uploadproduct',ProductController::class );
@@ -29,11 +28,15 @@ $app->post('/uploadproduct',ProductController::class . ':uploadAction')
     ->setName("upload");
 
 //La accion del registro
-$app
-    ->post('/register', RegController::class . ':regAction')
+$app->post('/register', RegController::class . ':regAction')
     ->setName('register');
 
 //La accion del delete
-$app
-    ->post('/update', UserController::class . ':put')
+$app->post('/update', UserController::class . ':put')
     ->setName('update');
+
+$app->get('/profile/{user}', ProfileController::class . ':getInfo')
+    ->setName('get-info');
+
+$app->post('/profile/update', ProfileController::class . ':updateInfo')
+    ->setName('update-info');

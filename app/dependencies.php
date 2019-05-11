@@ -22,7 +22,6 @@ $container['view'] = function ($container) {
 };
 
 // BASE DE DATOS
-
 $container['db'] = function (Container $c) {
     return Database::getInstance(
         $c['settings']['db']['username'],
@@ -40,9 +39,8 @@ $container['email'] = function (Container $c) {
     return new Email();
 };
 
-
 $container['product_repo'] = function (Container $c) {
-
     return new PDORepositoryProd($c->get('db'));
 };
+
 
