@@ -6,6 +6,8 @@
 {% block scripts %}
     {{ parent() }}
     <script src="{{ base_url() }}/assets/js/homepage.js"></script>
+
+
 {% endblock %}
 
 {% block title %}
@@ -19,10 +21,14 @@
                         <a class="nav-link active" href="#" onclick="location.href='/profile'">My Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" onclick="location.href='/myproducts'">My Products</a>
+                        <a class="nav-link active" href="#" onclick="location.href='/myproducts'">My Products</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link active" href="#" onclick="location.href='/uploadproduct'">Add item</a>
+
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link active" href="#" onclick="location.href='/favourite'">My favourites</a>
 
                     </li>
                 </ul>
@@ -31,12 +37,9 @@
         {% endblock %}
 
 {% block buttons %}
-    <div class="col-md-3 text-right">
-        <button type="button" class="btn btn-light" >Log In</button>
-        <button type="button" class="btn btn-outline-light" onclick="location.href='/register'" >Sign Up</button>
-    </div>
+    <button type="button" class="btn btn-outline-light"  id="logout" onclick=logout({{ session }})>Logout</button>
 
-    <button  id="searchBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" >
+    <button id="searchBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
         <span class="fa fa-search"></span>
         Search
     </button>
@@ -45,7 +48,7 @@
 {% block modal %}
     <!-- Modal -->
     <div class="modal fade" id="searchModal" role="dialog" tabindex="-5" role="dialog">
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
@@ -62,7 +65,8 @@
                         <div class="form-group">
                             <label for="TitleInput">Select your product:</label>
                             <div class="dropdown">
-                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Products
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -73,11 +77,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="Min">Min</label>
-                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01" placeholder="MIN"/>
+                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
+                                       placeholder="MIN"/>
                             </div>
                             <div class="form-group">
                                 <label for="Max">Max</label>
-                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01" placeholder="MAX"/>
+                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
+                                       placeholder="MAX"/>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
 
@@ -103,106 +109,63 @@
 
 
 {% block content %}
+
+
     <div class="album py-6 bg-light">
         <div class="container">
             <div class="row">
+                {% for product in products %}
+
+                {% if product.id<=5 %}
                 <div class="col-md-4">
+
                     <div class="card mb-4 shadow-sm">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                             xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
+                             role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title>
+                            <rect width="100%" height="100%" fill="#55595c"></rect>
+                            <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+                        </svg>
 
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
 
-                                <small class="text-muted">9 €</small>
-                                <button type="button"  data-toggle="modal" data-target="#exampleModal" class="btn btn-success">Buy</button>
-                                <a type="button"> ❤</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">9 €</small>
-                                <button type="button"  data-toggle="modal" data-target="#exampleModal" class="btn btn-success">Buy</button>
-                                <a type="button"> ❤</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">9 €</small>
-                                <button type="button"  data-toggle="modal" data-target="#exampleModal" class="btn btn-success">Buy</button>
-                                <a type="button"> ❤</a>
-                            </div>
+                                <h5 id="title" class="title">{{ product.title }} </h5>
+
+                                <p class="descripton">{{ product.description }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                <small class="price">{{ product.price }}€</small>
+                                    <button type="button" data-toggle="modal" data-target="#exampleModal"
+                                            class="btn btn-success">Buy
+                                    </button>
+
+                                    {% if product.isFav==1 %}
+                                    <button type="submit" id={{ product.id }}  onclick="like({{ product.id }})"> ❤</button>
+                                    {% else%}
+
+                                    <button type="submit" id={{ product.id }}  onclick="like({{ product.id }})"> 💙</button>
+                                        {% endif%}
+
+
+
+                                </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">9 €</small>
-                                <button type="button"  data-toggle="modal" data-target="#exampleModal" class="btn btn-success">Buy</button>
-                                <a type="button"> ❤</a>
+                {% endif %}
+                {% endfor %}
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">9 €</small>
-                                <button type="button"  data-toggle="modal" data-target="#exampleModal" class="btn btn-success">Buy</button>
-                                <a type="button"> ❤</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 shadow-sm">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">9 €</small>
-                                <button type="button"  data-toggle="modal" data-target="#exampleModal" class="btn btn-success">Buy</button>
-                                <a type="button"> ❤</a>
-                            </div>
 
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
-    <button type="button"  class="btn btn-outline-primary">More Products</button>
 
+    <button type="button" class="btn btn-outline-primary">More Products</button>
 
     <!-- Este modal es el que nos servira para enviar un mail -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -222,7 +185,6 @@
         </div>
     </div>
 {% endblock %}
-
 
 
 

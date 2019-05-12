@@ -43,6 +43,7 @@ class LogController
             // This method decodes the received json
             $data = $request->getParsedBody();
 
+
             /** @var PDORepository $repository**/
             $repository = $this->container->get('user_repo');
 
@@ -66,9 +67,10 @@ class LogController
                         $enabled = $repository->checkEnabled($this->getIsMail(),$data['login']);
 
 
-
-                        if($enabled === "1"){
+                        //LO FUERZO PORQUE NO ME VA LO DEL MAIL
+                        if($enabled=== "1"){
                             var_dump("esta enabled");
+                            $id=$repository->getId($data['login']);
                         }else{
                             //FALTA: añadir el link de activacion
                             $msg = ('Please check your email or click here to resend the activation link');
@@ -105,10 +107,12 @@ class LogController
             ]);
             return $response->withStatus(500);
         }
+        //si all va bien creamos sesion
 
+        session_start();
 
-        //var_dump("ESTAMOS CHECKEANDO LA VAINA");
         //Mostramos la vista del login
+        $_SESSION['user_id'] = $id['id'];
 
         //$this->container->get('view')->render($response, 'index.twig');
 

@@ -58,19 +58,20 @@ final class PDORepository implements UserRepositoryInterface
         $statement->execute();
     }
 
-    public function getData(string $username){
+    public function getData(int $id){
 
         $statement = $this->database->getConnection()->prepare(
-            "SELECT * FROM user WHERE username = :username;"
+            "SELECT * FROM user WHERE id = :id;"
         );
 
-        $statement->bindParam('username', $username, PDO::PARAM_STR);
+        $statement->bindParam('id', $id, PDO::PARAM_INT);
 
         $statement->execute();
         $res = $statement->fetch(PDO::FETCH_ASSOC);
 
 
         if($res != null){
+
             return[
                 "name" => $res['name'],
                 "username" => $res['username'],
@@ -280,5 +281,16 @@ final class PDORepository implements UserRepositoryInterface
 
             return $res;
         }
+    }
+
+    public function getId(string $username){
+        $statement = $this->database->getConnection()->prepare(
+            "SELECT id FROM user WHERE username=:username"
+        );
+        $statement->bindParam('username', $username, PDO::PARAM_STR);
+
+       $statement->execute();
+       $id=$statement->fetch();
+        return $id;
     }
 }

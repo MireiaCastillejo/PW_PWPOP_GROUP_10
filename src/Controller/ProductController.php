@@ -33,54 +33,72 @@ final class ProductController
     {
         $this->container = $container;
     }
+    public function myprod(Request $request, Response $response)
+    {
+
+        session_start();
+        $id=$_SESSION['user_id'];
+            $repository = $this->container->get('product_repo');
+
+            $products = $repository->get();
+            $this->container->get('view')->render($response, 'myproducts.twig', ['products' => $products,'id'=>$id]);
+
+
+    }
 
     public function __invoke(Request $request, Response $response, array $args)
     {
         $this->container->get('view')->render($response, 'upload.twig', []);
     }
 
-    public function uploadAction(Request $request, Response $response): Response
+    public function uploadAction(Request $request, Response $response):Response
     {
 
         try {
-            // This method decodes the received json
-            $data = $request->getParsedBody();
-            $repository = $this->container->get('product_repo');
 
-            //Validamos los campos y guardamos los errores
-            $errors = $this->validate($data, $request, $response);
+            session_start();
+            if ( isset( $_SESSION['user_id'] ) ) {
 
-            /*if (empty($data['product_image'])) {
-                $data['product_image'] = 'defaultProfile.png';
-            }*/
-            $uploadedFiles = $request->getUploadedFiles();
-            $name = $uploadedFiles['product_image']->getClientFilename();
-            var_dump($name);
-            $fileInfo = pathinfo($name);
+                // This method decodes the received json
+                $data = $request->getParsedBody();
+                $repository = $this->container->get('product_repo');
 
-            $format = $fileInfo['extension'];
-                //$data['product_image'] = $data['title'].'.'.$format;
+                //Validamos los campos y guardamos los errores
+                $errors = $this->validate($data, $request, $response);
 
+                if (empty($data['product_image'])) {
+                    $data['product_image'] = 'defaultProfile.png';
+                }
+                /* $uploadedFiles = $request->getUploadedFiles();
+                 $name = $uploadedFiles['product_image']->getClientFilename();
 
+                 $fileInfo = pathinfo($name);
 
-            if (empty($errors)) {
+                 $format = $fileInfo['extension'];
+                     $data['product_image'] = $data['title'].'.'.$format;
 
-                $product = new Product($data['title'],
-                    $data['description'],
-                    $data['price'],
-                    $data['product_image'],
-                    $data['category'],
-                    1
-                );
+     */
 
 
-                $repository->save($product);
-            } else {
-                //Algo ha ido mal
-                throw new \Exception('The validation went wrong');
+                if (empty($errors)) {
+
+                    $product = new Product(
+                        $_SESSION['user_id'],
+                        $data['title'],
+                        $data['description'],
+                        $data['price'],
+                        $data['product_image'],
+                        $data['category'],
+                        1
+                    );
+
+
+                    $repository->save($product);
+                } else {
+                    //Algo ha ido mal
+                    throw new \Exception('The validation went wrong');
+                }
             }
-
-
         } catch (\Exception $e) {
 
             $response->getBody()->write('Unexpected error: ' . $e->getMessage());
@@ -134,7 +152,8 @@ final class ProductController
 
 
         $aux = $uploadedFiles['product_image']->getClientFilename();
-        var_dump($aux);
+
+
         if ($aux !== ""){
 
 
@@ -198,4 +217,6 @@ final class ProductController
     private function isValidFormat(string $extension ): bool {
         return in_array($extension, self::ALLOWED_EXTENSIONS, true);
     }
+
+
 }

@@ -13,4 +13,7 @@ interface ProductRepositoryInterface
 {
     public function save(Product $product);
 
+    public function get();
+
+    public function favourite(int $id);
 }

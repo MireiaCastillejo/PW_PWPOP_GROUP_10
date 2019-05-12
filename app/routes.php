@@ -1,4 +1,5 @@
 <?php
+
 use SallePW\SlimApp\Controller\HelloController;
 use SallePW\SlimApp\Controller\Middleware\TestMiddleware;
 use SallePW\SlimApp\Controller\Middleware\SessionMiddleware;
@@ -6,38 +7,63 @@ use SallePW\SlimApp\Controller\ProfileController;
 use SallePW\SlimApp\Controller\RegController;
 use SallePW\SlimApp\Controller\UserController;
 use SallePW\SlimApp\Controller\ProductController;
-
+use SallePW\SlimApp\Controller\LogController;
+use SallePW\SlimApp\Controller\FavouriteController;
 
 
 //UNA RUTA POR CONTROLADOR
 //La pagina principal
-$app->get('/',HelloController::class);
+$app->get('/', HelloController::class);
+
+
+$app->post('/{id:\d+}', HelloController::class . ':likeProduct')
+    ->setName("updateproduct");
+
 
 //La pagina de registro
 $app->get('/register', RegController::class);
-// ->add(TestMiddleware::class)
-//->add(SessionMiddleware::class);
+
 
 //La pagina de perfil
-//$app->get('/profile', ProfileController::class );
-//->add(TestMiddleware::class);
+$app
+    ->get('/profile', ProfileController::class);
 
-$app->get('/uploadproduct',ProductController::class );
+//UPLOAD PRODUCT
+$app->get('/uploadproduct', ProductController::class);
 
-$app->post('/uploadproduct',ProductController::class . ':uploadAction')
+$app->post('/uploadproduct', ProductController::class . ':uploadAction')
     ->setName("upload");
 
-//La accion del registro
-$app->post('/register', RegController::class . ':regAction')
+//REGISTER
+$app
+    ->post('/register', RegController::class . ':regAction')
     ->setName('register');
 
-//La accion del delete
-$app->get('/update', UserController::class . ':put')
+//DELETE
+$app
+    ->post('/update', UserController::class . ':put')
     ->setName('update');
 
-$app->get('/profile', ProfileController::class);
+//$app->get('/profile', ProfileController::class);
 
 $app->get('/fetch', ProfileController::class . ':getUserData');
 
 $app->post('/profile', ProfileController::class . ':updateInfo')
     ->setName('update-info');
+//PRODUCTOS
+$app->get('/myproducts', ProductController::class . ':myprod');
+
+//FAVORITOS
+$app
+    ->get('/favourite', FavouriteController::class);
+
+
+//LOGIN
+$app
+    ->get('/login', LogController::class);
+$app
+    ->post('/login', LogController::class . ':logAction')
+    ->setName('login');;
+//->add(SessionMiddleware::class);
+
+

@@ -12,16 +12,18 @@ namespace SallePW\SlimApp\Model;
 class Product
 {
     private $id;
-    private $id_user;
+    private $userid;
     private $title;
     private $description;
     private $price;
     private $product_image;
     private $category;
     private $isActive;
+    private $isFav;
 
     /**
      * Product constructor.
+     * @param $userid
      * @param $title
      * @param $description
      * @param $price
@@ -29,14 +31,48 @@ class Product
      * @param $category
      * @param $isActive
      */
-    public function __construct($title, $description, $price, $product_image, $category, $isActive)
+    public function __construct($userid, $title, $description, $price, $product_image, $category, $isActive)
     {
+        $this->userid = $userid;
         $this->title = $title;
         $this->description = $description;
         $this->price = $price;
         $this->product_image = $product_image;
         $this->category = $category;
         $this->isActive = $isActive;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getisFav()
+    {
+        return $this->isFav;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserid()
+    {
+        return $this->userid;
+    }
+
+    /**
+     * @param mixed $userid
+     */
+    public function setUserid($userid): void
+    {
+        $this->userid = $userid;
+    }
+
+    /**
+     * @param mixed $isFav
+     */
+    public function setIsFav($isFav): void
+    {
+        $this->isFav = $isFav;
     }
 
 
@@ -56,21 +92,6 @@ class Product
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getIdUser()
-    {
-        return $this->id_user;
-    }
-
-    /**
-     * @param mixed $id_user
-     */
-    public function setIdUser($id_user): void
-    {
-        $this->id_user = $id_user;
-    }
 
 
     /**

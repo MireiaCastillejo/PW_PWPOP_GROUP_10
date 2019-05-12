@@ -38,23 +38,31 @@ final class ProfileController
     {
 
         try {
+            //write($response);
+            session_start();
+           // var_dump("33");
+            if ( isset( $_SESSION['user_id'] ) ) {
+                //var_dump("33");
 
-            /** @var PDORepository $repository */
-            $repository = $this->container->get('user_repo');
-            $data = $repository->getData($_GET['username']);
+                /** @var PDORepository $repository */
+                $repository = $this->container->get('user_repo');
+                $id=(int)$_SESSION['user_id'];
 
-            if (!isset($data['username'])) {
-                $response = $response
-                    ->withStatus(404)
-                    ->write(json_encode(["message"=>"oof", "res"=>$data]));
+                $data = $repository->getData($id);
 
-            } else {
-                $response = $response
-                    ->withStatus(200)
-                    ->write(json_encode(["message"=>"correcto", "res"=>$data]));
+                if (!isset($data['username'])) {
 
+                    $response = $response
+                        ->withStatus(404)
+                        ->write(json_encode(["message" => "oof", "res" => $data]));
+
+                } else {
+                    $response = $response
+                        ->withStatus(200)
+                        ->write(json_encode(["message" => "correcto", "res" => $data]));
+
+                }
             }
-
         } catch (\Exception $e) {
             $response = $response
                 ->withStatus(500)
