@@ -104,34 +104,47 @@ $(document).ready(function(){
     })
 })*/
 
-    /*
-user = 'user1';
+
+user = "user1";
 function loadData() {
 
     console.log(user);
 
-    var get = $.ajax({
+    $.ajax({
+
         async : true,
         type : 'get',
-        url: '/profile/update',
+        url: '/fetch',
+        data: {'username' : user},
         dataType: 'json',
 
         statusCode: {
-            200: function () {
+            200: function (data) {
 
-                console.log("Data found");
-                console.log(get.responseJSON.res.username);
+                date = data['res']['birthdate'];
+                d = date.split(" ");
+                birthdate = d[0];
+                image = "/uploads/" + data['res']['profileimage'];
 
-                $("#userName").text(get.responseJSON.res.username);
-
+                document.getElementById("profileImage").src = image;
+                document.getElementById("userName").innerHTML = data['res']['name'];
+                document.getElementById("username").innerHTML = data['res']['username'];
+                document.getElementById("userEmail").innerHTML = data['res']['email'];
+                document.getElementById("userBirth").innerHTML = birthdate;
+                document.getElementById("userPhone").innerHTML = data['res']['phonenumber'];
             },
+
             404: function () {
                 alert("Data not found");
+            },
+
+            500: function () {
+                console.log("OOF")
             }
         }
     });
 }
 
-window.onload = function () {
+$(document).ready(function () {
     loadData();
-}*/
+});

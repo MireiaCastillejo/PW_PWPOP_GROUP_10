@@ -15,39 +15,53 @@ use DateTime;
 final class ProfileController
 {
 
-
     protected $container;
 
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+
     }
 
     public function __invoke(Request $request, Response $response, array $args)
     {
         $this->container->get('view')->render($response, 'profile.twig', []);
+
     }
 
     /**
      * @param Request $request
      * @param Response $response
+     * @return Response
      */
-    public function getInfo(Request $request, Response $response){
+    public function getUserData(Request $request, Response $response)
+    {
 
         try {
-            $data = $request->getParsedBody();
 
             /** @var PDORepository $repository */
             $repository = $this->container->get('user_repo');
+            $data = $repository->getData($_GET['username']);
 
-            //Fetch data from Database
-            $repository->getInfo();
+            if (!isset($data['username'])) {
+                $response = $response
+                    ->withStatus(404)
+                    ->write(json_encode(["message"=>"oof", "res"=>$data]));
 
-        }catch (\Exception $e) {
-            $response->getBody()->write('Unexpected error: ' . $e->getMessage());
-            return $response->withStatus(500);
+            } else {
+                $response = $response
+                    ->withStatus(200)
+                    ->write(json_encode(["message"=>"correcto", "res"=>$data]));
+
+            }
+
+        } catch (\Exception $e) {
+            $response = $response
+                ->withStatus(500)
+                ->write(json_encode(["message"=>"nope", "res"=>$e]));
+
         }
-        return $response->withStatus(200);
+        return $response;
     }
 
     /**
@@ -58,10 +72,7 @@ final class ProfileController
      */
     public function updateInfo(Request $request, Response $response):Response
     {
-
         try {
-
-            echo '<script>console.log("updateINFOOO")</script>';
 
             // This method decodes the received json
             $data = $request->getParsedBody();
@@ -69,19 +80,12 @@ final class ProfileController
             //add username to data array
             $data['username']='user1';
 
-            echo 'console.log('. json_encode( $data ) .')';
-            echo '<script>console.log("updateINFO 2")</script>';
-
-
             /** @var PDORepository $repository * */
             $repository = $this->container->get('user_repo');
 
             //Validamos los campos y guardamos los errores
             $regController = new RegController($this->container);
             $errors = $regController->validate($data, $request, true);
-
-            echo 'console.log errores('. json_encode( $errors ) .')';
-
 
             if(empty($data['birthdate'])){
                 $aux= new DateTime("1000-01-01 00:00:00");
@@ -118,12 +122,7 @@ final class ProfileController
                     new DateTime()
                 );
 
-                echo '<script>console.log("before update")</script>';
-
-
                 $repository->update($user);
-
-                echo '<script>console.log("update done")</script>';
 
 
             }else{
@@ -145,5 +144,4 @@ final class ProfileController
 
         return $response->withRedirect('/profile',200);
     }
-
 }

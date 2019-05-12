@@ -26,11 +26,9 @@ class UserController
     }
 
 
-
     /**
      * @param Request $request
      * @param Response $response
-     * @param $args
      * @return Response
      */
     public function put(Request $request, Response $response): Response
@@ -55,6 +53,4 @@ class UserController
         }
         return $response->withStatus(201);
     }
-
-
 }

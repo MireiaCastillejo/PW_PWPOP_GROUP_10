@@ -58,10 +58,34 @@ final class PDORepository implements UserRepositoryInterface
         $statement->execute();
     }
 
+    public function getData(string $username){
+
+        $statement = $this->database->getConnection()->prepare(
+            "SELECT * FROM user WHERE username = :username;"
+        );
+
+        $statement->bindParam('username', $username, PDO::PARAM_STR);
+
+        $statement->execute();
+        $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+        if($res != null){
+            return[
+                "name" => $res['name'],
+                "username" => $res['username'],
+                "email" => $res['email'],
+                "birthdate" => $res['birthdate'],
+                "phonenumber" => $res['phonenumber'],
+                "profileimage" => $res['profileimage'],
+            ];
+        }else{
+            return [];
+        }
+
+    }
+
     public function update(User $user){
-
-
-        echo '<script>console.log("inside update PDORepo")</script>';
 
         $statement = $this->database->getConnection()->prepare(
             "UPDATE user SET name = :name, email = :email, birthdate = :birthdate, phonenumber = :phonenumber, password = :password, profileimage = :profileimage, updated_at = :updated_at
@@ -86,7 +110,6 @@ final class PDORepository implements UserRepositoryInterface
         $statement->bindParam('profileimage', $profileimage, PDO::PARAM_STR);
         $statement->bindParam('updated_at', $updatedAt, PDO::PARAM_STR);
 
-        echo '<script>console.log("before execute")</script>';
         $statement->execute();
     }
 
