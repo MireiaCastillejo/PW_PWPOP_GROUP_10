@@ -10,6 +10,8 @@ $(document).ready(function(){
     $("#updateButton").click(function() {
         //$("#updateModal").modal({show: true});
         console.log("modal abierto");
+
+
     });
 });
 
@@ -132,6 +134,10 @@ function loadData() {
                 document.getElementById("userEmail").innerHTML = data['res']['email'];
                 document.getElementById("userBirth").innerHTML = birthdate;
                 document.getElementById("userPhone").innerHTML = data['res']['phonenumber'];
+
+                document.getElementById("newName").placeholder = data['res']['name'];
+                document.getElementById("newEmail").placeholder = data['res']['email'];
+                document.getElementById("newPhone").placeholder = data['res']['phonenumber'];
             },
 
             404: function () {
