@@ -40,17 +40,16 @@ class UserController
             $repository = $this->container->get('user_repo');
 
             // We should validate the information before creating the entity
-            $repository->deleteAccount();
+            $repository->deleteAccount($_GET['username']);
 
             //Redireccionamos a la pagina principal despues de eliminar la cuenta
-            return $this->container->get('view')->render($response, 'index.twig', [
+            //return $this->container->get('view')->render($response, 'index.twig', []);
+            return $response->withStatus(200);
 
-            ]);
 
         } catch (\Exception $e) {
             $response->getBody()->write('Unexpected error: ' . $e->getMessage());
             return $response->withStatus(500);
         }
-        return $response->withStatus(201);
     }
 }

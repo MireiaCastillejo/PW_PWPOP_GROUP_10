@@ -114,13 +114,13 @@ final class PDORepository implements UserRepositoryInterface
     }
 
 
-    public function deleteAccount(){
+    public function deleteAccount(string $username){
         $statement = $this->database->getConnection()->prepare(
-            "UPDATE user SET is_active = 1 WHERE id='1'"
+            "UPDATE user SET is_active = 0 WHERE username = :username"
         );
+        $statement->bindParam('username', $username, PDO::PARAM_STR);
 
         $statement->execute();
-
     }
 
     public function checkUniqueUsername(string $username)

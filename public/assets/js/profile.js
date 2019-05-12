@@ -11,6 +11,12 @@ $(document).ready(function(){
         //$("#updateModal").modal({show: true});
         console.log("modal abierto");
 
+    });
+
+    $("#deleteButtonConfirm").click(function() {
+        console.log("confirmar borrar");
+
+        deleteAccount();
 
     });
 });
@@ -150,6 +156,36 @@ function loadData() {
         }
     });
 }
+
+
+function deleteAccount() {
+
+    console.log(user);
+
+    $.ajax({
+
+        async : true,
+        type : 'get',
+        url: '/update',
+        data: {'username' : user},
+
+        statusCode: {
+            200: function (data) {
+                console.log(data);
+                window.location.href = '/';
+            },
+
+            404: function () {
+                alert("Data not found");
+            },
+
+            500: function () {
+                console.log("OOF")
+            }
+        }
+    });
+}
+
 
 $(document).ready(function () {
     loadData();

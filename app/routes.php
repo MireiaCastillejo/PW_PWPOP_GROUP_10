@@ -32,13 +32,12 @@ $app->post('/register', RegController::class . ':regAction')
     ->setName('register');
 
 //La accion del delete
-$app->post('/update', UserController::class . ':put')
+$app->get('/update', UserController::class . ':put')
     ->setName('update');
 
 $app->get('/profile', ProfileController::class);
 
-$app->get('/fetch', ProfileController::class . ':getUserData')
-    ->setName('getUserData');
+$app->get('/fetch', ProfileController::class . ':getUserData');
 
 $app->post('/profile', ProfileController::class . ':updateInfo')
     ->setName('update-info');
