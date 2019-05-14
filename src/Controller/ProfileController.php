@@ -41,6 +41,7 @@ final class ProfileController
             //write($response);
             session_start();
            // var_dump("33");
+
             if ( isset( $_SESSION['user_id'] ) ) {
                 //var_dump("33");
 
