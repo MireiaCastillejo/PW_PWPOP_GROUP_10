@@ -39,10 +39,10 @@ final class ProfileController
     public function getUserData(Request $request, Response $response)
     {
 
+
         try {
             //write($response);
             //session_start();
-           // var_dump("33");
 
             if ( isset( $_SESSION['user_id'] ) ) {
                 //var_dump("33");
@@ -84,62 +84,68 @@ final class ProfileController
     public function updateInfo(Request $request, Response $response):Response
     {
         try {
+            //session_start();
 
-            // This method decodes the received json
-            $data = $request->getParsedBody();
+            if ( isset( $_SESSION['user_id'] ) ) {
 
-            //add username to data array
-            $data['username']='user1';
+                // This method decodes the received json
+                $data = $request->getParsedBody();
 
-            /** @var PDORepository $repository * */
-            $repository = $this->container->get('user_repo');
+                $id=(int)$_SESSION['user_id'];
 
-            //Validamos los campos y guardamos los errores
-            $regController = new RegController($this->container);
-            $errors = $regController->validate($data, $request, true);
+                //add username to data array
+                $data['username']='user1';
 
-            if(empty($data['birthdate'])){
-                $aux= new DateTime("1000-01-01 00:00:00");
-                $data['birthdate'] = $aux->format('Y-m-d H:i:s');
-            }
+                /** @var PDORepository $repository * */
+                $repository = $this->container->get('user_repo');
 
-            $uploadedFiles = $request->getUploadedFiles();
-            $name = $uploadedFiles['profile']->getClientFilename();
-            $fileInfo = pathinfo($name);
+                //Validamos los campos y guardamos los errores
+                $regController = new RegController($this->container);
+                $errors = $regController->validate($data, $request, true);
 
-            $format = $fileInfo['extension'];
+                if(empty($data['birthdate'])){
+                    $aux= new DateTime("1000-01-01 00:00:00");
+                    $data['birthdate'] = $aux->format('Y-m-d H:i:s');
+                }
+
+                $uploadedFiles = $request->getUploadedFiles();
+                $name = $uploadedFiles['profile']->getClientFilename();
+                $fileInfo = pathinfo($name);
+
+                $format = $fileInfo['extension'];
+
+                if(empty($uploadedFiles['profile']->getClientFilename())){
+
+                    $data['profile'] = 'defaultProfile.png';
+                }else{
+
+                    $data['profile'] = $data['username'].'.'.$format;
+                }
+
+                if(empty($errors)){
+                    $user = new User(
+                        $id,
+                        $data['name'],
+                        $data['username'],
+                        $data['email'],
+                        $data['birthdate'],
+                        $data['phonenumber'],
+                        $data['password'],
+                        $data['profile'],
+                        1,
+                        1,
+                        new DateTime(),
+                        new DateTime()
+                    );
+
+                    $repository->update($user);
 
 
-            if(empty($uploadedFiles['profile']->getClientFilename())){
+                }else {
+                    //Algo ha ido mal
 
-                $data['profile'] = 'defaultProfile.png';
-            }else{
-
-                $data['profile'] = $data['username'].'.'.$format;
-            }
-
-            if(empty($errors)){
-                $user = new User(
-                    $data['name'],
-                    $data['username'],
-                    $data['email'],
-                    $data['birthdate'],
-                    $data['phonenumber'],
-                    $data['password'],
-                    $data['profile'],
-                    1,
-                    1,
-                    new DateTime(),
-                    new DateTime()
-                );
-
-                $repository->update($user);
-
-
-            }else{
-                //Algo ha ido mal
-
-                throw new \Exception('The validation went wrong');
+                    throw new \Exception('The validation went wrong');
+                }
             }
 
         } catch (\Exception $e) {

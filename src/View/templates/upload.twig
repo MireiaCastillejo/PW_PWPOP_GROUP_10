@@ -1,4 +1,4 @@
-{% extends "base.twig" %}
+{% extends "baseLogged.twig" %}
 
 
 {% block styles %}
@@ -46,7 +46,7 @@
         </div><br>
 
         Product image:<br>
-        <input  id="product_image" type="file" name="product_image" accept="image/png, image/jpeg"><br>
+        <input  id="product_image" type="file" name="product_image" ><br>
 
         <label>Select Product:</label><br>
         <select class="product" name="category">

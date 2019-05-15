@@ -47,6 +47,7 @@ class LogController
                 'reg_ok'=> $reg_ok, /*'enabled' => $isenabled*/
             ]);
     }
+
     public function logAction(Request $request, Response $response): Response
     {
 

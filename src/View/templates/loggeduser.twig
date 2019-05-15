@@ -1,4 +1,4 @@
-{% extends "base.twig" %}
+{% extends "baseLogged.twig" %}
 {% block styles %}
     {{ parent() }}
 {% endblock %}
@@ -15,34 +15,18 @@
 {% endblock %}
 
         {% block navbar %}
-            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" onclick="location.href='/profile'">My Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" onclick="location.href='/myproducts'">My Products</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active" href="#" onclick="location.href='/uploadproduct'">Add item</a>
-
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active" href="#" onclick="location.href='/favourite'">My favourites</a>
-
-                    </li>
-                </ul>
-
-            </div>
         {% endblock %}
 
 {% block buttons %}
-    <button style="margin-right: 11px"type="button" class="btn btn-outline-light"  id="logout" onclick=logout({{ sesion }})>Logout</button>
-<br>
-    <button id="searchBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        <span class="fa fa-search"></span>
-        Search
-    </button>
+
+    <div class="col-md-1 text-right">
+        <a onclick="location.href = '/profile'">
+            <img src="{{ base_url() }}/uploads/defaultProfile.png" id="profileImageLink">
+        </a>
+    </div>
+
+    {{ parent() }}
+
 {% endblock %}
 
 {% block modal %}
@@ -122,12 +106,8 @@
 
                     <div class="card mb-4 shadow-sm moreBox">
 
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                             xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
-                             role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#55595c"></rect>
-                            <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-                        </svg>
+
+                             <img src="/uploads/{{ product.product_image }}" id="fotoprod" >
 
                         <div class="card-body">
 
@@ -161,12 +141,7 @@
 
                             <div class="card mb-4 shadow-sm moreBox" style="display: none;">
 
-                                <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
-                                     role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title>
-                                    <rect width="100%" height="100%" fill="#55595c"></rect>
-                                    <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-                                </svg>
+                                <img src="/uploads/{{ product.product_image }}" id="fotoprod" >
 
                                 <div class="card-body">
 

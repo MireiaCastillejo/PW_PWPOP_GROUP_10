@@ -26,7 +26,7 @@ final class HelloController
         $this->container = $container;
     }
 
-    public function __invoke(Request $request, Response $response,$num)
+    public function __invoke(Request $request, Response $response)
     {
         /*$messages = $this->container
             ->get('flash')
@@ -42,6 +42,7 @@ final class HelloController
 
          $_SESSION['counter'] = isset($_SESSION['counter']) ?
              $_SESSION['counter'] + 1 : 1;*/
+
 
         // Always start this first
         //session_start();
@@ -60,8 +61,6 @@ final class HelloController
 
         }
         $enabled = $repository_u->checkEnabled();
-
-
 
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'loggeduser.twig',

@@ -12,7 +12,7 @@
     </title>
 
     {% block styles %}
-        <link rel="stylesheet" type="text/css" href="{{ base_url() }}/assets/css/styles.css" />
+        <link rel="stylesheet" type="text/css" href="{{ base_url() }}/assets/css/styles.css"/>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -22,6 +22,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="{{ base_url() }}/assets/js/loadImage.js"></script>
     {% endblock %}
 
 </head>
@@ -33,22 +34,37 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        {% block navbar %}{% endblock %}
-        <!---<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#" onclick="location.href='/profile'">My Profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" onclick="location.href='/myproducts'">My Products</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link disabled" href="#">Dropdown</a>
 
-            </li>
-        </ul>
-        </div>-->
-    {% block buttons %}{% endblock %}
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" onclick="location.href='/profile'">My Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" onclick="location.href='/myproducts'">My Products</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link active" href="#" onclick="location.href='/uploadproduct'">Add item</a>
+
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link active" href="#" onclick="location.href='/favourite'">My favourites</a>
+
+                </li>
+            </ul>
+
+        </div>
+        {% block navbar %}{% endblock %}
+
+        {% block buttons %}
+
+            <div class="col-md-3 text-right">
+                <button type="button" class="btn btn-outline-light"  id="logout" onclick=logout({{ sesion }})>Logout</button>
+                <button  id="searchBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                    <span class="fa fa-search"></span> Search
+                </button>
+            </div>
+        {% endblock %}
 
     </div>
 </nav>
@@ -60,8 +76,7 @@
 </div>
 
 <div class="container">
-{% block content %}{% block php %}{% endblock %}{% endblock %}
-
+    {% block content %}{% block php %}{% endblock %}{% endblock %}
 </div>
 
 <nav class="navbar fixed-bottom navbar-dark" id="botNav">

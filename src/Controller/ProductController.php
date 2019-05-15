@@ -69,8 +69,7 @@ final class ProductController
                 if (empty($data['product_image'])) {
                     $data['product_image'] = 'defaultProfile.png';
                 }
-
-                /* $uploadedFiles = $request->getUploadedFiles();
+                 $uploadedFiles = $request->getUploadedFiles();
                  $name = $uploadedFiles['product_image']->getClientFilename();
 
                  $fileInfo = pathinfo($name);
@@ -78,7 +77,7 @@ final class ProductController
                  $format = $fileInfo['extension'];
                      $data['product_image'] = $data['title'].'.'.$format;
 
-     */
+
 
 
                 if (empty($errors)) {
@@ -104,7 +103,7 @@ final class ProductController
 
             $response->getBody()->write('Unexpected error: ' . $e->getMessage());
 
-            $this->container->get('view')->render($response, 'error.twig',['errors' => $errors,]);
+            //$this->container->get('view')->render($response, 'error.twig',['errors' => $errors,]);
             return $response->withStatus(500);
         }
         $repository = $this->container->get('product_repo');
@@ -181,12 +180,8 @@ final class ProductController
         return $errors;
     }
 
-    private function imageChecking(
-        UploadedFileInterface $file,
-        String $title
-    ): array {
+    private function imageChecking(UploadedFileInterface $file, String $title) {
 
-        $errors = [];
 
         if ($file->getError() !== UPLOAD_ERR_OK) {
 
@@ -195,9 +190,7 @@ final class ProductController
         }
 
         $name = $file->getClientFilename();
-        var_dump($name);
         $size = $file->getSize();
-
         $fileInfo = pathinfo($name);
 
         $format = $fileInfo['extension'];
@@ -207,7 +200,7 @@ final class ProductController
             return $errors;
         }
 
-        if ($size > 1000) {
+        if ($size > 1000000) {
             $errors[] = "Choosen image must not exceed 1Mb";
             return $errors;
         }
@@ -216,7 +209,7 @@ final class ProductController
         // We generate a custom name here instead of using the one coming form the form
         $file->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $title . "." . $format);
 
-        return $errors;
+
 
     }
 

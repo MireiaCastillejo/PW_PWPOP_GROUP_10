@@ -37,7 +37,7 @@ final class PDORepositoryProd implements ProductRepositoryInterface
         $userid=$product->getUserid();
         $title = $product->getTitle();
         $description = $product->getDescription();
-        $price = $product->getPrice();
+        $price = strval($product->getPrice());
         $product_image = $product->getProductImage();
         $category = $product->getCategory();
         $isActive = $product->getisActive();
@@ -45,7 +45,7 @@ final class PDORepositoryProd implements ProductRepositoryInterface
         $statement->bindParam('userid', $userid, PDO::PARAM_INT);
         $statement->bindParam('title', $title, PDO::PARAM_STR);
         $statement->bindParam('description', $description, PDO::PARAM_STR);
-        $statement->bindParam('price', $price, PDO::PARAM_INT);
+        $statement->bindParam('price', $price, PDO::PARAM_STR);
         $statement->bindParam('product_image', $product_image, PDO::PARAM_STR);
         $statement->bindParam('category', $category, PDO::PARAM_STR);
         $statement->bindParam('isActive', $isActive, PDO::PARAM_INT);

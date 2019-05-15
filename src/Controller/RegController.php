@@ -78,7 +78,10 @@ class RegController
             }
 
             $uploadedFiles = $request->getUploadedFiles();
+            $name = $uploadedFiles['profile']->getClientFilename();
+            $fileInfo = pathinfo($name);
 
+            $format = $fileInfo['extension'];
 
 
             if(empty($uploadedFiles['profile']->getClientFilename())){
@@ -109,7 +112,6 @@ class RegController
                     new DateTime()
                 );
 
-
                 $repository->save($user);
             }else{
                 //Algo ha ido mal
@@ -136,7 +138,6 @@ class RegController
         $e = $this->container->get('email');
         $e->sendEmail($data['email']);
 
-
         //Mostramos la vista del login
        /*$this->container->get('view')->render($response, 'login.twig',[
             'reg_ok' => $reg_ok,
@@ -145,6 +146,7 @@ class RegController
         //session_start();
         $_SESSION['reg_ok'] = 1;
 
+        //location.assign( path_for('login') );
 
 
         //$response = $this->setCookieRegOk($response);

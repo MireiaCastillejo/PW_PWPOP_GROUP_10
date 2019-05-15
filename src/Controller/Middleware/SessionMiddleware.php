@@ -20,6 +20,13 @@ final class SessionMiddleware
         return $next($request, $response);
     }
 
+    public function terminate()
+    {
+        session_start();
+        session_destroy();
+        header('Location: /');
+
+    }
 
 }
 
