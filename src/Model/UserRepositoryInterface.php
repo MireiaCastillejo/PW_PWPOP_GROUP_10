@@ -24,7 +24,7 @@ interface UserRepositoryInterface
 
     public function checkPassword(bool $ismail, string $password, string $login);
 
-    public function checkEnabled(bool $ismail, string $login);
+    public function checkEnabled();
 
     public function getId(string $username);
 

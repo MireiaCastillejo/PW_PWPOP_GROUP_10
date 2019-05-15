@@ -259,38 +259,22 @@ final class PDORepository implements UserRepositoryInterface
         }
     }
 
-    public function checkEnabled(bool $ismail, string $login){
-
-        //Nos pasan un email
-
-        if($ismail){
-            $statement = $this->database->getConnection()->prepare(
-                "SELECT enabled FROM user WHERE  email = :email;"
-            );
-
-            $statement->bindParam('email', $login, PDO::PARAM_STR);
-
-            $statement->execute();
-
-            $res = $statement->fetch(PDO::FETCH_ASSOC);
+    public function checkEnabled(){
 
 
-            return $res;
-        }else{
-            //Nos pasan un username
-            $statement = $this->database->getConnection()->prepare(
-                "SELECT enabled FROM user WHERE  username = :username;"
-            );
+        $statement = $this->database->getConnection()->prepare(
+            "SELECT enabled FROM user WHERE  id = :id;"
+        );
 
-            $statement->bindParam('username', $login, PDO::PARAM_STR);
+        $statement->bindParam('id', $_SESSION['id_user'], PDO::PARAM_STR);
 
-            $statement->execute();
+        $statement->execute();
 
-            $res = $statement->fetch(PDO::FETCH_ASSOC);
+        $res = $statement->fetch(PDO::FETCH_ASSOC);
 
 
-            return $res;
-        }
+        return $res;
+
     }
 
     public function getId(string $username){

@@ -11,10 +11,11 @@ use SallePW\SlimApp\Controller\LogController;
 use SallePW\SlimApp\Controller\FavouriteController;
 
 
+$app->add(SessionMiddleware::class);
 //UNA RUTA POR CONTROLADOR
 //La pagina principal
 $app->get('/', HelloController::class);
-$app->get('/logout', SessionMiddleware::class.':terminate');
+//$app->get('/logout', SessionMiddleware::class.':terminate');
 
 $app->post('/{id:\d+}', HelloController::class . ':likeProduct')
     ->setName("updateproduct");
@@ -75,5 +76,5 @@ $app
     ->setName('login');
 
 
-$app->add(SessionMiddleware::class);
+
 

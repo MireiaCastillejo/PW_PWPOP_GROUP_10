@@ -36,7 +36,7 @@ class UserController
 
         try {
             $data = $request->getParsedBody();
-            session_start();
+            //session_start();
             if (isset($_SESSION['user_id'])) {
                 /** @var PDORepository $repository */
                 $repository = $this->container->get('user_repo');

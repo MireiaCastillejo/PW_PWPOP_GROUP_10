@@ -35,7 +35,7 @@ class RegController
     /** @var ContainerInterface */
     private $container;
 
-    private const COOKIES_REG_OK= 'reg_ok';
+    //private const COOKIES_REG_OK= 'reg_ok';
 
     /**
      * HelloController constructor.
@@ -48,13 +48,14 @@ class RegController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        session_start();
+
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'registration.twig', [
             'name' => 'ouh mama',
         ]);
     }
-    public function regAction(Request $request, Response $response): Response
+    public function regAction(Request $request
+        , Response $response): Response
     {
 
         //poner return de la vista
@@ -127,7 +128,7 @@ class RegController
             $this->container->get('view')->render($response, 'registration.twig', [
                 'errors' => $errors,
             ]);
-            return $response->withStatus(500);
+            return $response->withStatus(400);
         }
 
 
@@ -140,11 +141,13 @@ class RegController
        /*$this->container->get('view')->render($response, 'login.twig',[
             'reg_ok' => $reg_ok,
         ]);*/
+
         //session_start();
-        $_SESSION['isreg'] = 1;
+        $_SESSION['reg_ok'] = 1;
 
 
-        $response = $this->setCookieRegOk($response);
+
+        //$response = $this->setCookieRegOk($response);
         return $response->withRedirect('/login',303); //303 EL BUENO
 
 
@@ -337,7 +340,7 @@ class RegController
 
         $repository->enableUser($_GET['email']);
 
-        $_SESSION['enabled'] = 1;
+
         echo ("Successful validation!");
 
     }

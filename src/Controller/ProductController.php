@@ -36,7 +36,7 @@ final class ProductController
     public function myprod(Request $request, Response $response)
     {
 
-        session_start();
+        //session_start();
         $id=$_SESSION['user_id'];
             $repository = $this->container->get('product_repo');
 
@@ -56,7 +56,7 @@ final class ProductController
 
         try {
 
-            session_start();
+            //session_start();
             if ( isset( $_SESSION['user_id'] ) ) {
 
                 // This method decodes the received json

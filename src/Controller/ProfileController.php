@@ -25,7 +25,7 @@ final class ProfileController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        session_start();
+        //session_start();
 
         $this->container->get('view')->render($response, 'profile.twig', ['sesion'=>$_SESSION['user_id']]);
 
@@ -41,7 +41,7 @@ final class ProfileController
 
         try {
             //write($response);
-            session_start();
+            //session_start();
            // var_dump("33");
 
             if ( isset( $_SESSION['user_id'] ) ) {

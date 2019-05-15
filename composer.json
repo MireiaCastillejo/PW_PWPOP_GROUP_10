@@ -20,8 +20,7 @@
         "dflydev/fig-cookies": "^2.0",
         "slim/flash": "^0.4.0",
         "phpmailer/phpmailer": "^6.0",
-        "ext-pdo": "*",
-        "plasticbrain/php-flash-messages": "^1.0"
+        "ext-pdo": "*"
     },
     "autoload": {
         "psr-4": {
