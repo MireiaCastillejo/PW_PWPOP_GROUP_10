@@ -11,7 +11,6 @@ namespace SallePW\SlimApp\Controller;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use Dflydev\FigCookies\FigRequestCookies;
 
 class LogController
 {
@@ -68,13 +67,18 @@ class LogController
             //Validamos los campos y guardamos los errores
             $errors = $this->validate($data, $request);
 
-            if(empty($errors)){
+
+            if (empty($errors)) {
+
+                $datauser = $repository->getisActive($this->getIsMail(), $data['login']);
+                if ($datauser['is_active'] == '1') {
+
                 //Como la seda, no ha habido errores
 
                 //Comprobamos que el usuario existe
                 $existe = $repository->checkUser($this->getIsMail(), $data['login']);
 
-                if($existe){
+                if ($existe) {
 
                     //Si existe, comprobamos que la contraseña sea correcta
                     $correctPassword = $repository->checkPassword($this->getIsMail(),$data['password'], $data['login']);
@@ -98,23 +102,22 @@ class LogController
                         }
 
                         //GESTION DEL CHECKBOX
-                        var_dump($data['rememberme']);
+                        //var_dump($data['rememberme']);
 
-                    }else{
+                    } else {
                         throw new \Exception('Wrong password');
                     }
-                }else{
+                } else {
                     throw new \Exception('This username/email doesnt exist');
                 }
 
-
-            }else{
+            }else {
+                    throw new \Exception('The user is deleted');
+                }
+            }else {
                 //Algo ha ido mal
-
                 throw new \Exception('The validation went wrong');
             }
-
-
 
 
         } catch (\Exception $e) {
@@ -127,7 +130,6 @@ class LogController
             ]);
             return $response->withStatus(500);
         }
-        //si all va bien creamos sesion
 
        // session_start();
 
@@ -138,10 +140,10 @@ class LogController
         //$this->container->get('view')->render($response, 'index.twig');
 
         return $response->withRedirect('/',303);
-        //return $response->withStatus(201);
     }
 
-    public function validate(array $data){
+    public function validate(array $data)
+    {
 
         $errors = [];
 

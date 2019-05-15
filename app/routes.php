@@ -14,7 +14,7 @@ use SallePW\SlimApp\Controller\FavouriteController;
 //UNA RUTA POR CONTROLADOR
 //La pagina principal
 $app->get('/', HelloController::class);
-
+$app->get('/logout', SessionMiddleware::class.':terminate');
 
 $app->post('/{id:\d+}', HelloController::class . ':likeProduct')
     ->setName("updateproduct");
@@ -30,6 +30,7 @@ $app
 
 //UPLOAD PRODUCT
 $app->get('/uploadproduct', ProductController::class);
+
 
 $app->post('/uploadproduct', ProductController::class . ':uploadAction')
     ->setName("upload");
@@ -57,6 +58,7 @@ $app->post('/profile', ProfileController::class . ':updateInfo')
     ->setName('update-info');
 //PRODUCTOS
 $app->get('/myproducts', ProductController::class . ':myprod');
+
 
 //FAVORITOS
 $app

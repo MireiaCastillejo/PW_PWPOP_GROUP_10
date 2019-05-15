@@ -114,12 +114,20 @@ final class PDORepository implements UserRepositoryInterface
         $statement->execute();
     }
 
-
-    public function deleteAccount(string $username){
+    public function deleteAccount(int $id){
         $statement = $this->database->getConnection()->prepare(
-            "UPDATE user SET is_active = 0 WHERE username = :username"
+            "UPDATE user SET is_active = 0 WHERE id = :id"
         );
-        $statement->bindParam('username', $username, PDO::PARAM_STR);
+        $statement->bindParam('id', $id, PDO::PARAM_STR);
+
+        $statement->execute();
+    }
+
+    public function deleteProducts(string $userid){
+        $statement = $this->database->getConnection()->prepare(
+            "UPDATE product SET isActive = 0 WHERE userid = :userid"
+        );
+        $statement->bindParam('userid', $userid, PDO::PARAM_STR);
 
         $statement->execute();
     }
@@ -294,5 +302,37 @@ final class PDORepository implements UserRepositoryInterface
        $statement->execute();
        $id=$statement->fetch();
         return $id;
+    }
+
+    public function getisActive(bool $ismail,string $param){
+        //Nos pasan un email
+        if($ismail){
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT is_active FROM user WHERE  email = :param ;"
+            );
+
+            $statement->bindParam('param', $param, PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+            return $res;
+        }else{
+            //Nos pasan un username
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT is_active FROM user WHERE  username = :param ;"
+            );
+
+            $statement->bindParam('param', $param, PDO::PARAM_STR);
+
+            $statement->execute();
+
+            $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+            return $res;
+        }
     }
 }

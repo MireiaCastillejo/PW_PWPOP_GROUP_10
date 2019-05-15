@@ -37,8 +37,8 @@
         {% endblock %}
 
 {% block buttons %}
-    <button type="button" class="btn btn-outline-light"  id="logout" onclick=logout({{ session }})>Logout</button>
-
+    <button style="margin-right: 11px"type="button" class="btn btn-outline-light"  id="logout" onclick=logout({{ sesion }})>Logout</button>
+<br>
     <button id="searchBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
         <span class="fa fa-search"></span>
         Search
@@ -115,11 +115,12 @@
         <div class="container">
             <div class="row">
                 {% for product in products %}
+                    {% if product.isActive==1 %}
+                {% if product.id<=7 %}
 
-                {% if product.id<=5 %}
                 <div class="col-md-4">
 
-                    <div class="card mb-4 shadow-sm">
+                    <div class="card mb-4 shadow-sm moreBox">
 
                         <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
                              xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
@@ -134,6 +135,7 @@
 
                                 <p class="descripton">{{ product.description }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
+
                                 <small class="price">{{ product.price }}€</small>
                                     <button type="button" data-toggle="modal" data-target="#exampleModal"
                                             class="btn btn-success">Buy
@@ -152,7 +154,45 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
 
+                    {% if product.id>=7 %}
+                        <div class="col-md-4">
+
+                            <div class="card mb-4 shadow-sm moreBox" style="display: none;">
+
+                                <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+                                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
+                                     role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title>
+                                    <rect width="100%" height="100%" fill="#55595c"></rect>
+                                    <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+                                </svg>
+
+                                <div class="card-body">
+
+                                    <h5 id="title" class="title">{{ product.title }} </h5>
+
+                                    <p class="descripton">{{ product.description }}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="price" type="number">{{ product.price }}€</small>
+                                        <button type="button" data-toggle="modal" data-target="#exampleModal"
+                                                class="btn btn-success">Buy
+                                        </button>
+
+                                        {% if product.isFav==1 %}
+                                            <button type="submit" id={{ product.id }}  onclick="like({{ product.id }})"> ❤</button>
+                                        {% else%}
+
+                                            <button type="submit" id={{ product.id }}  onclick="like({{ product.id }})"> 💙</button>
+                                        {% endif%}
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 {% endif %}
                 {% endfor %}
 
@@ -161,7 +201,12 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-outline-primary">More Products</button>
+
+    {% if products|length > 6 %}
+        <div id="loadMore" style="">
+            <a class="btn btn-outline-primary" href="#">Load More</a>
+        </div>
+    {% endif %}
 
     <!-- Este modal es el que nos servira para enviar un mail -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
