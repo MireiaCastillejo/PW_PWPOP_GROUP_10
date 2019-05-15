@@ -22,6 +22,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="{{ base_url() }}/assets/js/loadImage.js"></script>
     {% endblock %}
 
 </head>
@@ -34,21 +35,24 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         {% block navbar %}{% endblock %}
-        <!---<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#" onclick="location.href='/profile'">My Profile</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" onclick="location.href='/myproducts'">My Products</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link disabled" href="#">Dropdown</a>
 
-            </li>
-        </ul>
-        </div>-->
-    {% block buttons %}{% endblock %}
+    {% block buttons %}
+        <div class="col-md-9 text-right">
+            <a onclick="location.href = '/profile'">
+                <img src="{{ base_url() }}/uploads/defaultProfile.png" id="profileImageLink">
+            </a>
+        </div>
+
+        <div class="col-md-1 text-right">
+            <button type="button" class="btn btn-outline-light" onclick="location.href='/'">Logout</button>
+        </div>
+
+
+        <button  id="myBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal">
+            <span class="fa fa-search"></span> Search
+        </button>
+    </div>
+    {% endblock %}
 
     </div>
 </nav>
@@ -61,7 +65,6 @@
 
 <div class="container">
 {% block content %}{% block php %}{% endblock %}{% endblock %}
-
 </div>
 
 <nav class="navbar fixed-bottom navbar-dark" id="botNav">

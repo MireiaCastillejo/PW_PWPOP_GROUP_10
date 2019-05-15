@@ -41,6 +41,12 @@ h1{
     border-radius: 50%;
     width: 100%;
 }
+#profileImageLink{
+    max-height: 40px;
+    max-width: 40px;
+    border-radius: 50%;
+    width: 100%;
+}
 
 #deleteButtonContainer{
     padding-top: 5em;
@@ -60,4 +66,13 @@ h1{
     max-width: 250px;
     border-radius: 50%;
     width: 100%;
+}
+#profileButtons{
+    padding-top: 5em;
+}
+
+#profileData{
+    max-height: 100%;
+    align-items: center;
+    padding-top: 2em;
 }
