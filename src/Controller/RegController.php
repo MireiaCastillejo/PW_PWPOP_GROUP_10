@@ -8,6 +8,10 @@
 
 namespace SallePW\SlimApp\Controller;
 
+
+use Dflydev\FigCookies\FigResponseCookies;
+use Dflydev\FigCookies\SetCookie;
+
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -30,6 +34,8 @@ class RegController
 
     /** @var ContainerInterface */
     private $container;
+
+    private const COOKIES_REG_OK= 'reg_ok';
 
     /**
      * HelloController constructor.
@@ -71,17 +77,16 @@ class RegController
             }
 
             $uploadedFiles = $request->getUploadedFiles();
-            $name = $uploadedFiles['profile']->getClientFilename();
-            $fileInfo = pathinfo($name);
 
-            $format = $fileInfo['extension'];
 
 
             if(empty($uploadedFiles['profile']->getClientFilename())){
 
                 $data['profile'] = 'defaultProfile.png';
             }else{
-
+                $name = $uploadedFiles['profile']->getClientFilename();
+                $fileInfo = pathinfo($name);
+                $format = $fileInfo['extension'];
                 $data['profile'] = $data['username'].'.'.$format;
             }
 
@@ -97,11 +102,12 @@ class RegController
                     $data['phonenumber'],
                     $data['password'],
                     $data['profile'],
-                    0, //enabled, a 0 de saque
                     1,
+                    0,//enabled, a 0 de saque
                     new DateTime(),
                     new DateTime()
                 );
+
 
                 $repository->save($user);
             }else{
@@ -129,12 +135,17 @@ class RegController
         $e = $this->container->get('email');
         $e->sendEmail($data['email']);
 
+
         //Mostramos la vista del login
-       //$this->container->get('view')->render($response, 'login.twig');
+       /*$this->container->get('view')->render($response, 'login.twig',[
+            'reg_ok' => $reg_ok,
+        ]);*/
 
-        //location.assign( path_for('login') );
+        $_SESSION['isreg'] = 1;
 
-        return $response->withRedirect('/login',200);
+
+        $response = $this->setCookieRegOk($response);
+        return $response->withRedirect('/login',303); //303 EL BUENO
 
 
 
@@ -326,9 +337,24 @@ class RegController
 
         $repository->enableUser($_GET['email']);
 
+        $_SESSION['enabled'] = 1;
         echo ("Successful validation!");
 
     }
+
+    private function setCookieRegOk(Response $response): Response
+    {
+        return FigResponseCookies::set(
+            $response,
+            SetCookie::create(self::COOKIES_REG_OK)
+                ->withHttpOnly(true)
+                ->withMaxAge(5)
+                ->withValue(1)
+                ->withDomain('pwpop.test')
+                ->withPath('/login')
+        );
+    }
+
 }
 
 

@@ -26,8 +26,8 @@ final class PDORepository implements UserRepositoryInterface
         echo '<script>console.log("inside save PDORepo")</script>';
 
         $statement = $this->database->getConnection()->prepare(
-            "INSERT into user(name, username, email, birthdate, phonenumber, password, profileimage, enabled, is_active, created_at, updated_at) 
-                        values(:name, :username, :email,:birthdate,:phonenumber, :password, :profileimage, :enabled, :is_active, :created_at, :updated_at)"
+            "INSERT into user(name, username, email, birthdate, phonenumber, password, profileimage, is_active, enabled, created_at, updated_at) 
+                        values(:name, :username, :email,:birthdate,:phonenumber, :password, :profileimage,  :is_active, :enabled, :created_at, :updated_at)"
         );
 
         $name = $user->getName();
@@ -37,8 +37,8 @@ final class PDORepository implements UserRepositoryInterface
         $phonenumber = $user->getPhonenumber();
         $password = sha1($user->getPassword());
         $profileimage = $user->getProfileimage();
-        $enabled = $user->getEnabled();
         $is_active = $user->getisActive();
+        $enabled = $user->getEnabled();
         $createdAt = $user->getCreatedAt()->format('Y-m-d H:i:s');
         $updatedAt = $user->getUpdatedAt()->format('Y-m-d H:i:s');
 
@@ -50,8 +50,8 @@ final class PDORepository implements UserRepositoryInterface
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->bindParam('password', $password, PDO::PARAM_STR);
         $statement->bindParam('profileimage', $profileimage, PDO::PARAM_STR);
-        $statement->bindParam('enabled', $enabled, PDO::PARAM_STR);
         $statement->bindParam('is_active', $is_active, PDO::PARAM_STR);
+        $statement->bindParam('enabled', $enabled, PDO::PARAM_STR);
         $statement->bindParam('created_at', $createdAt, PDO::PARAM_STR);
         $statement->bindParam('updated_at', $updatedAt, PDO::PARAM_STR);
 
@@ -167,6 +167,7 @@ final class PDORepository implements UserRepositoryInterface
 
     }
 
+    //Activar cuenta
     public function enableUser(string $email){
         $statement = $this->database->getConnection()->prepare(
             "UPDATE user SET enabled = 1 WHERE email = :email ;"
@@ -178,6 +179,7 @@ final class PDORepository implements UserRepositoryInterface
         return $res= $statement->execute();
     }
 
+    //Para comprobar que el usuario existe
     public function checkUser(bool $ismail, string $param){
 
         //Nos pasan un email
@@ -212,6 +214,7 @@ final class PDORepository implements UserRepositoryInterface
 
     }
 
+    //comprobar contraseña
     public function checkPassword(bool $ismail, string $password, string $login){
         //Nos pasan un email
 
@@ -251,7 +254,6 @@ final class PDORepository implements UserRepositoryInterface
     public function checkEnabled(bool $ismail, string $login){
 
         //Nos pasan un email
-
 
         if($ismail){
             $statement = $this->database->getConnection()->prepare(

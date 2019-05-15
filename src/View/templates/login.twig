@@ -27,8 +27,14 @@
 {% block content %}
     <h1 >Login form</h1>
 
+    {% if reg_ok %}
+
+        Registration went ok!
+
+    {% endif %}
     <div class="container">
         <form id="form" action="{{ path_for('login') }}" method="POST" enctype="multipart/form-data" >
+
             <div class="form-group">
                 <label for="email">Email/username</label>
                 <input class="form-control input-lg" type="text" name="login" id="login" placeholder="juanita@gmail.com or lajuani24" />
@@ -66,6 +72,18 @@
 
                 <button class="btn btn-primary" onclick="onclick2()" type="submit">Log in</button>
             </div>
+
+            {% if isenabled is defined %}
+                {% if not isenabled  %}
+                <div class="form-group">
+                    <div class="alert alert-warning" role="alert">
+                        Please check your email or click <a>here</a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endif %}
+
+
         </form>
     </div>
 

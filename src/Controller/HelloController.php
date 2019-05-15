@@ -44,15 +44,22 @@ final class HelloController
              $_SESSION['counter'] + 1 : 1;*/
 
         // Always start this first
-        session_start();
+       // session_start();
         $repository = $this->container->get('product_repo');
+
+
+
 
         $products = $repository->get();
         if (!isset($_SESSION['user_id'])) {
             // Redirect them to the login page
-            return $this->container->get('view')->render($response, 'index.twig',['products' => $products]);
+
+            return $this->container->get('view')->render($response, 'index.twig',[
+                'products' => $products,
+            ]);
 
         }
+
 
 
         //Lo que le pasamos a la vista

@@ -1,7 +1,7 @@
 
 
 function onclick2(){
-    console.log("EN LOG JS finaldfghjk");
+    //console.log("EN LOG JS finaldfghjk");
 
     var validator = $('#form');
 

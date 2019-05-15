@@ -1,7 +1,7 @@
 <?php
 
 use SallePW\SlimApp\Controller\HelloController;
-use SallePW\SlimApp\Controller\Middleware\TestMiddleware;
+use SallePW\SlimApp\Controller\Middleware\LoginMiddleware;
 use SallePW\SlimApp\Controller\Middleware\SessionMiddleware;
 use SallePW\SlimApp\Controller\ProfileController;
 use SallePW\SlimApp\Controller\RegController;
@@ -38,6 +38,11 @@ $app->post('/uploadproduct', ProductController::class . ':uploadAction')
 $app
     ->post('/register', RegController::class . ':regAction')
     ->setName('register');
+//VERIFY
+
+$app
+    ->get('/verify', RegController::class . ':verifyUser');
+
 
 //DELETE
 $app
@@ -61,9 +66,11 @@ $app
 //LOGIN
 $app
     ->get('/login', LogController::class);
+    //->add(LoginMiddleware::class);;
 $app
     ->post('/login', LogController::class . ':logAction')
-    ->setName('login');;
-//->add(SessionMiddleware::class);
+    ->setName('login');
 
+
+$app->add(SessionMiddleware::class);
 

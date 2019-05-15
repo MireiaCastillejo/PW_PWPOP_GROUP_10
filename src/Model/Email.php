@@ -27,24 +27,25 @@ class Email
         /* Creamos la clase y añadimos el host, el username y la contraseña del servidor SMTP*/
         $mail = new PHPMailer(TRUE);
         $mail->IsSMTP(true);
-        $mail->Host = gethostbyname('in-v3.mailjet.com');
+        $mail->Host = gethostbyname('tls://smtp.eu.sparkpostmail.com');
 
         //Credenciales del server de Mailjet
-        $mail->Username = '5021eb82f2ee1e2c7655bee6f5b4206c';
+        $mail->Username = 'SMTP_Injection';
         $mail->SMTPAuth = true;
-        $mail->Password = 'e7e8dfc88688eaa52e2647e572d17041';
+        $mail->Password = '3ff70987ea813a1599994694edc9fc6b99262a77';
 
-        $mail->SMTPSecure = 'ssl'; //tls 587, ssl 465
-        $mail->Port = 465;
+        $mail->SMTPSecure = 'tls'; //tls 587, ssl
+        $mail->SMTPAutoTLS = false;
+        $mail->Port = 2525;
         //$mail->SMTPDebug = 2;
 
-        $mail->SMTPOptions = array(
+        /*$mail->SMTPOptions = array(
             'ssl' => array(
                 'verify_peer' => false,
                 'verify_peer_name' => false,
                 'allow_self_signed' => true
             )
-        );
+        );*/
 
 
         $mail->IsHTML(true);
@@ -53,7 +54,7 @@ class Email
         try {
             $hash = md5( rand(0,1000) );
             /* Set the mail sender. */
-            $mail->setFrom('pwpopdreamteam@cyber-host.net', 'PWPOP Team');
+            $mail->setFrom('pwpopdreamteam@hotmail.com', 'PWPOP Team');
 
             /* Add a recipient. */
             $mail->addAddress($useremail);

@@ -119,6 +119,15 @@
         <button class="btn btn-primary" type="submit">Register</button>
     </form>
 
+    {% if isenabled is defined %}
+        {% if not isenabled  %}
+            <div class="form-group">
+                <div class="alert alert-warning" role="alert">
+                    Please check your email or click <a>here</a>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
 
 
 {% endblock %}

@@ -11,6 +11,7 @@ namespace SallePW\SlimApp\Controller;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Dflydev\FigCookies\FigRequestCookies;
 
 class LogController
 {
@@ -18,6 +19,7 @@ class LogController
     /** @var ContainerInterface */
     private $container;
     private $ismail;
+    private const COOKIES_REG_OK= 'reg_ok';
 
 
     /**
@@ -32,8 +34,24 @@ class LogController
     public function __invoke(Request $request, Response $response, array $args)
     {
 
+        //Cookie para ver si el reg ha ido ok
+        $regCookie = FigRequestCookies::get($request, self::COOKIES_REG_OK);
+        $reg_ok = $regCookie->getValue();
+
+        //Poner mensaje si no esta enabled
+        if(($_SESSION['enabled']) === 1 ){
+            $isenabled=1;
+        }else{
+            $isenabled = 0;
+        }
+
+
+
         //Lo que le pasamos a la vista
-        return $this->container->get('view')->render($response, 'login.twig');
+        return $this->container->get('view')->render($response, 'login.twig',
+            [
+                'reg_ok'=> $reg_ok, 'enabled' => $isenabled
+            ]);
     }
     public function logAction(Request $request, Response $response): Response
     {
@@ -67,13 +85,15 @@ class LogController
                         $enabled = $repository->checkEnabled($this->getIsMail(),$data['login']);
 
 
-                        //LO FUERZO PORQUE NO ME VA LO DEL MAIL
-                        if($enabled=== "1"){
-                            var_dump("esta enabled");
+
+                       //var_dump($enabled["enabled"]);
+                        if($enabled["enabled"] == '1'){
+                            //var_dump("esta enabled");
+
                             $id=$repository->getId($data['login']);
                         }else{
                             //FALTA: añadir el link de activacion
-                            $msg = ('Please check your email or click here to resend the activation link');
+                            $msg = ('Please check your email or click here to resend the activation link FOOL');
                             throw new \Exception($msg);
                         }
 
@@ -109,10 +129,11 @@ class LogController
         }
         //si all va bien creamos sesion
 
-        session_start();
+       // session_start();
 
         //Mostramos la vista del login
         $_SESSION['user_id'] = $id['id'];
+        $_SESSION['enabled'] = 0;
 
         //$this->container->get('view')->render($response, 'index.twig');
 
