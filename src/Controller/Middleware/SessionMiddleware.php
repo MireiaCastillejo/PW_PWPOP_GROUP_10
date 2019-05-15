@@ -40,9 +40,6 @@ final class SessionMiddleware
         session_destroy();
         header('Location: /');
 
-
-
-
     }
 
 }

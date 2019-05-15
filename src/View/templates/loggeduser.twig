@@ -15,35 +15,17 @@
 {% endblock %}
 
         {% block navbar %}
-            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" onclick="location.href='/profile'">My Profile</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#" onclick="location.href='/myproducts'">My Products</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active" href="#" onclick="location.href='/uploadproduct'">Add item</a>
-
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active" href="#" onclick="location.href='/favourite'">My favourites</a>
-
-                    </li>
-                </ul>
-
-            </div>
         {% endblock %}
 
 {% block buttons %}
 
-    <div class="col-md-10 text-right">
-        <button style="margin-right: 11px"type="button" class="btn btn-outline-light"  id="logout" onclick=logout({{ sesion }})>Logout</button>
-        <button  id="searchBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-            <span class="fa fa-search"></span> Search
-        </button>
+    <div class="col-md-1 text-right">
+        <a onclick="location.href = '/profile'">
+            <img src="{{ base_url() }}/uploads/defaultProfile.png" id="profileImageLink">
+        </a>
     </div>
+
+    {{ parent() }}
 
 {% endblock %}
 

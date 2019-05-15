@@ -45,7 +45,7 @@ final class HelloController
 
 
         // Always start this first
-        session_start();
+        //session_start();
         $repository = $this->container->get('product_repo');
 
 
@@ -60,8 +60,6 @@ final class HelloController
             ]);
 
         }
-
-
 
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'loggeduser.twig', ['products' => $products,'sesion'=>$_SESSION['user_id']]

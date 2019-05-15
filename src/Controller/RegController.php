@@ -129,7 +129,7 @@ class RegController
             $this->container->get('view')->render($response, 'registration.twig', [
                 'errors' => $errors,
             ]);
-            return $response->withStatus(500);
+            return $response->withStatus(400);
         }
 
 
