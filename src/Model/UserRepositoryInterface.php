@@ -10,7 +10,9 @@ interface UserRepositoryInterface
 
     public function update(User $user);
 
-    public function deleteAccount(string $username);
+    public function deleteAccount(int $id);
+
+    public function deleteProducts(string $userid);
 
     public function checkUniqueUsername(string $username);
 
@@ -25,4 +27,6 @@ interface UserRepositoryInterface
     public function checkEnabled(bool $ismail, string $login);
 
     public function getId(string $username);
+
+    public function getisActive(bool $ismail, string $param);
 }

@@ -14,14 +14,15 @@
 
 {% block buttons %}
      <div class="col-md-9 text-right">
-         <button type="button" class="btn btn-light" onclick="location.href='/login'">Log In</button>
-         <button type="button" class="btn btn-outline-light" onclick="location.href='/register'" >Sign Up</button>
-     </div>
+         <button  style="margin-right: 11px" type="button" class="btn btn-light" onclick="location.href='/login'">Log In</button>
+         <button  style="margin-right: 11px"type="button" class="btn btn-outline-light" onclick="location.href='/register'" >Sign Up</button>
+
 
      <button id="searchBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal" >
          <span class="fa fa-search"></span>
          Search
      </button>
+     </div>
 {% endblock %}
 
 {% block modal %}
@@ -110,8 +111,8 @@
         <div class="container">
             <div class="row">
                 {% for product in products %}
-
-                    {% if product.id<=5 %}
+                    {% if product.isActive==1 %}
+                    {% if product.id<=7 %}
                         <div class="col-md-4">
 
                             <div class="card mb-4 shadow-sm">
@@ -130,24 +131,12 @@
                                     <p class="descripton">{{ product.description }}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <small class="price">{{ product.price }}€</small>
-                                        <button type="button" data-toggle="modal" data-target="#exampleModal"
-                                                class="btn btn-success">Buy
-                                        </button>
-
-                                        {% if product.isFav==1 %}
-                                            <button type="submit" id={{ product.id }}  onclick="like({{ product.id }})"> ❤</button>
-                                        {% else%}
-
-                                            <button type="submit" id={{ product.id }}  onclick="like({{ product.id }})"> 💙</button>
-                                        {% endif%}
-
-
 
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                    {% endif %}
                     {% endif %}
                 {% endfor %}
 

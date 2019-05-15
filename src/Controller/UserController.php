@@ -33,19 +33,23 @@ class UserController
      */
     public function put(Request $request, Response $response): Response
     {
+
         try {
             $data = $request->getParsedBody();
+            session_start();
+            if (isset($_SESSION['user_id'])) {
+                /** @var PDORepository $repository */
+                $repository = $this->container->get('user_repo');
+                var_dump($_SESSION['user_id']);
+                // We should validate the information before creating the entity
+                $repository->deleteAccount($_SESSION['user_id']);
 
-            /** @var PDORepository $repository */
-            $repository = $this->container->get('user_repo');
-
-            // We should validate the information before creating the entity
-            $repository->deleteAccount($_GET['username']);
-
-            //Redireccionamos a la pagina principal despues de eliminar la cuenta
-            //return $this->container->get('view')->render($response, 'index.twig', []);
-            return $response->withStatus(200);
-
+                $repository->deleteProducts($_SESSION['user_id']);
+                session_destroy ( );
+                //Redireccionamos a la pagina principal despues de eliminar la cuenta
+                header('Location: /');
+                return $response->withStatus(200);
+            }
 
         } catch (\Exception $e) {
             $response->getBody()->write('Unexpected error: ' . $e->getMessage());

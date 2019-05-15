@@ -106,7 +106,11 @@ final class ProductController
             $this->container->get('view')->render($response, 'error.twig',['errors' => $errors,]);
             return $response->withStatus(500);
         }
-        $this->container->get('view')->render($response, 'loggeduser.twig');
+        $repository = $this->container->get('product_repo');
+
+        $products = $repository->get();
+
+        $this->container->get('view')->render($response, 'loggeduser.twig', ['products' => $products,'sesion'=>$_SESSION['user_id']]);
 
         return $response->withStatus(201);
 
@@ -128,8 +132,8 @@ final class ProductController
         if (empty($data['description'])) {
             $errors['description'] = 'The description cannot be empty.';
         } else {
-            if (strlen($data['description']) > 20) {
-                $errors['description'] = 'The description must have max. 20 characters';
+            if (strlen($data['description'])<20) {
+                $errors['description'] = 'The description must have min. 20 characters';
             }
         }
 
@@ -139,10 +143,11 @@ final class ProductController
 
             $errors['price'] = 'The price cannot be empty.';
             //Falta controlar el precio
-            /* } else {
-                 if (preg_match("/^[0-9]+(\.[0-9]{2})?$/", $data['price'])) {
-                     $errors['price'] = 'Price cant be decimal or without decimal. 9 and 9.99';
-                 }*/
+        } else {
+
+           $data['price']=(float)$data['price'];
+
+
         }
 
 

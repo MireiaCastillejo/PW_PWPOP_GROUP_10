@@ -22,13 +22,13 @@ $(document).ready(function(){
             },
             description: {
                 required: true,
-                alphanumeric: true,
-                maxlength: 20
+                minlength: 20
 
             },
             price: {
                 required: true,
-                range: [0, 2300]
+                number: true
+
             },
           /*  product_image:{
                 required: true,
@@ -49,8 +49,7 @@ $(document).ready(function(){
             },
             description:{
                 required: "This field is required",
-                alphanumeric: "Only letters and numbers",
-                maxlength: "Max length 20 characters"
+                minlength: "Min length 20 characters"
             },
             price: {
                 required: "This field is required",

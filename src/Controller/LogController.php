@@ -1,5 +1,5 @@
 <?php
-/**
+/*/**
  * Created by PhpStorm.
  * User: Judit
  * Date: 08/05/2019
@@ -35,6 +35,7 @@ class LogController
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'login.twig');
     }
+
     public function logAction(Request $request, Response $response): Response
     {
 
@@ -43,112 +44,110 @@ class LogController
             // This method decodes the received json
             $data = $request->getParsedBody();
 
-
-            /** @var PDORepository $repository**/
+            /** @var PDORepository $repository * */
             $repository = $this->container->get('user_repo');
 
             //Validamos los campos y guardamos los errores
             $errors = $this->validate($data, $request);
 
-            if(empty($errors)){
+
+            if (empty($errors)) {
+
+                $datauser = $repository->getisActive($this->getIsMail(), $data['login']);
+                if ($datauser['is_active'] == '1') {
+
                 //Como la seda, no ha habido errores
 
                 //Comprobamos que el usuario existe
                 $existe = $repository->checkUser($this->getIsMail(), $data['login']);
 
-                if($existe){
+                if ($existe) {
 
                     //Si existe, comprobamos que la contraseña sea correcta
-                    $correctPassword = $repository->checkPassword($this->getIsMail(),$data['password'], $data['login']);
+                    $correctPassword = $repository->checkPassword($this->getIsMail(), $data['password'],
+                        $data['login']);
 
                     //Si la contraseña es correcta comprobamos que se haya activado la cuenta
-                    if($correctPassword){
+                    if ($correctPassword) {
 
-                        $enabled = $repository->checkEnabled($this->getIsMail(),$data['login']);
+                        $enabled = $repository->checkEnabled($this->getIsMail(), $data['login']);
 
-
-                        //LO FUERZO PORQUE NO ME VA LO DEL MAIL
-                        if($enabled=== "1"){
+                        if ($enabled["enabled"] == '1') {
                             var_dump("esta enabled");
-                            $id=$repository->getId($data['login']);
-                        }else{
+                            $id = $repository->getId($data['login']);
+                        } else {
                             //FALTA: añadir el link de activacion
                             $msg = ('Please check your email or click here to resend the activation link');
                             throw new \Exception($msg);
                         }
 
                         //GESTION DEL CHECKBOX
-                        var_dump($data['rememberme']);
+                        //var_dump($data['rememberme']);
 
-                    }else{
+                    } else {
                         throw new \Exception('Wrong password');
                     }
-                }else{
+                } else {
                     throw new \Exception('This username/email doesnt exist');
                 }
 
-
-            }else{
+            }else {
+                    throw new \Exception('The user is deleted');
+                }
+            }else {
                 //Algo ha ido mal
-
                 throw new \Exception('The validation went wrong');
             }
-
-
 
 
         } catch (\Exception $e) {
 
             //Si algo va mal al validar, mostramos la ventana de error
-
-           // $response->getBody()->write('Unexpected error: ' . $e->getMessage());
-           $this->container->get('view')->render($response, 'login.twig', [
-                'errors' => $errors, 'bbdderrors' =>$e->getMessage()
+            $this->container->get('view')->render($response, 'login.twig', [
+                'errors' => $errors,
+                'bbdderrors' => $e->getMessage()
             ]);
             return $response->withStatus(500);
         }
-        //si all va bien creamos sesion
 
         session_start();
-
         //Mostramos la vista del login
         $_SESSION['user_id'] = $id['id'];
 
-        //$this->container->get('view')->render($response, 'index.twig');
 
         return $response->withRedirect('/',303);
-        //return $response->withStatus(201);
     }
 
-    public function validate(array $data){
+    public function validate(array $data)
+    {
 
         $errors = [];
 
-        if(filter_var($data['login'], FILTER_VALIDATE_EMAIL)){
+        if (filter_var($data['login'], FILTER_VALIDATE_EMAIL)) {
             $this->setIsMail(true);
 
 
             //EMAIL
             if (empty($data['login'])) {
                 $errors['login'] = 'The email cannot be empty.';
-            }else{
+            } else {
 
-                if(!filter_var($data['login'], FILTER_VALIDATE_EMAIL)){
+                if (!filter_var($data['login'], FILTER_VALIDATE_EMAIL)) {
                     $errors['login'] = 'The email is not valid.';
                 }
 
             }
-        }else{
+        } else {
             $this->setIsMail(false);
             //USERNAME
             if (empty($data['login'])) {
                 $errors['login'] = 'The username cannot be empty.';
-            }else{
-                if(!ctype_alnum($data['login'])) {
+            } else {
+                if (!ctype_alnum($data['login'])) {
                     $errors['login'] = 'The username must be alphanumeric.';
                 }
 
-                if(strlen($data['login']) > 20){
+                if (strlen($data['login']) > 20) {
                     $errors['login'] = 'The username must have max. 20 characters';
                 }
 
@@ -159,8 +158,8 @@ class LogController
         if (empty($data['password'])) {
 
             $errors['password'] = 'The password cannot be empty.';
-        }else {
-            if(strlen($data['password']) < 6){
+        } else {
+            if (strlen($data['password']) < 6) {
                 $errors['password'] = 'The password must have min. 6 characters';
             }
         }
