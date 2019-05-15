@@ -17,6 +17,7 @@ final class SessionMiddleware
             session_start();
             $_SESSION['isreg'] = 0;
 
+
             echo '<script>console.log("INICIO SESION")</script>';
         }
         var_dump($_SESSION['isreg']);

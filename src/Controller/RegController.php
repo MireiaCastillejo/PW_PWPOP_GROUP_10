@@ -48,7 +48,7 @@ class RegController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-
+        session_start();
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'registration.twig', [
             'name' => 'ouh mama',
@@ -140,7 +140,7 @@ class RegController
        /*$this->container->get('view')->render($response, 'login.twig',[
             'reg_ok' => $reg_ok,
         ]);*/
-
+        //session_start();
         $_SESSION['isreg'] = 1;
 
 

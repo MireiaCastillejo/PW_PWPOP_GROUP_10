@@ -42,7 +42,8 @@ $app
 //VERIFY
 
 $app
-    ->get('/verify', RegController::class . ':verifyUser');
+    ->get('/verify', RegController::class . ':verifyUser')
+    ->add(SessionMiddleware::class);
 
 
 //DELETE

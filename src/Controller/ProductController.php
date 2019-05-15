@@ -69,6 +69,7 @@ final class ProductController
                 if (empty($data['product_image'])) {
                     $data['product_image'] = 'defaultProfile.png';
                 }
+
                 /* $uploadedFiles = $request->getUploadedFiles();
                  $name = $uploadedFiles['product_image']->getClientFilename();
 
