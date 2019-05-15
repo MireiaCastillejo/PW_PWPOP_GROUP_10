@@ -34,24 +34,26 @@ class LogController
     public function __invoke(Request $request, Response $response, array $args)
     {
 
+        session_start();
         //Cookie para ver si el reg ha ido ok
         $regCookie = FigRequestCookies::get($request, self::COOKIES_REG_OK);
         $reg_ok = $regCookie->getValue();
 
         //Poner mensaje si no esta enabled
-        if(($_SESSION['enabled']) === 1 ){
+        /*if(($_SESSION['enabled']) === 1 ){
             $isenabled=1;
         }else{
             $isenabled = 0;
         }
-
+*/
 
 
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'login.twig',
-            [
+        /*    [
                 'reg_ok'=> $reg_ok, 'enabled' => $isenabled
-            ]);
+            ]*/
+        );
     }
     public function logAction(Request $request, Response $response): Response
     {
@@ -132,7 +134,7 @@ class LogController
             return $response->withStatus(500);
         }
 
-       // session_start();
+        session_start();
 
         //Mostramos la vista del login
         $_SESSION['user_id'] = $id['id'];

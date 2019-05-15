@@ -48,7 +48,7 @@ class RegController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        session_start();
+
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'registration.twig', [
             'name' => 'ouh mama',
@@ -77,7 +77,10 @@ class RegController
             }
 
             $uploadedFiles = $request->getUploadedFiles();
+            $name = $uploadedFiles['profile']->getClientFilename();
+            $fileInfo = pathinfo($name);
 
+            $format = $fileInfo['extension'];
 
 
             if(empty($uploadedFiles['profile']->getClientFilename())){
@@ -108,7 +111,6 @@ class RegController
                     new DateTime()
                 );
 
-
                 $repository->save($user);
             }else{
                 //Algo ha ido mal
@@ -135,7 +137,6 @@ class RegController
         $e = $this->container->get('email');
         $e->sendEmail($data['email']);
 
-
         //Mostramos la vista del login
        /*$this->container->get('view')->render($response, 'login.twig',[
             'reg_ok' => $reg_ok,
@@ -143,6 +144,7 @@ class RegController
         //session_start();
         $_SESSION['isreg'] = 1;
 
+        //location.assign( path_for('login') );
 
         $response = $this->setCookieRegOk($response);
         return $response->withRedirect('/login',303); //303 EL BUENO

@@ -26,7 +26,7 @@ final class HelloController
         $this->container = $container;
     }
 
-    public function __invoke(Request $request, Response $response,$num)
+    public function __invoke(Request $request, Response $response)
     {
         /*$messages = $this->container
             ->get('flash')
@@ -43,8 +43,9 @@ final class HelloController
          $_SESSION['counter'] = isset($_SESSION['counter']) ?
              $_SESSION['counter'] + 1 : 1;*/
 
+
         // Always start this first
-       // session_start();
+        session_start();
         $repository = $this->container->get('product_repo');
 
 

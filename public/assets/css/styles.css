@@ -7,7 +7,7 @@ body {
 
 h1{
     font-size: 30%;
-    font-family: "Times New Roman", serif;
+    font-family: "Tahoma",sans-serif;
     color: black;
 }
 
@@ -53,4 +53,11 @@ h1{
 
 #updateButton{
     text-decoration: none;
+}
+
+#fotoprod{
+    max-height: 250px;
+    max-width: 250px;
+    border-radius: 50%;
+    width: 100%;
 }

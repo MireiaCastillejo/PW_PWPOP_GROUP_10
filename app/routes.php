@@ -75,5 +75,5 @@ $app
     ->setName('login');
 
 
-$app->add(SessionMiddleware::class);
+//$app->add(SessionMiddleware::class);
 
