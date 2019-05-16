@@ -350,4 +350,29 @@ final class PDORepository implements UserRepositoryInterface
         $res=$statement->fetch();
         return $res['email'];
     }
+
+    public function getUsernameAndPassword(int $id){
+
+        $statement = $this->database->getConnection()->prepare(
+            "SELECT * FROM user WHERE id = :id;"
+        );
+
+        $statement->bindParam('id', $id, PDO::PARAM_INT);
+
+        $statement->execute();
+        $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+        if($res != null){
+
+            return[
+
+                "username" => $res['username'],
+                "password" => $res['password']
+            ];
+        }else{
+            return [];
+        }
+
+    }
 }

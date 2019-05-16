@@ -36,7 +36,7 @@ $container['user_repo'] = function (Container $c) {
 };
 
 $container['email'] = function (Container $c) {
-    return new Email();
+    return new Email($c);
 };
 
 $container['product_repo'] = function (Container $c) {

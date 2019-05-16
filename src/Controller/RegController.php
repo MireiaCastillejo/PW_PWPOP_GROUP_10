@@ -78,10 +78,6 @@ class RegController
             }
 
             $uploadedFiles = $request->getUploadedFiles();
-            $name = $uploadedFiles['profile']->getClientFilename();
-            $fileInfo = pathinfo($name);
-
-            $format = $fileInfo['extension'];
 
 
             if(empty($uploadedFiles['profile']->getClientFilename())){
@@ -136,7 +132,7 @@ class RegController
 
         //Enviamos el correo de verificacion
         $e = $this->container->get('email');
-        $e->sendEmail($data['email']);
+        //$e->sendEmail($data['email']);
 
 
 

@@ -43,7 +43,17 @@ class LogController
             $reg_ok = 0;
         }
 
+        $remembermeCookie = FigRequestCookies::get($request, self::COOKIES_REMEMBERME);
 
+        $isRemembered = $remembermeCookie->getValue();
+
+        var_dump($isRemembered);
+
+        if($isRemembered !== NULL){
+            $id = (int)$isRemembered;
+            $userInfo = $this->getInfo($id);
+            var_dump($userInfo);
+        }
 
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'login.twig',
@@ -223,7 +233,24 @@ class LogController
                 ->withMaxAge(3600)
                 ->withValue($_SESSION['user_id'])
                 ->withDomain('pwpop.test')
-                ->withPath('/')
+                ->withPath('/login')
         );
     }
+
+    private function getInfo(int $id):array{
+
+
+        /** @var PDORepository $repository**/
+        $repository = $this->container->get('user_repo');
+
+        $data = $repository->getUsernameAndPassword($id);
+
+        $userInfo = [];
+
+        $userInfo['password'] = $data['password'];
+        $userInfo['username'] = $data['username'];
+
+        return $userInfo;
+    }
+
 }
