@@ -92,11 +92,33 @@ final class ProfileController
 
                 $id=(int)$_SESSION['user_id'];
 
-                //add username to data array
-                $data['username']='user1';
+                //add user id to data array
+                $data['user-id']=$id;
 
                 /** @var PDORepository $repository * */
                 $repository = $this->container->get('user_repo');
+                $currentUser = $repository->getData($_SESSION['user_id']);
+
+                var_dump($currentUser);
+
+                $data['username'] = $currentUser['username'];
+                $data['enabled'] = $currentUser['enabled'];
+                var_dump($data);
+
+
+                //Rellenar los campos vacíos
+                if($data['name'] === ''){
+                    $data['name'] = $currentUser['name'];
+                }
+                if($data['email'] === ''){
+                    $data['email'] = $currentUser['email'];
+                }
+                if($data['birthdate'] === ''){
+                    $data['birthdate'] = $currentUser['birthdate'];
+                }
+                if($data['phonenumber'] === ''){
+                    $data['phonenumber'] = $currentUser['phonenumber'];
+                }
 
                 //Validamos los campos y guardamos los errores
                 $regController = new RegController($this->container);
@@ -110,20 +132,16 @@ final class ProfileController
                 $uploadedFiles = $request->getUploadedFiles();
                 $name = $uploadedFiles['profile']->getClientFilename();
                 $fileInfo = pathinfo($name);
-
                 $format = $fileInfo['extension'];
 
                 if(empty($uploadedFiles['profile']->getClientFilename())){
-
-                    $data['profile'] = 'defaultProfile.png';
+                    $data['profile'] = $currentUser['profileimage'];
                 }else{
-
                     $data['profile'] = $data['username'].'.'.$format;
                 }
 
                 if(empty($errors)){
                     $user = new User(
-                        $id,
                         $data['name'],
                         $data['username'],
                         $data['email'],
@@ -132,12 +150,12 @@ final class ProfileController
                         $data['password'],
                         $data['profile'],
                         1,
-                        1,
+                        0,
                         new DateTime(),
                         new DateTime()
                     );
 
-                    $repository->update($user);
+                    $repository->update($user, $id);
 
 
                 }else {

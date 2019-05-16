@@ -93,8 +93,6 @@ class RegController
                 $data['profile'] = $data['username'].'.'.$format;
             }
 
-
-
             if(empty($errors)){
                 //Como la seda
                 $user = new User(
@@ -117,9 +115,6 @@ class RegController
 
                 throw new \Exception('The validation went wrong');
             }
-
-
-
 
         } catch (\Exception $e) {
 
@@ -190,8 +185,6 @@ class RegController
                 }
             }
         }
-
-
 
 
         //EMAIL
@@ -266,23 +259,17 @@ class RegController
 
 
         $uploadedFiles = $request->getUploadedFiles();
-
-
-
         $aux = $uploadedFiles['profile']->getClientFilename();
 
         if ($aux !== ""){
 
-
             $temp= $this->imageChecking($uploadedFiles['profile'], $data['username']);
-
 
             if(isset($temp)){
                 $errors['profile_image'] = $temp;
             }
 
         }
-
 
         return $errors;
     }
