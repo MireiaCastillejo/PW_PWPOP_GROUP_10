@@ -15,16 +15,20 @@ CREATE TABLE user (
                     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS product CASCADE;
 CREATE TABLE product(
 
                       id  int(11) unsigned NOT NULL AUTO_INCREMENT,
-                      id_user int unsigned NOT NULL,
+                      userid int(11) unsigned NOT NULL ,
                       title varchar(255) NOT NULL DEFAULT '',
                       description varchar(255) NOT NULL DEFAULT '',
                       price DECIMAL(10,2) UNSIGNED  DEFAULT 0,
                       product_image varchar(255) NOT NULL DEFAULT '',
                       category varchar(255) NOT NULL DEFAULT '',
                       isActive boolean NOT NULL DEFAULT 1,
+                      isFav boolean NOT NULL DEFAULT 0,
+                      isSold boolean NOT NULL DEFAULT 0,
                       PRIMARY KEY (`id`),
-                      FOREIGN KEY (`id_user`) REFERENCES  user(`id`)
+                      FOREIGN KEY (`userid`) REFERENCES user(`id`)
+
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;

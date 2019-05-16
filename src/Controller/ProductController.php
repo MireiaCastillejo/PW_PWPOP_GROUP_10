@@ -75,14 +75,14 @@ final class ProductController
                 /** @var UploadedFileInterface $uploadedFile */
                 foreach ($uploadedFiles['files'] as $uploadedFile) {
 
-
                    $name=$uploadedFile->getClientFilename();
                    if($i==0){
-                       $names=$name.'/';
+                       $names=$name;
+
                    }else{
-                       $names=$names.$name;
+                      $names=$names.'/'.$name;
                    }
-                 //  $names=$name.'/'.$names;
+
 
                     $i++;
 
@@ -169,8 +169,6 @@ final class ProductController
                 $name = $uploadedFile->getClientFilename();
 
                 if ($name !== "") {
-
-
 
                     if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
 

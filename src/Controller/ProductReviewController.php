@@ -30,7 +30,13 @@ final class ProductReviewController
     {
         // session_start();
         //$id = (int)$id['id'];
-        $this->container->get('view')->render($response, 'product_review.twig', ['sesion'=>$_SESSION['user_id']]);
+        if ( isset( $_SESSION['user_id'] ) ) {
+            $this->container->get('view')->render($response, 'product_review.twig', ['sesion' => $_SESSION['user_id']]);
+        }else{
+            $error[]="UN 403";
+            $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
+            return $response->withStatus(403);
+        }
 
     }
 

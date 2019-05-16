@@ -25,10 +25,14 @@ final class ProfileController
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        //session_start();
-
-        $this->container->get('view')->render($response, 'profile.twig', ['sesion'=>$_SESSION['user_id']]);
-
+       // session_start();
+        if ( isset( $_SESSION['user_id'] ) ) {
+            $this->container->get('view')->render($response, 'profile.twig', ['sesion' => $_SESSION['user_id']]);
+        }else{
+            $error[]="ERROR 403 NO PUEDE ACCEDER SIN HACER LOGIN";
+            $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
+            return $response->withStatus(403);
+        }
     }
 
     /**
@@ -49,7 +53,6 @@ final class ProfileController
                 /** @var PDORepository $repository */
                 $repository = $this->container->get('user_repo');
                 $id=(int)$_SESSION['user_id'];
-
                 $data = $repository->getData($id);
 
                 if (!isset($data['username'])) {

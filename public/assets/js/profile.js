@@ -82,12 +82,14 @@ $(document).ready(function(){
 
             if (isvalid) {
 
-                form.submit();
-            }else{
-                e.preventDefault();
-            }
-        });
+            form.submit();
+        }else{
+            e.preventDefault();
+        }
     });
+
+
+   // loadData();
 });
 
 function loadData() {
@@ -138,6 +140,7 @@ function deleteAccount() {
     console.log("user delete = " + user);
 
     $.ajax({
+
         async : true,
         type : 'get',
         url: '/update',
