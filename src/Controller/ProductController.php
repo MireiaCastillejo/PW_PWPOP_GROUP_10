@@ -19,7 +19,7 @@ use Psr\Http\Message\UploadedFileInterface;
 final class ProductController
 {
 
-    private const UPLOADS_DIR = __DIR__ . '/../../public/uploads';
+    private const UPLOADS_DIR = __DIR__ . '/../../public/uploads/products';
 
     private const UNEXPECTED_ERROR = "An unexpected error occurred uploading the file '%s'...";
 
@@ -71,21 +71,34 @@ final class ProductController
                 //Validamos los campos y guardamos los errores
                 $errors = $this->validate($data, $request, $response);
 
-                if (empty($data['product_image'])) {
-                    $data['product_image'] = 'defaultProfile.png';
+
+
+
+                $uploadedFiles = $request->getUploadedFiles();
+                $names ="";
+                $i=0;
+                /** @var UploadedFileInterface $uploadedFile */
+                foreach ($uploadedFiles['files'] as $uploadedFile) {
+
+
+                   $name=$uploadedFile->getClientFilename();
+                   if($i==0){
+                       $names=$name.'/';
+                   }else{
+                       $names=$names.$name;
+                   }
+                 //  $names=$name.'/'.$names;
+
+                    $i++;
+
                 }
-                 $uploadedFiles = $request->getUploadedFiles();
-                 $name = $uploadedFiles['product_image']->getClientFilename();
-
-                 $fileInfo = pathinfo($name);
-
-                 $format = $fileInfo['extension'];
-                     $data['product_image'] = $data['title'].'.'.$format;
-
-
-
+                $data['product_image'] = $names;
+                //$names=$name."/";
+               // var_dump( $names);
+                //echo $data['product_image'];
 
                 if (empty($errors)) {
+
 
                     $product = new Product(
                         $_SESSION['user_id'],
@@ -115,7 +128,7 @@ final class ProductController
 
         $products = $repository->get();
 
-        $this->container->get('view')->render($response, 'loggeduser.twig', ['products' => $products,'sesion'=>$_SESSION['user_id']]);
+       $this->container->get('view')->render($response, 'loggeduser.twig', ['products' => $products,'sesion'=>$_SESSION['user_id']]);
 
         return $response->withStatus(201);
 
@@ -154,17 +167,56 @@ final class ProductController
 
 
         }
-
-
-
         $uploadedFiles = $request->getUploadedFiles();
 
 
+            foreach ($uploadedFiles['files'] as $uploadedFile) {
+                $name = $uploadedFile->getClientFilename();
 
-        $aux = $uploadedFiles['product_image']->getClientFilename();
+                if ($name !== "") {
 
 
-        if ($aux !== ""){
+
+                    if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
+
+                        $errors[] = sprintf(self::UNEXPECTED_ERROR, $uploadedFile->getClientFilename());
+                        return $errors;
+                    }
+
+                    $name = $uploadedFile->getClientFilename();
+                    $size = $uploadedFile->getSize();
+                    $fileInfo = pathinfo($name);
+
+                    $format = $fileInfo['extension'];
+
+
+                    if (!$this->isValidFormat($format)) {
+                        $errors[] = sprintf(self::INVALID_EXTENSION_ERROR, $format);
+
+                    }
+                    if ($size > 1000000) {
+                        $errors[] = "Choosen image must not exceed 1Mb";
+
+                    }
+
+                    // We generate a custom name here instead of using the one coming form the form
+                   // $uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR. $data['title'] . "." . $format);
+
+                    $uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $name);
+                    if (isset($temp)) {
+                        $errors['product_image'] = $temp;
+                    }
+                }
+            }
+        //}
+        //$uploadedFiles = $request->getUploadedFiles();
+
+
+
+        //$aux = $uploadedFiles['product_image']->getClientFilename();
+
+
+       /* if ($aux !== ""){
 
 
             $temp= $this->imageChecking($uploadedFiles['product_image'], $data['title']);
@@ -174,7 +226,7 @@ final class ProductController
                 $errors['product_image'] = $temp;
             }
 
-        }
+        }*/
 
         //CONFIRM Category
         if (empty($data['category'])) {
@@ -188,31 +240,37 @@ final class ProductController
     private function imageChecking(UploadedFileInterface $file, String $title) {
 
 
-        if ($file->getError() !== UPLOAD_ERR_OK) {
 
-            $errors[] = sprintf(self::UNEXPECTED_ERROR, $file->getClientFilename());
-            return $errors;
-        }
+        $errors = [];
 
-        $name = $file->getClientFilename();
-        $size = $file->getSize();
-        $fileInfo = pathinfo($name);
+        /** @var UploadedFileInterface $uploadedFile */
+        //foreach ($uploadedFiles['files'] as $uploadedFile) {
+            if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
 
-        $format = $fileInfo['extension'];
+                $errors[] = sprintf(self::UNEXPECTED_ERROR, $uploadedFile->getClientFilename());
+              return $errors;
+            }
 
-        if (!$this->isValidFormat($format)) {
-            $errors[] = sprintf(self::INVALID_EXTENSION_ERROR, $format);
-            return $errors;
-        }
+            $name = $uploadedFile->getClientFilename();
+            $size = $file->getSize();
+            $fileInfo = pathinfo($name);
 
-        if ($size > 1000000) {
-            $errors[] = "Choosen image must not exceed 1Mb";
-            return $errors;
-        }
+            $format = $fileInfo['extension'];
 
 
-        // We generate a custom name here instead of using the one coming form the form
-        $file->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $title . "." . $format);
+            if (!$this->isValidFormat($format)) {
+                $errors[] = sprintf(self::INVALID_EXTENSION_ERROR, $format);
+                return $errors;
+            }
+            if ($size > 1000000) {
+                $errors[] = "Choosen image must not exceed 1Mb";
+                return $errors;
+            }
+
+            // We generate a custom name here instead of using the one coming form the form
+            //$uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR. $title . "." . format);
+        $uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $name);
+      //  }
 
 
 
@@ -221,6 +279,9 @@ final class ProductController
     private function isValidFormat(string $extension ): bool {
         return in_array($extension, self::ALLOWED_EXTENSIONS, true);
     }
+
+
+
 
 
 }

@@ -6,120 +6,88 @@ $(document).ready(function(){
         console.log("modal abierto");
     });
 
+    $("#deleteButtonConfirm").click(function() {
+        console.log("confirmar borrar");
+        deleteAccount();
+    });
+
     $("#updateButton").click(function() {
         //$("#updateModal").modal({show: true});
         console.log("update modal abierto");
         console.log(window.userData['res']['username']);
 
-    });
+        var validator = $('#updateForm');
+        validator.validate({
+            // Specify validation rules
 
-    $("#deleteButtonConfirm").click(function() {
-        console.log("confirmar borrar");
-
-        deleteAccount();
-
-    });
-
-    var validator = $('#updateForm');
-
-    /*if(validator.name.value.length == 0){
-        validator.name = window.userData['res']['name'];
-    }
-    if(validator.email.value.length == 0){
-        validator.email = window.userData['res']['email'];
-    }
-    if(validator.birthdate.value.length == 0){
-        validator.name = window.userData['res']['birthdate'];
-    }
-    if(validator.phonenumber.value.length == 0){
-        validator.phonenumber = window.userData['res']['phonenumber'];
-    }
-    if(validator.profile.value.length == 0){
-        validator.profile = window.userData['res']['profile'];
-    }
-    */
-    validator.validate({
-        // Specify validation rules
-
-        rules: {
-            // The key name on the left side is the name attribute
-            // of an input field. Validation rules are defined
-            // on the right side
-            name: {
-                alphanumeric: true
+            rules: {
+                // The key name on the left side is the name attribute
+                // of an input field. Validation rules are defined
+                // on the right side
+                name: {
+                    alphanumeric: true
+                },
+                email: {
+                    email: true
+                },
+                birthdate:{
+                    date: true,
+                },
+                phonenumber:{
+                    pattern: /[0-9]{3}[ ][0-9]{3}[ ][0-9]{3}/,
+                    minlength : 9,
+                },
+                password:{
+                    required: true,
+                    minlength: 6
+                },
+                c_password:{
+                    required: true,
+                    equalTo: $('input[name=password]'),
+                }
             },
-            email: {
-                email: true
+            // Specify validation error messages
+            messages: {
+                name: {
+                    alphanumeric: "Only letters and numbers*",
+                },
+                email: {
+                    email: "Please enter a valid email*",
+                },
+                date: {
+                    date:"Please enter a valid date*",
+                },
+                phonenumber: {
+                    pattern: "Please follow the format xxx xxx xxx, only numbers*",
+                    minlength:"Minimum length of 9 characters*"
+                },
+                password: {
+                    required: "This field is required*",
+                    minlength: "Password must be at least 6 characters*",
+                },
+                c_password: {
+                    required: "This field is required*",
+                    equalTo: "Password doesn't match*",
+                },
             },
-            birthdate:{
-                date: true,
+            errorClass:"invalid",
+            //Funcion para mostrar el error
+            errorPlacement: function(error, element) {
+                element.before(error);
             },
-            phonenumber:{
-                pattern: /[0-9]{3}[ ][0-9]{3}[ ][0-9]{3}/,
-                minlength : 9,
-            },
-            password:{
-                required: true,
-                minlength: 6
-            },
-            c_password:{
-                required: true,
-                equalTo: $('input[name=password]'),
+        });
+
+        validator.on('submit', function(e) {
+            var isvalid = validator.valid();
+
+            if (isvalid) {
+
+                form.submit();
+            }else{
+                e.preventDefault();
             }
-        },
-        // Specify validation error messages
-        messages: {
-            name: {
-                alphanumeric: "Only letters and numbers*",
-            },
-            email: {
-                email: "Please enter a valid email*",
-            },
-            date: {
-                date:"Please enter a valid date*",
-            },
-            phonenumber: {
-                pattern: "Please follow the format xxx xxx xxx, only numbers*",
-                minlength:"Minimum length of 9 characters*"
-            },
-            password: {
-                required: "This field is required*",
-                minlength: "Password must be at least 6 characters*",
-            },
-            c_password: {
-                required: "This field is required*",
-                equalTo: "Password doesn't match*",
-            },
-        },
-        errorClass:"invalid",
-        //Funcion para mostrar el error
-        errorPlacement: function(error, element) {
-            element.before(error);
-        },
-
-        // Make sure the form is submitted to the destination defined
-        // in the "action" attribute of the form when valid
-
+        });
     });
-
-    /*if(document.getElementById("newName").value.length == 0){
-        console.log("empty user name update");
-        document.getElementById("newName").value = window.userData['res']['name'];
-    }*/
-
-    validator.on('submit', function(e) {
-        var isvalid = validator.valid();
-
-        if (isvalid) {
-
-            form.submit();
-        }else{
-            e.preventDefault();
-        }
-    });
-
-
-    loadData();
 });
 
 function loadData() {
@@ -133,7 +101,7 @@ function loadData() {
         statusCode: {
             200: function (data) {
 
-                console.log("loadData");
+                console.log("loadData from user");
                 window.userData = data;
                 console.log(window.userData);
                 date = data['res']['birthdate'];
@@ -167,10 +135,9 @@ function loadData() {
 
 function deleteAccount() {
 
-    console.log(user);
+    console.log("user delete = " + user);
 
     $.ajax({
-
         async : true,
         type : 'get',
         url: '/update',
@@ -191,4 +158,9 @@ function deleteAccount() {
             }
         }
     });
+}
+
+window.onload = function(){
+
+    loadData();
 }

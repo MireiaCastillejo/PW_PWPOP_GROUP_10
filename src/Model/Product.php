@@ -20,6 +20,7 @@ class Product
     private $category;
     private $isActive;
     private $isFav;
+    private $isSold;
 
     /**
      * Product constructor.
@@ -40,6 +41,22 @@ class Product
         $this->product_image = $product_image;
         $this->category = $category;
         $this->isActive = $isActive;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getisSold()
+    {
+        return $this->isSold;
+    }
+
+    /**
+     * @param mixed $isSold
+     */
+    public function setIsSold($isSold): void
+    {
+        $this->isSold = $isSold;
     }
 
 

@@ -9,17 +9,19 @@
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js" ></script>
     <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
     <script src="{{ base_url() }}/assets/js/homepage.js"></script>
-    <script src="{{ base_url() }}/assets/js/profile.js"></script>
+    <script src="{{ base_url() }}/assets/js/product.js"></script>
 {% endblock %}
 
 {% block title %}
-    Profile
+    Product Review
 {% endblock %}
 
 {% block navbar %}{% endblock %}
 
 {% block buttons %}
+
     {{ parent() }}
+
 {% endblock %}
 
 {% block modal %}
@@ -70,6 +72,8 @@
         </div>
     </div>
 
+
+
     <div class="modal fade" id="deleteModal" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -93,6 +97,8 @@
             </div>
         </div>
     </div>
+
+
 
     <div class="modal fade" id="updateModal" role="dialog" tabindex="-1">
         <div class="modal-dialog">
@@ -188,7 +194,7 @@
 {% endblock %}
 
 {% block header %}
-    <h1>User Profile</h1>
+    <h1>Product review </h1>
 {% endblock %}
 
 
@@ -198,36 +204,32 @@
     <div class="row" id="profileData">
 
         <div class="col-md-5">
-            <img src="" id="profileImage">
         </div>
 
         <div class="col-md-2" >
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Name</li>
-                <li class="list-group-item">Username</li>
-                <li class="list-group-item">Email</li>
-                <li class="list-group-item">Password</li>
-                <li class="list-group-item">Birthdate</li>
-                <li class="list-group-item">Phone Number</li>
+                <li class="list-group-item">Title</li>
+                <li class="list-group-item">Description</li>
+                <li class="list-group-item">Price</li>
+                <li class="list-group-item">Category</li>
+
             </ul>
         </div>
 
         <div class="col-md-3">
             <ul class="list-group list-group-flush">
-                <li class="list-group-item" id="userName">Name</li>
-                <li class="list-group-item disabled" id="username">username</li>
-                <li class="list-group-item" id="userEmail">Email</li>
-                <li class="list-group-item">********</li>
-                <li class="list-group-item" id="userBirth">YYYY-MM-DD</li>
-                <li class="list-group-item" id="userPhone">Phone Number</li>
+                <li class="list-group-item" id="title">JAMON</li>
+                <li class="list-group-item disabled" id="description">DESCRIPTION</li>
+                <li class="list-group-item" id="price">PRICE</li>
+                <li class="list-group-item" id="category">FASHION</li>
             </ul>
         </div>
         <div class="col-md-1"></div>
     </div>
 
     <div id="profileButtons">
-        <button type="button" class="btn btn-link" id="updateButton" data-toggle="modal" data-target="#updateModal">Update Info</button>
-        <button type="button" class="btn btn-link" id="deleteButton" data-toggle="modal" data-target="#deleteModal">Delete Account</button>
+        <button type="button" class="btn btn-link" id="updateButton" data-toggle="modal" data-target="#updateModal">Update Info of the producT</button>
+        <button type="button" class="btn btn-link" id="deleteButton" data-toggle="modal" data-target="#deleteModal">Delete product</button>
 
     </div>
 

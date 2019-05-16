@@ -23,8 +23,6 @@ final class PDORepository implements UserRepositoryInterface
     public function save(User $user)
     {
 
-        echo '<script>console.log("inside save PDORepo")</script>';
-
         $statement = $this->database->getConnection()->prepare(
             "INSERT into user(name, username, email, birthdate, phonenumber, password, profileimage, is_active, enabled, created_at, updated_at) 
                         values(:name, :username, :email,:birthdate,:phonenumber, :password, :profileimage,  :is_active, :enabled, :created_at, :updated_at)"
@@ -79,6 +77,7 @@ final class PDORepository implements UserRepositoryInterface
                 "birthdate" => $res['birthdate'],
                 "phonenumber" => $res['phonenumber'],
                 "profileimage" => $res['profileimage'],
+                "enabled" => $res['enabled'],
             ];
         }else{
             return [];
@@ -86,12 +85,12 @@ final class PDORepository implements UserRepositoryInterface
 
     }
 
-    public function update(User $user){
+    public function update(User $user, int $id_user){
 
         $statement = $this->database->getConnection()->prepare(
-            "UPDATE user SET name = :name, email = :email, birthdate = :birthdate, phonenumber = :phonenumber, password = :password, profileimage = :profileimage, updated_at = :updated_at
-                      WHERE username = :username;"
-        );
+            "UPDATE user SET name = :name, email = :email, birthdate = :birthdate, phonenumber = :phonenumber, 
+                      password = :password, profileimage = :profileimage, updated_at = :updated_at 
+                      WHERE id = :id;");
 
         $name = $user->getName();
         $username = $user->getUserName();
@@ -103,14 +102,15 @@ final class PDORepository implements UserRepositoryInterface
         $updatedAt = date('Y-m-d H:i:s');
 
         $statement->bindParam('name', $name, PDO::PARAM_STR);
-        $statement->bindParam('username', $username, PDO::PARAM_STR);
         $statement->bindParam('email', $email, PDO::PARAM_STR);
         $statement->bindParam('birthdate', $birthdate, PDO::PARAM_STR);
         $statement->bindParam('phonenumber', $phonenumber, PDO::PARAM_STR);
         $statement->bindParam('password', $password, PDO::PARAM_STR);
         $statement->bindParam('profileimage', $profileimage, PDO::PARAM_STR);
         $statement->bindParam('updated_at', $updatedAt, PDO::PARAM_STR);
+        $statement->bindParam('id', $id_user, PDO::PARAM_STR);
 
+        var_dump($statement);
         $statement->execute();
     }
 
@@ -304,6 +304,17 @@ final class PDORepository implements UserRepositoryInterface
        $statement->execute();
        $id=$statement->fetch();
         return $id;
+    }
+
+    public function getUsername(int $id){
+        $statement = $this->database->getConnection()->prepare(
+            "SELECT username FROM user WHERE id=:id"
+        );
+        $statement->bindParam('id', $id, PDO::PARAM_STR);
+
+        $statement->execute();
+        $username=$statement->fetch();
+        return $username;
     }
 
     public function getisActive(bool $ismail,string $param){

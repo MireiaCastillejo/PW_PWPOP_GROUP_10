@@ -11,7 +11,6 @@ namespace SallePW\SlimApp\Model;
 
 class User
 {
-
     private $name;
     private $username;
     private $email;
@@ -23,8 +22,6 @@ class User
     private $enabled;
     private $createdat;
     private $updatedat;
-
-
 
     /**
      * User constructor.

@@ -1,18 +1,21 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: universidad
+ * Date: 2019-05-16
+ * Time: 20:33
+ */
 
 namespace SallePW\SlimApp\Controller;
-
 
 use Psr\Container\ContainerInterface;
 use SallePW\SlimApp\Model\Database\PDORepository;
 use SallePW\SlimApp\Model\User;
-use SallePW\SlimApp\Model\UserRepositoryInterface;
-use SallePW\SlimApp\Controller\RegController;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use DateTime;
 
-final class ProfileController
+final class ProductReviewController
 {
 
     protected $container;
@@ -23,41 +26,30 @@ final class ProfileController
 
     }
 
-    public function __invoke(Request $request, Response $response, array $args)
+    public function __invoke(Request $request, Response $response)
     {
-        //session_start();
-        $repository_u = $this->container->get('user_repo');
-        $enabled = $repository_u->checkEnabled();
-
-
-
-        $this->container->get('view')->render($response, 'profile.twig', ['sesion'=>$_SESSION['user_id'], 'enabled' => $enabled]);
+        // session_start();
+        //$id = (int)$id['id'];
+        $this->container->get('view')->render($response, 'product_review.twig', ['sesion'=>$_SESSION['user_id']]);
 
     }
 
-    /**
-     * @param Request $request
-     * @param Response $response
-     * @return Response
-     */
-    public function getUserData(Request $request, Response $response)
+    public function getProductData(Request $request, Response $response, $id): Response
+
     {
 
-
         try {
-            //write($response);
-            //session_start();
+
 
             if ( isset( $_SESSION['user_id'] ) ) {
-                //var_dump("33");
 
                 /** @var PDORepository $repository */
-                $repository = $this->container->get('user_repo');
-                $id=(int)$_SESSION['user_id'];
+                $repository = $this->container->get('product_repo');
+                $id=$id['id'];
+
 
                 $data = $repository->getData($id);
-
-                if (!isset($data['username'])) {
+                if (!isset($data['title'])) {
 
                     $response = $response
                         ->withStatus(404)
@@ -68,6 +60,7 @@ final class ProfileController
                         ->withStatus(200)
                         ->write(json_encode(["message" => "correcto", "res" => $data]));
 
+
                 }
             }
         } catch (\Exception $e) {
@@ -76,7 +69,12 @@ final class ProfileController
                 ->write(json_encode(["message"=>"nope", "res"=>$e]));
 
         }
+
+
         return $response;
+
+
+
     }
 
     /**
@@ -97,33 +95,11 @@ final class ProfileController
 
                 $id=(int)$_SESSION['user_id'];
 
-                //add user id to data array
-                $data['user-id']=$id;
+                //add username to data array
+                $data['username']='user1';
 
                 /** @var PDORepository $repository * */
                 $repository = $this->container->get('user_repo');
-                $currentUser = $repository->getData($_SESSION['user_id']);
-
-                var_dump($currentUser);
-
-                $data['username'] = $currentUser['username'];
-                $data['enabled'] = $currentUser['enabled'];
-                var_dump($data);
-
-
-                //Rellenar los campos vacíos
-                if($data['name'] === ''){
-                    $data['name'] = $currentUser['name'];
-                }
-                if($data['email'] === ''){
-                    $data['email'] = $currentUser['email'];
-                }
-                if($data['birthdate'] === ''){
-                    $data['birthdate'] = $currentUser['birthdate'];
-                }
-                if($data['phonenumber'] === ''){
-                    $data['phonenumber'] = $currentUser['phonenumber'];
-                }
 
                 //Validamos los campos y guardamos los errores
                 $regController = new RegController($this->container);
@@ -137,16 +113,20 @@ final class ProfileController
                 $uploadedFiles = $request->getUploadedFiles();
                 $name = $uploadedFiles['profile']->getClientFilename();
                 $fileInfo = pathinfo($name);
+
                 $format = $fileInfo['extension'];
 
                 if(empty($uploadedFiles['profile']->getClientFilename())){
-                    $data['profile'] = $currentUser['profileimage'];
+
+                    $data['profile'] = 'defaultProfile.png';
                 }else{
+
                     $data['profile'] = $data['username'].'.'.$format;
                 }
 
                 if(empty($errors)){
                     $user = new User(
+                        $id,
                         $data['name'],
                         $data['username'],
                         $data['email'],
@@ -155,12 +135,12 @@ final class ProfileController
                         $data['password'],
                         $data['profile'],
                         1,
-                        0,
+                        1,
                         new DateTime(),
                         new DateTime()
                     );
 
-                    $repository->update($user, $id);
+                    $repository->update($user);
 
 
                 }else {

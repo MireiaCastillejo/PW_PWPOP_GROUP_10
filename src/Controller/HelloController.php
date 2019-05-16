@@ -105,12 +105,37 @@ final class HelloController
             $response->getBody()->write('Unexpected error: ' . $e->getMessage());
 
             $this->container->get('view')->render($response, 'error.twig', []);
-            return $response->withStatus(500);
+            return $response->withStatus(400);
         }
 
         $this->__invoke($request, $response);
+        header('Location:/');
         return $response->withStatus(201);
 
 
     }
+
+    public function buyProduct(Request $request, Response $response, $ide):Response{
+        try {
+            //Pasamos a entero la array
+            $id = (int)$ide['id'];
+
+            $repository = $this->container->get('product_repo');
+
+            $repository->buy($id);
+
+
+        } catch (\Exception $e) {
+
+            $response->getBody()->write('Unexpected error: ' . $e->getMessage());
+
+            $this->container->get('view')->render($response, 'error.twig', []);
+            return $response->withStatus(400);
+        }
+
+        $this->__invoke($request, $response);
+        return $response->withStatus(201);
+    }
+
+
 }

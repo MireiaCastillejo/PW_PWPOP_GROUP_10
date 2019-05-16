@@ -9,7 +9,6 @@ function loadData() {
         statusCode: {
             200: function (data) {
 
-                console.log(window.userData);
                 date = data['res']['birthdate'];
                 d = date.split(" ");
                 birthdate = d[0];

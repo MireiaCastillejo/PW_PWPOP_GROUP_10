@@ -9,6 +9,7 @@ use SallePW\SlimApp\Controller\UserController;
 use SallePW\SlimApp\Controller\ProductController;
 use SallePW\SlimApp\Controller\LogController;
 use SallePW\SlimApp\Controller\FavouriteController;
+use SallePW\SlimApp\Controller\ProductReviewController;
 use SallePW\SlimApp\Model\Email;
 
 
@@ -22,6 +23,8 @@ $app->get('/logout', SessionMiddleware::class.':terminate');
 $app->post('/{id:\d+}', HelloController::class . ':likeProduct')
     ->setName("updateproduct");
 
+$app->post('/buy{id:\d+}', HelloController::class .':buyProduct')
+    ->setName("buyProduct");
 
 //La pagina de registro
 $app->get('/register', RegController::class);
@@ -80,5 +83,12 @@ $app
     ->setName('login');
 
 
+//$app
+  //  ->get('/p', ProductReviewController::class);
 
+$app
+    ->get('/product_review{id:\d+}', ProductReviewController::class. ':getProductData');
+
+
+//$app->add(SessionMiddleware::class);
 

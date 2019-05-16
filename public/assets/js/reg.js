@@ -1,13 +1,8 @@
-
-
 $(document).ready(function(){
-
-
 
     var validator = $('#form');
     validator.validate({
         // Specify validation rules
-
 
         rules: {
             // The key name on the left side is the name attribute
@@ -45,8 +40,6 @@ $(document).ready(function(){
                 equalTo: $('input[name=password]'),
 
             }
-
-
         },
         // Specify validation error messages
         messages: {
@@ -101,5 +94,4 @@ $(document).ready(function(){
             //alert(getvalues("myform"));
         }
     });
-
 });

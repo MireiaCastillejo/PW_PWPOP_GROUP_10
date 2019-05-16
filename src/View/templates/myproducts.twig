@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block scripts %}
+    {{ parent() }}
     <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
     <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
@@ -17,6 +18,16 @@
 
 {% block title %}
     Upload product
+{% endblock %}
+
+{% block buttons %}
+<div class="col-md-1 text-right">
+    <a onclick="location.href = '/profile'">
+        <img src="{{ base_url() }}/uploads/defaultProfile.png" id="profileImageLink">
+    </a>
+</div>
+
+{{ parent() }}
 {% endblock %}
 
 {% block header %}
@@ -37,13 +48,11 @@
                         <div class="col-md-4">
 
                             <div class="card mb-4 shadow-sm">
+                                <a title="ejemplo" href="/product_review{{ product.id }}">
 
-                                <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                                     xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false"
-                                     role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title>
-                                    <rect width="100%" height="100%" fill="#55595c"></rect>
-                                    <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-                                </svg>
+                                {% set foo =product.product_image|split('/') %}
+                                <img src="/uploads/products/{{ foo[0] }}" id="fotoprod" >
+                                </a>
 
                                 <div class="card-body">
 

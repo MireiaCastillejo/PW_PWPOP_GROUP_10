@@ -3,7 +3,12 @@ $(document).ready(function(){
         $("#searchModal").modal({show: true});
     });
 
-
+    $('.carousel').carousel({
+        interval: false
+    });
+    $('.carousel1').carousel({
+        interval: false
+    });
 
     $("#loadMore").on('click', function (e) {
         e.preventDefault();
@@ -16,13 +21,10 @@ $(document).ready(function(){
 
 function logout(data){
 
-    location.href ="/logout";
+location.href ="/logout";
 }
 
-function moreproducts(data){
 
-console.log(data['title'])
-}
 var valor = true
 
 function like(id) {
@@ -37,6 +39,20 @@ function like(id) {
 
     document.body.appendChild(form);
   form.submit();
+
+
+
+}
+
+function buy(id) {
+
+    var form = document.createElement('form');
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', "/buy"+id);
+    form.setAttribute("asyn",true);
+
+    document.body.appendChild(form);
+    form.submit();
 
 
 

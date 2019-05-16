@@ -74,6 +74,39 @@ final class PDORepositoryProd implements ProductRepositoryInterface
     }
 
 
+    public function buy(int $id){
+        $statement = $this->database->getConnection()->prepare(
+            'update product set isSold =1 where id =:id');
+        $statement->bindParam('id', $id, PDO::PARAM_INT);
+        $statement->execute();
+
+    }
 
 
+    public function getData(int $id){
+        $statement = $this->database->getConnection()->prepare(
+            "SELECT * FROM product WHERE id = :id;"
+        );
+
+        $statement->bindParam('id', $id, PDO::PARAM_INT);
+
+        $statement->execute();
+        $res = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if($res != null){
+
+            return[
+                "title" => $res['title'],
+                "description" => $res['description'],
+                "price" => $res['price'],
+                "product_image" => $res['product_image'],
+                "category" => $res['category'],
+
+            ];
+        }else{
+            return [];
+        }
+
+
+    }
 }
