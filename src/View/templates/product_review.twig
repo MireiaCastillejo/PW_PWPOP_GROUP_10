@@ -1,0 +1,241 @@
+{% extends "baseLogged.twig" %}
+
+{% block styles %}
+    {{ parent() }}
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js" ></script>
+    <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+    <script src="{{ base_url() }}/assets/js/homepage.js"></script>
+    <script src="{{ base_url() }}/assets/js/product.js"></script>
+{% endblock %}
+
+{% block title %}
+    Product Review
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block buttons %}
+
+    {{ parent() }}
+
+{% endblock %}
+
+{% block modal %}
+    <div class="modal fade" id="searchModal" role="dialog" tabindex="-5">
+        <div class="modal-dialog" >
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Search your product</h5>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="TitleInput">Title</label>
+                            <input type="text" class="form-control" id="TitleInput" placeholder="Title">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="TitleInput">Select your product:</label>
+                            <div class="dropdown">
+                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Products
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="#">Tecnología</a>
+                                    <a class="dropdown-item" href="#">Ropa</a>
+                                    <a class="dropdown-item" href="#">Juguetes</a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Min">Min</label>
+                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01" placeholder="MIN"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="Max">Max</label>
+                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01" placeholder="MAX"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="deleteModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Delete account</h4>
+                </div>
+
+                <div class="modal-body">
+                    <label>Are you sure you want to delete your account?</label>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                    <button type="submit" class="btn btn-danger" id="deleteButtonConfirm">Delete</button>
+                    <form id="form" class="form_content" action="{{ path_for('update') }}" method="POST" enctype="multipart/form-data">
+
+                        <input type="submit" name="delete" id="delete" value="Delete" /><br/>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="updateModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4>Update Data</h4>
+                </div>
+
+                <div class="modal-body">
+                    <form id="form" action="{{ path_for('update-info') }}" method="POST" enctype="multipart/form-data" >
+                        <div class="form-group">
+                            <label for="validationName" class="formlabel">Name</label>
+
+                            <input type="text" name="name" class="form-control" id="newName" placeholder="">
+                            <div class="invalid">
+                                {% if errors is defined %}
+                                    {{ errors['name'] }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="validationMail" class="formlabel">Email</label>
+
+                            <input type="text" name="email" class="form-control" id="newEmail" placeholder="">
+                            <div class="invalid">
+                                {% if errors is defined %}
+                                    {{ errors['email'] }}
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationBirthdate">Birthdate</label>
+                                <input type="date" name="birthdate" class="form-control" id="newBirth" placeholder="">
+                                <div class="invalid">
+                                    {% if errors is defined %}
+                                        {{ errors['birthdate'] }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationPhone">Phone number</label>
+                                <input type="text" name="phonenumber" class="form-control" id="newPhone" placeholder="">
+                                <div class="invalid">
+                                    {% if errors is defined %}
+                                        {{ errors['phonenumber'] }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="validationPassword">Password</label>
+                                <input type="password" name="password" class="form-control" id="newPassword" placeholder="********">
+                                <div class="invalid">
+                                    {% if errors is defined %}
+                                        {{ errors['password'] }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="validationPassword2">Confirm password</label>
+                                <input type="password" name="c_password" class="form-control" id="newPassword2" placeholder="********">
+                                <div class="invalid">
+                                    {% if errors is defined %}
+                                        {{ errors['c_password'] }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="validationImage">Profile image</label>
+                            <input type="file" name="profile" class="form-control" id="newImage">
+                            <div class="invalid">
+                                {% if errors is defined %}
+                                    {{ errors['profile'] }}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block header %}
+    <h1>Product review </h1>
+{% endblock %}
+
+
+{% block content %}
+    <!--<div class="row" style="margin: 0;padding: 0;width: 100%;">-->
+
+    <div class="row" id="profileData">
+
+        <div class="col-md-5">
+        </div>
+
+        <div class="col-md-2" >
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Title</li>
+                <li class="list-group-item">Description</li>
+                <li class="list-group-item">Price</li>
+                <li class="list-group-item">Category</li>
+
+            </ul>
+        </div>
+
+        <div class="col-md-3">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" id="title">JAMON</li>
+                <li class="list-group-item disabled" id="description">DESCRIPTION</li>
+                <li class="list-group-item" id="price">PRICE</li>
+                <li class="list-group-item" id="category">FASHION</li>
+            </ul>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+    <div id="profileButtons">
+        <button type="button" class="btn btn-link" id="updateButton" data-toggle="modal" data-target="#updateModal">Update Info of the producT</button>
+        <button type="button" class="btn btn-link" id="deleteButton" data-toggle="modal" data-target="#deleteModal">Delete product</button>
+
+    </div>
+
+
+{% endblock %}
+
+
+{% block footer %}
+{% endblock %}

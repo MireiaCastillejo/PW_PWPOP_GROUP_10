@@ -62,10 +62,8 @@ h1{
 }
 
 #fotoprod{
-    max-height: 250px;
-    max-width: 250px;
-    border-radius: 50%;
     width: 100%;
+    height: 300px;
 }
 #profileButtons{
     padding-top: 5em;
@@ -75,4 +73,13 @@ h1{
     max-height: 100%;
     align-items: center;
     padding-top: 2em;
+}
+.container-fluid {
+    height: 90%;
+    width: 100%;
+}
+
+.carousel-inner img {
+    width: 100%;
+    height: auto;
 }

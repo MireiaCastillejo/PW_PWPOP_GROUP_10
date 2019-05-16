@@ -9,6 +9,7 @@ use SallePW\SlimApp\Controller\UserController;
 use SallePW\SlimApp\Controller\ProductController;
 use SallePW\SlimApp\Controller\LogController;
 use SallePW\SlimApp\Controller\FavouriteController;
+use SallePW\SlimApp\Controller\ProductReviewController;
 
 
 //UNA RUTA POR CONTROLADOR
@@ -19,6 +20,8 @@ $app->get('/logout', SessionMiddleware::class.':terminate');
 $app->post('/{id:\d+}', HelloController::class . ':likeProduct')
     ->setName("updateproduct");
 
+$app->post('/buy{id:\d+}', HelloController::class .':buyProduct')
+    ->setName("buyProduct");
 
 //La pagina de registro
 $app->get('/register', RegController::class);
@@ -42,9 +45,7 @@ $app
 //VERIFY
 
 $app
-    ->get('/verify', RegController::class . ':verifyUser')
-    ->add(SessionMiddleware::class);
-
+    ->get('/verify', RegController::class . ':verifyUser');
 
 //DELETE
 $app
@@ -73,6 +74,13 @@ $app
 $app
     ->post('/login', LogController::class . ':logAction')
     ->setName('login');
+
+
+//$app
+  //  ->get('/p', ProductReviewController::class);
+
+$app
+    ->get('/product_review{id:\d+}', ProductReviewController::class. ':getProductData');
 
 
 //$app->add(SessionMiddleware::class);

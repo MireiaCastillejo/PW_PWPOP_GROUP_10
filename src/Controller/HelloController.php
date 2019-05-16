@@ -46,28 +46,32 @@ final class HelloController
 
         // Always start this first
         //session_start();
+
         $repository = $this->container->get('product_repo');
 
-
-
-
         $products = $repository->get();
-        if (!isset($_SESSION['user_id'])) {
-            // Redirect them to the login page
 
-            return $this->container->get('view')->render($response, 'index.twig',[
-                'products' => $products,
-            ]);
 
-        }
 
-        //Lo que le pasamos a la vista
-        return $this->container->get('view')->render($response, 'loggeduser.twig', ['products' => $products,'sesion'=>$_SESSION['user_id']]
 
-        //'messages' => $messages,
-        );
+            if (!isset($_SESSION['user_id'])) {
+                // Redirect them to the login page
+
+                return $this->container->get('view')->render($response, 'index.twig', [
+                    'products' => $products,
+                ]);
+
+            }
+            //Lo que le pasamos a la vista
+            return $this->container->get('view')->render($response, 'loggeduser.twig',
+                ['products' => $products, 'sesion' => $_SESSION['user_id']]
+            //'messages' => $messages,
+            );
+
+
 
     }
+
 
     private function setAdviceCookie(Response $response): Response
     {
@@ -98,12 +102,36 @@ final class HelloController
             $response->getBody()->write('Unexpected error: ' . $e->getMessage());
 
             $this->container->get('view')->render($response, 'error.twig', []);
-            return $response->withStatus(500);
+            return $response->withStatus(400);
         }
 
         $this->__invoke($request, $response);
+        header('Location:/');
         return $response->withStatus(201);
 
 
     }
+
+    public function buyProduct(Request $request, Response $response, $ide):Response{
+        try {
+            //Pasamos a entero la array
+            $id = (int)$ide['id'];
+
+            $repository = $this->container->get('product_repo');
+
+            $repository->buy($id);
+
+
+        } catch (\Exception $e) {
+
+            $response->getBody()->write('Unexpected error: ' . $e->getMessage());
+
+            $this->container->get('view')->render($response, 'error.twig', []);
+            return $response->withStatus(400);
+        }
+
+        $this->__invoke($request, $response);
+        return $response->withStatus(201);
+    }
+
 }

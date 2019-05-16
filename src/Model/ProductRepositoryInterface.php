@@ -16,4 +16,8 @@ interface ProductRepositoryInterface
     public function get();
 
     public function favourite(int $id);
-}
+    public function buy(int $id);
+    public function getData(int $userid);
+
+
+    }
