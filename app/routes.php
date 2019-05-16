@@ -9,13 +9,15 @@ use SallePW\SlimApp\Controller\UserController;
 use SallePW\SlimApp\Controller\ProductController;
 use SallePW\SlimApp\Controller\LogController;
 use SallePW\SlimApp\Controller\FavouriteController;
+use SallePW\SlimApp\Model\Email;
 
 
 $app->add(SessionMiddleware::class);
 //UNA RUTA POR CONTROLADOR
 //La pagina principal
 $app->get('/', HelloController::class);
-//$app->get('/logout', SessionMiddleware::class.':terminate');
+
+$app->get('/logout', SessionMiddleware::class.':terminate');
 
 $app->post('/{id:\d+}', HelloController::class . ':likeProduct')
     ->setName("updateproduct");
@@ -43,9 +45,11 @@ $app
 //VERIFY
 
 $app
-    ->get('/verify', RegController::class . ':verifyUser')
-    ->add(SessionMiddleware::class);
+    ->get('/verify', RegController::class . ':verifyUser');
 
+//RESEND EMAIL
+$app
+    ->get('/resend', Email::class . ':reSendEmail');
 
 //DELETE
 $app

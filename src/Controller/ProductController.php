@@ -38,17 +38,22 @@ final class ProductController
 
         //session_start();
         $id=$_SESSION['user_id'];
-            $repository = $this->container->get('product_repo');
+        $repository = $this->container->get('product_repo');
 
-            $products = $repository->get();
-            $this->container->get('view')->render($response, 'myproducts.twig', ['products' => $products,'id'=>$id]);
+        $repository_u = $this->container->get('user_repo');
+        $enabled = $repository_u->checkEnabled();
+
+        $products = $repository->get();
+        $this->container->get('view')->render($response, 'myproducts.twig', ['products' => $products,'id'=>$id, 'enabled' => $enabled]);
 
 
     }
 
     public function __invoke(Request $request, Response $response, array $args)
     {
-        $this->container->get('view')->render($response, 'upload.twig', []);
+        $repository_u = $this->container->get('user_repo');
+        $enabled = $repository_u->checkEnabled();
+        $this->container->get('view')->render($response, 'upload.twig', ['enabled' => $enabled]);
     }
 
     public function uploadAction(Request $request, Response $response):Response

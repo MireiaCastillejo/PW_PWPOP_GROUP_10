@@ -26,8 +26,12 @@ final class ProfileController
     public function __invoke(Request $request, Response $response, array $args)
     {
         //session_start();
+        $repository_u = $this->container->get('user_repo');
+        $enabled = $repository_u->checkEnabled();
 
-        $this->container->get('view')->render($response, 'profile.twig', ['sesion'=>$_SESSION['user_id']]);
+
+
+        $this->container->get('view')->render($response, 'profile.twig', ['sesion'=>$_SESSION['user_id'], 'enabled' => $enabled]);
 
     }
 

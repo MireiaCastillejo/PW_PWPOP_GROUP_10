@@ -22,8 +22,10 @@ final class SessionMiddleware
 
     public function terminate()
     {
-        session_start();
+
         session_destroy();
+
+        //NO REDIRECCIONA
         header('Location: /');
 
     }

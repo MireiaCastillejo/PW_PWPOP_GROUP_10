@@ -9,8 +9,7 @@
 namespace SallePW\SlimApp\Controller;
 
 
-use Dflydev\FigCookies\FigResponseCookies;
-use Dflydev\FigCookies\SetCookie;
+
 
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -35,7 +34,7 @@ class RegController
     /** @var ContainerInterface */
     private $container;
 
-    //private const COOKIES_REG_OK= 'reg_ok';
+
 
     /**
      * HelloController constructor.
@@ -49,9 +48,10 @@ class RegController
     public function __invoke(Request $request, Response $response, array $args)
     {
 
+
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'registration.twig', [
-            'name' => 'ouh mama',
+
         ]);
     }
     public function regAction(Request $request
@@ -138,18 +138,11 @@ class RegController
         $e = $this->container->get('email');
         $e->sendEmail($data['email']);
 
-        //Mostramos la vista del login
-       /*$this->container->get('view')->render($response, 'login.twig',[
-            'reg_ok' => $reg_ok,
-        ]);*/
 
-        //session_start();
+
         $_SESSION['reg_ok'] = 1;
 
-        //location.assign( path_for('login') );
 
-
-        //$response = $this->setCookieRegOk($response);
         return $response->withRedirect('/login',303); //303 EL BUENO
 
 
@@ -340,25 +333,22 @@ class RegController
         //var_dump($_GET['email']);
 
 
-        $repository->enableUser($_GET['email']);
+
+        if(!isset($_SESSION['user_id'])){
+            // Si le da al link desde el correo
+            $repository->enableUserWithEmail($_GET['email']);
+        }else{
+            //Si le da al boton del mensaje de waring
+            $repository->enableUserWithId();
+        }
+
 
 
         echo ("Successful validation!");
 
     }
 
-    private function setCookieRegOk(Response $response): Response
-    {
-        return FigResponseCookies::set(
-            $response,
-            SetCookie::create(self::COOKIES_REG_OK)
-                ->withHttpOnly(true)
-                ->withMaxAge(5)
-                ->withValue(1)
-                ->withDomain('pwpop.test')
-                ->withPath('/login')
-        );
-    }
+
 
 }
 

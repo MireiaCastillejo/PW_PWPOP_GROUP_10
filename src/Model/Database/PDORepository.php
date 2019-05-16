@@ -176,13 +176,27 @@ final class PDORepository implements UserRepositoryInterface
     }
 
     //Activar cuenta
-    public function enableUser(string $email){
+    public function enableUserWithEmail(string $email){
         $statement = $this->database->getConnection()->prepare(
             "UPDATE user SET enabled = 1 WHERE email = :email ;"
 
         );
 
         $statement->bindParam('email', $email, PDO::PARAM_STR);
+
+        return $res= $statement->execute();
+    }
+
+    //Activar cuenta
+    public function enableUserWithId(){
+        $statement = $this->database->getConnection()->prepare(
+            "UPDATE user SET enabled = 1 WHERE id= :id ;"
+
+        );
+
+        $id = (int)$_SESSION['user_id'];
+
+        $statement->bindParam('id', $id, PDO::PARAM_STR);
 
         return $res= $statement->execute();
     }
@@ -262,18 +276,22 @@ final class PDORepository implements UserRepositoryInterface
     public function checkEnabled(){
 
 
+
+
         $statement = $this->database->getConnection()->prepare(
             "SELECT enabled FROM user WHERE  id = :id;"
         );
 
-        $statement->bindParam('id', $_SESSION['id_user'], PDO::PARAM_STR);
+        $user_id = (int)$_SESSION['user_id'];
+
+        $statement->bindParam('id', $user_id, PDO::PARAM_STR);
 
         $statement->execute();
 
         $res = $statement->fetch(PDO::FETCH_ASSOC);
 
 
-        return $res;
+        return $res['enabled'];
 
     }
 
@@ -318,5 +336,18 @@ final class PDORepository implements UserRepositoryInterface
 
             return $res;
         }
+    }
+
+    public function getEmail(){
+        $statement = $this->database->getConnection()->prepare(
+            "SELECT email FROM user WHERE id=:id"
+        );
+
+        $id = (int)$_SESSION['user_id'];
+        $statement->bindParam('id', $id, PDO::PARAM_STR);
+
+        $statement->execute();
+        $res=$statement->fetch();
+        return $res['email'];
     }
 }

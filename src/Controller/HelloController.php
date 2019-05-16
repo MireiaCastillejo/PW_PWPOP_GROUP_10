@@ -48,7 +48,7 @@ final class HelloController
         //session_start();
         $repository = $this->container->get('product_repo');
 
-        $repository_u = $this->container->get('user_repo');
+
 
 
         $products = $repository->get();
@@ -60,13 +60,16 @@ final class HelloController
             ]);
 
         }
+
+        $repository_u = $this->container->get('user_repo');
         $enabled = $repository_u->checkEnabled();
+
 
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'loggeduser.twig',
             ['products' => $products,
                 'sesion'=>$_SESSION['user_id'],
-                'enabled' => $enabled]
+                'enabled' => $enabled, ]
 
         //'messages' => $messages,
         );

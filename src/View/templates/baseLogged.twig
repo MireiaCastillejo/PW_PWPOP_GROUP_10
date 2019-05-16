@@ -77,6 +77,18 @@
 
 <div class="container">
     {% block content %}{% block php %}{% endblock %}{% endblock %}
+    {% if enabled is defined %}
+
+        {% if enabled == "0" %}
+
+            <div class="form-group">
+                <div class="alert alert-warning" role="alert">
+                    Please check your email or click <a href ="http://pwpop.test/resend" onclick="">here</a>
+                </div>
+            </div>
+        {% endif %}
+
+    {% endif %}
 </div>
 
 <nav class="navbar fixed-bottom navbar-dark" id="botNav">

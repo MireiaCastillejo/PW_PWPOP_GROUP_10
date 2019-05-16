@@ -27,12 +27,16 @@ final class FavouriteController
     public function __invoke(Request $request, Response $response, array $args)
     {
 
+        //productos
         $repository = $this->container->get('product_repo');
-
         $products = $repository->get();
 
+        //mirar si ha verificado
+        $repository_u = $this->container->get('user_repo');
+        $enabled = $repository_u->checkEnabled();
+
         //Lo que le pasamos a la vista
-        return $this->container->get('view')->render($response, 'favourite.twig', ['products' => $products]
+        return $this->container->get('view')->render($response, 'favourite.twig', ['products' => $products, 'enabled' => $enabled]
         );
     }
 

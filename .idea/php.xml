@@ -16,6 +16,7 @@
       <path value="$PROJECT_DIR$/vendor/dflydev/fig-cookies" />
       <path value="$PROJECT_DIR$/vendor/slim/flash" />
       <path value="$PROJECT_DIR$/vendor/phpmailer/phpmailer" />
+      <path value="$PROJECT_DIR$/vendor/plasticbrain/php-flash-messages" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />

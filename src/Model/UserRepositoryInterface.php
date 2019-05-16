@@ -18,7 +18,9 @@ interface UserRepositoryInterface
 
     public function checkUniqueEmail(string $email);
 
-    public function enableUser(string $email);
+    public function enableUserWithEmail(string $email);
+
+    public function enableUserWithId();
 
     public function checkUser(bool $ismail, string $param);
 

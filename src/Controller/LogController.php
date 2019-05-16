@@ -13,13 +13,16 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Dflydev\FigCookies\FigRequestCookies;
 
+use Dflydev\FigCookies\FigResponseCookies;
+use Dflydev\FigCookies\SetCookie;
+
 class LogController
 {
 
     /** @var ContainerInterface */
     private $container;
     private $ismail;
-    private const COOKIES_REG_OK= 'reg_ok';
+    private const COOKIES_REMEMBERME = 'rememberme';
 
 
     /**
@@ -41,10 +44,11 @@ class LogController
         }
 
 
+
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'login.twig',
             [
-                'reg_ok'=> $reg_ok, /*'enabled' => $isenabled*/
+                'reg_ok'=> $reg_ok,
             ]);
     }
 
@@ -86,6 +90,7 @@ class LogController
 
 
                         $id=$repository->getId($data['login']);
+
 
                         /*if($enabled["enabled"] == '1'){
                             //var_dump("esta enabled");
@@ -130,6 +135,13 @@ class LogController
 
        // session_start();
         $_SESSION['user_id'] = $id['id'];
+
+        //IF CCHECKBOX IS CHEKED
+        if(isset($_POST['rememberme'])){
+
+            $response = $this->setCookieCheckBox($response);
+         }
+
 
         //$this->container->get('view')->render($response, 'index.twig');
 
@@ -200,5 +212,18 @@ class LogController
     public function setIsMail($ismail): void
     {
         $this->ismail = $ismail;
+    }
+
+    private function setCookieCheckBox(Response $response): Response
+    {
+        return FigResponseCookies::set(
+            $response,
+            SetCookie::create(self::COOKIES_REMEMBERME)
+                ->withHttpOnly(true)
+                ->withMaxAge(3600)
+                ->withValue($_SESSION['user_id'])
+                ->withDomain('pwpop.test')
+                ->withPath('/')
+        );
     }
 }
