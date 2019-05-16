@@ -1,4 +1,4 @@
-{% extends "base.twig" %}
+{% extends "baseLogged.twig" %}
 
 {% block styles %}
     {{ parent() }}
@@ -16,14 +16,11 @@
     Profile
 {% endblock %}
 
+{% block navbar %}{% endblock %}
+
 {% block buttons %}
 
-    <div class="col-md-10 text-right">
-        <button type="button" class="btn btn-outline-light" onclick="location.href='/'">Logout</button>
-        <button  id="myBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal">
-            <span class="fa fa-search"></span> Search
-        </button>
-    </div>
+    {{ parent() }}
 
 {% endblock %}
 

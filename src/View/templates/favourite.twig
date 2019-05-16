@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block scripts %}
+    {{ parent() }}
     <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
     <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
@@ -17,6 +18,19 @@
 
 {% block title %}
     Upload product
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block buttons %}
+
+    <div class="col-md-1 text-right">
+        <a onclick="location.href = '/profile'">
+            <img src="{{ base_url() }}/uploads/defaultProfile.png" id="profileImageLink">
+        </a>
+    </div>
+    {{ parent() }}
+
 {% endblock %}
 
 {% block header %}

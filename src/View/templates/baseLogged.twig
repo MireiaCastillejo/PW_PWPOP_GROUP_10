@@ -49,21 +49,21 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link active" href="#" onclick="location.href='/favourite'">My favourites</a>
-
                 </li>
             </ul>
-
         </div>
         {% block navbar %}{% endblock %}
 
         {% block buttons %}
 
-            <div class="col-md-3 text-right">
-                <button type="button" class="btn btn-outline-light"  id="logout" onclick=logout({{ sesion }})>Logout</button>
-                <button  id="searchBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            <div class="col-md-4 text-right">
+                <button type="button" class="btn btn-outline-light" onclick=logout({{ sesion }})>Logout</button>
+
+                <button  id="myBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal">
                     <span class="fa fa-search"></span> Search
                 </button>
             </div>
+
         {% endblock %}
 
     </div>

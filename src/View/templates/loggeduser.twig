@@ -7,15 +7,13 @@
     {{ parent() }}
     <script src="{{ base_url() }}/assets/js/homepage.js"></script>
 
-
 {% endblock %}
 
 {% block title %}
     PWPOP
 {% endblock %}
 
-        {% block navbar %}
-        {% endblock %}
+{% block navbar %}{% endblock %}
 
 {% block buttons %}
 
@@ -24,7 +22,6 @@
             <img src="{{ base_url() }}/uploads/defaultProfile.png" id="profileImageLink">
         </a>
     </div>
-
     {{ parent() }}
 
 {% endblock %}
