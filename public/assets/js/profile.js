@@ -89,86 +89,80 @@ $(document).ready(function() {
         });
 
 
-        // loadData();
+        loadData();
     });
+
 });
+    function loadData() {
 
-function loadData() {
+        $.ajax({
+            async: true,
+            type: 'get',
+            url: '/fetch',
+            dataType: 'json',
 
-    $.ajax({
-        async : true,
-        type : 'get',
-        url: '/fetch',
-        dataType: 'json',
+            statusCode: {
+                200: function (data) {
 
-        statusCode: {
-            200: function (data) {
+                    console.log("loadData from user");
+                    window.userData = data;
+                    console.log(window.userData);
+                    date = data['res']['birthdate'];
+                    d = date.split(" ");
+                    birthdate = d[0];
+                    console.log(data['res']['profileimage']);
 
-                console.log("loadData from user");
-                window.userData = data;
-                console.log(window.userData);
-                date = data['res']['birthdate'];
-                d = date.split(" ");
-                birthdate = d[0];
+                    var image = "/uploads/" + data['res']['profileimage'];
+                    document.getElementById("profileImage").src = image;
+                    document.getElementById("userName").innerHTML = data['res']['name'];
+                    document.getElementById("username").innerHTML = data['res']['username'];
+                    document.getElementById("userEmail").innerHTML = data['res']['email'];
+                    document.getElementById("userBirth").innerHTML = birthdate;
+                    document.getElementById("userPhone").innerHTML = data['res']['phonenumber'];
 
-                var image = "/uploads/" + data['res']['profileimage'];
-                document.getElementById("profileImage").src = image;
-                document.getElementById("userName").innerHTML = data['res']['name'];
-                document.getElementById("username").innerHTML = data['res']['username'];
-                document.getElementById("userEmail").innerHTML = data['res']['email'];
-                document.getElementById("userBirth").innerHTML = birthdate;
-                document.getElementById("userPhone").innerHTML = data['res']['phonenumber'];
+                    document.getElementById("newName").placeholder = data['res']['name'];
+                    document.getElementById("newEmail").placeholder = data['res']['email'];
+                    document.getElementById("newPhone").placeholder = data['res']['phonenumber'];
+                },
 
-                document.getElementById("newName").placeholder = data['res']['name'];
-                document.getElementById("newEmail").placeholder = data['res']['email'];
-                document.getElementById("newPhone").placeholder = data['res']['phonenumber'];
-            },
+                404: function () {
+                    alert("Data not found");
+                },
 
-            404: function () {
-                alert("Data not found");
-            },
-
-            500: function () {
-                console.log("OOF")
+                500: function () {
+                    console.log("OOF")
+                }
             }
-        }
-    });
-}
+        });
+    }
 
 
-function deleteAccount() {
+    function deleteAccount() {
 
-    console.log("user delete = " + user);
+        console.log("user delete = " + user);
 
-    $.ajax({
+        $.ajax({
 
-        async : true,
-        type : 'get',
-        url: '/update',
-        data: {'username' : user},
+            async: true,
+            type: 'get',
+            url: '/update',
+            data: {'username': user},
 
-        statusCode: {
-            200: function (data) {
-                console.log(data);
-                window.location.href = '/';
-            },
+            statusCode: {
+                200: function (data) {
+                    console.log(data);
+                    window.location.href = '/';
+                },
 
-            404: function () {
-                alert("Data not found");
-            },
+                404: function () {
+                    alert("Data not found");
+                },
 
-            500: function () {
-                console.log("OOF")
+                500: function () {
+                    console.log("OOF")
+                }
             }
-        }
-    });
-}
-
-window.onload = function(){
-
-    loadData();
-}
-
-
+        });
+    }
 
 

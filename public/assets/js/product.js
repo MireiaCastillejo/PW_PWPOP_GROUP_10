@@ -25,6 +25,9 @@ function loadProduct(id) {
                 document.getElementById("price").value = data['res']['price'];
                 document.getElementById("category").value = data['res']['category'];
 
+               /* document.getElementById("newName").placeholder = data['res']['name'];
+                document.getElementById("newEmail").placeholder = data['res']['email'];
+                document.getElementById("newPhone").placeholder = data['res']['phonenumber'];*/
             },
 
             404: function () {

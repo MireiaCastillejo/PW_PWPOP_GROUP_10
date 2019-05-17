@@ -31,21 +31,7 @@ final class ProductReviewController
         // session_start();
         //$id = (int)$id['id'];
         if ( isset( $_SESSION['user_id'] ) ) {
-
-            /*if($products['isSold']==1 ){
-                $error[]="404 el producto ha sido vendido";
-                $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
-                return $response->withStatus(404);
-            }
-            elseif($products['isActive']==0 ){
-                $error[]="el producto ha sido borrado";
-                $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
-
-            }else {*/
-                $this->container->get('view')->render($response, 'product_review.twig',
-                    ['product' => $products, 'sesion' => $_SESSION['user_id']]);
-
-            //}
+            $this->container->get('view')->render($response, 'product_review.twig', ['product' => $products,'sesion' => $_SESSION['user_id']]);
         }else{
             $error[]="UN 403";
             $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
@@ -55,17 +41,14 @@ final class ProductReviewController
         //$this->container->get('view')->render($response, 'product_review.twig', ['sesion' => $_SESSION['user_id']]);
     }
 
-    public function getProductData(Request $request, Response $response, $id): Response
-
+    public function getProductData(Request $request, Response $response,$id): Response
     {
-
         try {
-
-            //if ( isset( $_SESSION['user_id'] ) ) {
 
                 /** @var PDORepository $repository */
                 $repository = $this->container->get('product_repo');
                 $id=$id['id'];
+
                 $data = $repository->getData($id);
 
                 if (!isset($data['title'])) {
@@ -78,8 +61,10 @@ final class ProductReviewController
                     $response = $response
                         ->withStatus(200)
                         ->write(json_encode(["message" => "correcto producto", "res" => $data]));
+
+
                 }
-            //}
+
         } catch (\Exception $e) {
             $response = $response
                 ->withStatus(500)
@@ -188,11 +173,23 @@ final class ProductReviewController
                 $repository = $this->container->get('product_repo');
                 $id=$id['id'];
 
-                $data = $repository->getData($id);
+                $products = $repository->getData($id);
 
-               // $this->container->get('view')->render($response, 'product_review.twig', ['product'=>$data,'sesion' => $_SESSION['user_id']]);
-                $this->__invoke($request, $response, $data);
-                if (!isset($data['title'])) {
+                if($products['isSold']==1 ){
+                    $error[]="404 el producto ha sido vendido";
+                    $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
+                    return $response->withStatus(404);
+                }
+                elseif($products['isActive']==0 ){
+                    $error[]="el producto ha sido borrado";
+                    $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
+
+                }else {
+                    $this->container->get('view')->render($response, 'product_review.twig',
+                        [ 'product'=>$products,'sesion' => $_SESSION['user_id']]);
+
+                }
+                if (!isset($products['title'])) {
 
                     $response = $response
                         ->withStatus(404)
