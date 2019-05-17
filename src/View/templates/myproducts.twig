@@ -16,7 +16,7 @@
 
 
 {% block title %}
-    Upload product
+    My products
 {% endblock %}
 
 {% block buttons %}
@@ -91,7 +91,7 @@
 
                 <div class="modal-header">
                     <div class="col-md-6">
-                        <img id="productImage" src="{{ base_url() }}/uploads/products/catto.jpg">
+                        <img id="productImage" src="">
                     </div>
                     <div class="col-md-6" style="vertical-align: middle;">
                         <input class="form-control" type="text" name="title" id="title">
@@ -105,33 +105,35 @@
                         <div class="form-group">
                             <label for="comment">Description:</label>
                             <textarea name="description" class="form-control" rows="3" id="comment"></textarea>
-                        </div><br>
-
-                        <div class="input-group mb-9">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Price &euro;</span>
-                            </div>
-                            <input  name="price" type="text" class="form-control" aria-label="Amount" id="price">
-                        </div><br>
-
-                        <label>Select Product:</label><br>
-                        <select class="product" name="category" id="category">
-                            <option class="dropdown-item" value="Computers and electronic">Computers and electronic</option>
-                            <option class="dropdown-item" value="Cars">Cars</option>
-                            <option  class="dropdown-item" value="Sports">Sports</option>
-                            <option  class="dropdown-item" value="Games">Games</option>
-                            <option  class="dropdown-item" value="Fashion">Fashion</option>
-                            <option  class="dropdown-item" value="Home">Home</option>
-                            <option  class="dropdown-item" value="Other">Other</option>
-                        </select>
-                        <br><br>
-                        <div class="modal-footer">
-                            <button type="button" class="btn" data-dismiss="modal">cancel</button>
-                            <button type="submit" class="btn btn-outline-primary">Update Info</button>
-                            <button type="button" class="btn btn-link" id="deleteButton" data-toggle="modal" data-target="#deleteModal">Delete Product</button>
                         </div>
-                        <br>
+
+                        <div class="form-group row">
+                            <div class="input-group pt1 col-md-6" style="max-height: 38px;padding-top: 1em;">
+                                <div class="input-group-prepend" >
+                                    <span class="input-group-text">Price &euro;</span>
+                                </div>
+                                <input  name="price" type="text" class="form-control" aria-label="Amount" id="price">
+                            </div>
+
+                            <div class="input-group col-md-6">
+                                <label>Category:</label>
+                                <select class="product" name="category" id="category">
+                                    <option class="dropdown-item" value="Computers and electronic">Computers and electronic</option>
+                                    <option class="dropdown-item" value="Cars">Cars</option>
+                                    <option  class="dropdown-item" value="Sports">Sports</option>
+                                    <option  class="dropdown-item" value="Games">Games</option>
+                                    <option  class="dropdown-item" value="Fashion">Fashion</option>
+                                    <option  class="dropdown-item" value="Home">Home</option>
+                                    <option  class="dropdown-item" value="Other">Other</option>
+                                </select>
+                            </div>
+                        </div>
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">cancel</button>
+                    <button type="submit" class="btn btn-outline-primary">Update Info</button>
+                    <button type="button" class="btn btn-link" id="deleteButton" data-toggle="modal" data-target="#deleteModal">Delete Product</button>
                 </div>
             </div>
         </div>
@@ -141,11 +143,11 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4>Delete account</h4>
+                    <h4>Delete product</h4>
                 </div>
 
                 <div class="modal-body">
-                    <label>Are you sure you want to delete your account?</label>
+                    <label>Are you sure you want to delete your product?</label>
                 </div>
 
                 <div class="modal-footer">
