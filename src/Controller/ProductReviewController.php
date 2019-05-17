@@ -26,12 +26,33 @@ final class ProductReviewController
 
     }
 
-    public function __invoke(Request $request, Response $response)
+    public function __invoke(Request $request, Response $response, $products)
     {
         // session_start();
         //$id = (int)$id['id'];
-        $this->container->get('view')->render($response, 'product_review.twig', ['sesion'=>$_SESSION['user_id']]);
+        if ( isset( $_SESSION['user_id'] ) ) {
 
+            if($products['isSold']==1 ){
+                $error[]="404 el producto ha sido vendido";
+                $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
+                return $response->withStatus(404);
+            }
+            elseif($products['isActive']==0 ){
+                $error[]="el producto ha sido borrado";
+                $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
+
+            }else {
+                $this->container->get('view')->render($response, 'product_review.twig',
+                    ['product' => $products, 'sesion' => $_SESSION['user_id']]);
+
+            }
+        }else{
+            $error[]="UN 403";
+            $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
+            return $response->withStatus(403);
+        }
+
+        //$this->container->get('view')->render($response, 'product_review.twig', ['sesion' => $_SESSION['user_id']]);
     }
 
     public function getProductData(Request $request, Response $response, $id): Response
@@ -40,15 +61,17 @@ final class ProductReviewController
 
         try {
 
-
             if ( isset( $_SESSION['user_id'] ) ) {
 
                 /** @var PDORepository $repository */
                 $repository = $this->container->get('product_repo');
                 $id=$id['id'];
 
-
                 $data = $repository->getData($id);
+
+
+
+
                 if (!isset($data['title'])) {
 
                     $response = $response
@@ -58,7 +81,7 @@ final class ProductReviewController
                 } else {
                     $response = $response
                         ->withStatus(200)
-                        ->write(json_encode(["message" => "correcto", "res" => $data]));
+                        ->write(json_encode(["message" => "correcto producto", "res" => $data]));
 
 
                 }
@@ -69,12 +92,7 @@ final class ProductReviewController
                 ->write(json_encode(["message"=>"nope", "res"=>$e]));
 
         }
-
-
         return $response;
-
-
-
     }
 
     /**
@@ -163,4 +181,44 @@ final class ProductReviewController
 
         return $response->withRedirect('/profile',200);
     }
+
+    public function getProductReview(Request $request, Response $response, $id): Response
+
+    {
+
+        try {
+
+            if ( isset( $_SESSION['user_id'] ) ) {
+
+                /** @var PDORepository $repository */
+                $repository = $this->container->get('product_repo');
+                $id=$id['id'];
+
+                $data = $repository->getData($id);
+
+               // $this->container->get('view')->render($response, 'product_review.twig', ['product'=>$data,'sesion' => $_SESSION['user_id']]);
+                $this->__invoke($request, $response, $data);
+                if (!isset($data['title'])) {
+
+                    $response = $response
+                        ->withStatus(404)
+                        ->write(json_encode(["message" => "oof", "res" => $data]));
+
+                } else {
+                    $response = $response
+                        ->withStatus(200);
+
+
+
+                }
+            }
+        } catch (\Exception $e) {
+            $response = $response
+                ->withStatus(500)
+                ->write(json_encode(["message"=>"nope", "res"=>$e]));
+
+        }
+        return $response;
+    }
+
 }

@@ -1,17 +1,16 @@
 {% extends "baseLogged.twig" %}
 
-
 {% block styles %}
     {{ parent() }}
-
 
 {% endblock %}
 
 {% block scripts %}
-    {{ parent() }}
     <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
     <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
+    <script src="{{ base_url() }}/assets/js/product.js"></script>
+    {{ parent() }}
 
 {% endblock %}
 
@@ -21,17 +20,98 @@
 {% endblock %}
 
 {% block buttons %}
-<div class="col-md-1 text-right">
-    <a onclick="location.href = '/profile'">
-        <img src="{{ base_url() }}/uploads/defaultProfile.png" id="profileImageLink">
-    </a>
-</div>
+    <div class="col-md-1 text-right">
+        <a onclick="location.href = '/profile'">
+            <img src="{{ base_url() }}/uploads/defaultProfile.png" id="profileImageLink">
+        </a>
+    </div>
 
-{{ parent() }}
+    {{ parent() }}
 {% endblock %}
 
 {% block header %}
     <h1>PWPOP</h1>
+{% endblock %}
+
+{% block modal %}
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="searchModal" role="dialog" tabindex="-5" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Search your product</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="form" action="{{ path_for('search-info') }}" method="POST" enctype="multipart/form-data"  >
+                        <div class="form-group">
+                            <label for="TitleInput">Title</label>
+                            <input type="text" class="form-control" name="TitleInput" placeholder="Title">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Select Product:</label><br>
+                            <select class="product" name="category">
+                                <option class="dropdown-item" value="Computers and electronic">Computers and electronic</option>
+                                <option class="dropdown-item" value="Cars">Cars</option>
+                                <option  class="dropdown-item" value="Sports">Sports</option>
+                                <option  class="dropdown-item" value="Games">Games</option>
+                                <option  class="dropdown-item" value="Fashion">Fashion</option>
+                                <option  class="dropdown-item" value="Home">Home</option>
+                                <option  class="dropdown-item" value="Other">Other</option>
+                            </select>
+                            <br><br>
+                        </div>
+                        <div class="form-group">
+                            <label for="Min">Min</label>
+                            <input name="pricemin"type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
+                                   placeholder="MIN"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Max">Max</label>
+                            <input name="pricemax" type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
+                                   placeholder="MAX"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="searchButton" >Submit</button>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Delete account</h4>
+                </div>
+
+                <div class="modal-body">
+                    <label>Are you sure you want to delete your account?</label>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#productModal">cancel</button>
+                    <!--<button type="submit" class="btn btn-danger" id="deleteButtonConfirm">Delete</button>-->
+                    <form id="form" class="form_content" action="{{ path_for('update') }}" method="POST" enctype="multipart/form-data">
+
+                        <input type="submit" name="delete" id="delete" value="Delete" /><br/>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 
@@ -42,29 +122,30 @@
         <div class="container">
             <div class="row">
                 {% for product in products %}
-                {% if product.userid==id%}
-                    {% if product.isActive==1%}
+                    {% if product.userid==id%}
+                        {% if product.isActive==1%}
 
-                        <div class="col-md-4">
+                            <div class="col-md-4">
 
-                            <div class="card mb-4 shadow-sm">
-                                <a title="ejemplo" href="/product_review{{ product.id }}">
+                                <div class="card mb-4 shadow-sm">
+                                    <!--<a title="ejemplo" href="/product_review{{ product.id }}">-->
 
-                                {% set foo =product.product_image|split('/') %}
-                                <img src="/uploads/products/{{ foo[0] }}" id="fotoprod" >
-                                </a>
+                                    <a title="ejemplo" onclick=showInfo({{ product.id }})>
+                                        {% set foo =product.product_image|split('/') %}
+                                        <img src="/uploads/products/{{ foo[0] }}" id="fotoprod" >
+                                    </a>
 
-                                <div class="card-body">
+                                    <div class="card-body">
 
-                                    <h5 id="title" class="title">{{ product.title }} </h5>
+                                        <h5 id="title" class="title">{{ product.title }} </h5>
 
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    {% endif %}
+                        {% endif %}
 
-                {% endif %}
+                    {% endif %}
                 {% endfor %}
 
 

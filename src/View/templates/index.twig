@@ -6,6 +6,8 @@
 {% block scripts %}
     {{ parent() }}
     <script src="{{ base_url() }}/assets/js/homepage.js"></script>
+    <script src="{{ base_url() }}/assets/js/productInfo.js"></script>
+
 {% endblock %}
 
 {% block title %}
@@ -28,7 +30,7 @@
 {% block modal %}
     <!-- Modal -->
     <div class="modal fade" id="searchModal" role="dialog" tabindex="-5" role="dialog">
-        <div class="modal-dialog" >
+        <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
@@ -36,35 +38,38 @@
                     <h5 class="modal-title" id="myModalLabel">Search your product</h5>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="form" action="{{ path_for('search-info') }}" method="POST" enctype="multipart/form-data"  >
                         <div class="form-group">
                             <label for="TitleInput">Title</label>
-                            <input type="text" class="form-control" id="TitleInput" placeholder="Title">
+                            <input type="text" class="form-control" name="TitleInput" placeholder="Title">
                         </div>
 
                         <div class="form-group">
-                            <label for="TitleInput">Select your product:</label>
-                            <div class="dropdown">
-                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Products
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Tecnología</a>
-                                    <a class="dropdown-item" href="#">Ropa</a>
-                                    <a class="dropdown-item" href="#">Juguetes</a>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="Min">Min</label>
-                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01" placeholder="MIN"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="Max">Max</label>
-                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01" placeholder="MAX"/>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-
+                            <label>Select Product:</label><br>
+                            <select class="product" name="category">
+                                <option class="dropdown-item" value="Computers and electronic">Computers and electronic</option>
+                                <option class="dropdown-item" value="Cars">Cars</option>
+                                <option  class="dropdown-item" value="Sports">Sports</option>
+                                <option  class="dropdown-item" value="Games">Games</option>
+                                <option  class="dropdown-item" value="Fashion">Fashion</option>
+                                <option  class="dropdown-item" value="Home">Home</option>
+                                <option  class="dropdown-item" value="Other">Other</option>
+                            </select>
+                            <br><br>
                         </div>
+                        <div class="form-group">
+                            <label for="Min">Min</label>
+                            <input name="pricemin"type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
+                                   placeholder="MIN"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Max">Max</label>
+                            <input name="pricemax" type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
+                                   placeholder="MAX"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="searchButton" >Submit</button>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -74,30 +79,55 @@
 
         </div>
     </div>
+    <div class="modal fade" id="productModal" role="dialog" tabindex="-5">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-    <!--
-    <div class="modal fade modal-dialog-centered" id="loginModal">
-        <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-md-6">
+                        <img id="productImage" src="">
+                    </div>
+                    <div class="col-md-6" style="vertical-align: middle;">
+                        <input class="form-control" type="text" name="title" id="title">
+                    </div>
+                </div>
 
-            <div class="modal-header">
-                <h4 class="modal-title">Login</h4>
-            </div>
+                <div class="modal-body">
 
-            <div class="modal-body">
-                <form id="form" class="form_content" action="" method="POST" enctype="multipart/form-data">
-                    Name:<br>
-                    <input type="text" name="name" placeholder="Username"><br>
-                </form>
-            </div>
+                    <form id="form" class="form_content" action="{{ path_for('upload') }}" method="POST" enctype="multipart/form-data">
 
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
-                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Login</button>
+                        <div class="form-group">
+                            <label for="comment">Description:</label>
+                            <textarea name="description" class="form-control" rows="3" id="comment"></textarea>
+                        </div><br>
+
+                        <div class="input-group mb-9">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Price &euro;</span>
+                            </div>
+                            <input  name="price" type="text" class="form-control" aria-label="Amount" id="price">
+                        </div><br>
+
+                        <label>Select Product:</label><br>
+                        <select class="product" name="category" id="category">
+                            <option class="dropdown-item" value="Computers and electronic">Computers and electronic</option>
+                            <option class="dropdown-item" value="Cars">Cars</option>
+                            <option  class="dropdown-item" value="Sports">Sports</option>
+                            <option  class="dropdown-item" value="Games">Games</option>
+                            <option  class="dropdown-item" value="Fashion">Fashion</option>
+                            <option  class="dropdown-item" value="Home">Home</option>
+                            <option  class="dropdown-item" value="Other">Other</option>
+                        </select>
+                        <br><br>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-dismiss="modal">Close</button>
+                        </div>
+                        <br>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>-->
-
-
+    </div>
 
 {% endblock %}
 
@@ -118,7 +148,7 @@
 
                         {% if product.id<=6 %}
                             <div class="col-md-4">
-                                <div class="card mb-4 shadow-sm moreBox">
+                                <div class="card mb-4 shadow-sm moreBox" onclick=showInfo({{ product.id }})>
 
                                     {% set foo =product.product_image|split('/') %}
 

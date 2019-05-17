@@ -46,18 +46,20 @@ final class HelloController
 
         // Always start this first
         //session_start();
+
         $repository = $this->container->get('product_repo');
 
-
-
-
         $products = $repository->get();
-        if (!isset($_SESSION['user_id'])) {
-            // Redirect them to the login page
 
-            return $this->container->get('view')->render($response, 'index.twig',[
-                'products' => $products,
-            ]);
+
+
+
+            if (!isset($_SESSION['user_id'])) {
+                // Redirect them to the login page
+
+                return $this->container->get('view')->render($response, 'index.twig', [
+                    'products' => $products,
+                ]);
 
         }
 
@@ -132,10 +134,49 @@ final class HelloController
             $this->container->get('view')->render($response, 'error.twig', []);
             return $response->withStatus(400);
         }
-
+        header('Location: /');
         $this->__invoke($request, $response);
         return $response->withStatus(201);
     }
 
+    public function searchProduct(Request $request, Response $response):Response{
+        try {
 
+
+            $repository = $this->container->get('product_repo');
+
+
+            $title=$_POST['TitleInput'];
+            $cat=$_POST['category'];
+            $pricemin=floatval($_POST['pricemin']);
+            $pricemax=floatval($_POST['pricemax']);
+
+                $result=$repository->searchProduct($title, $cat,$pricemin,$pricemax);
+            if (!isset($_SESSION['user_id'])) {
+                // Redirect them to the login page
+
+                return $this->container->get('view')->render($response, 'index.twig', [
+                    'products' => $result,
+                ]);
+
+            }
+            //Lo que le pasamos a la vista
+            return $this->container->get('view')->render($response, 'loggeduser.twig',
+                ['products' => $result, 'sesion' => $_SESSION['user_id']]
+            //'messages' => $messages,
+            );
+
+
+
+        } catch (\Exception $e) {
+
+            $response->getBody()->write('Unexpected error: ' . $e->getMessage());
+
+            $this->container->get('view')->render($response, 'error.twig', []);
+            return $response->withStatus(400);
+        }
+
+        //$this->__invoke($request, $response);
+        return $response->withStatus(201);
+    }
 }

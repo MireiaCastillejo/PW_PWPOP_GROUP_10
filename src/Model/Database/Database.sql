@@ -15,6 +15,7 @@ CREATE TABLE user (
                     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS product CASCADE;
 CREATE TABLE product(
 
                       id  int(11) unsigned NOT NULL AUTO_INCREMENT,

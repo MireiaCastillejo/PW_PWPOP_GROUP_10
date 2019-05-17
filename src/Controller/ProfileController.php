@@ -33,6 +33,14 @@ final class ProfileController
 
         $this->container->get('view')->render($response, 'profile.twig', ['sesion'=>$_SESSION['user_id'], 'enabled' => $enabled]);
 
+       // session_start();
+        if ( isset( $_SESSION['user_id'] ) ) {
+            $this->container->get('view')->render($response, 'profile.twig', ['sesion' => $_SESSION['user_id']]);
+        }else{
+            $error[]="ERROR 403 NO PUEDE ACCEDER SIN HACER LOGIN";
+            $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
+            return $response->withStatus(403);
+        }
     }
 
     /**
@@ -45,16 +53,12 @@ final class ProfileController
 
 
         try {
-            //write($response);
-            //session_start();
 
             if ( isset( $_SESSION['user_id'] ) ) {
-                //var_dump("33");
 
                 /** @var PDORepository $repository */
                 $repository = $this->container->get('user_repo');
                 $id=(int)$_SESSION['user_id'];
-
                 $data = $repository->getData($id);
 
                 if (!isset($data['username'])) {

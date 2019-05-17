@@ -1,7 +1,7 @@
 <?php
 
 use SallePW\SlimApp\Controller\HelloController;
-use SallePW\SlimApp\Controller\Middleware\LoginMiddleware;
+use SallePW\SlimApp\Controller\Middleware\TestMiddleware;
 use SallePW\SlimApp\Controller\Middleware\SessionMiddleware;
 use SallePW\SlimApp\Controller\ProfileController;
 use SallePW\SlimApp\Controller\RegController;
@@ -26,6 +26,8 @@ $app->post('/{id:\d+}', HelloController::class . ':likeProduct')
 $app->post('/buy{id:\d+}', HelloController::class .':buyProduct')
     ->setName("buyProduct");
 
+$app->post('/', HelloController::class . ':searchProduct')
+    ->setName('search-info');
 //La pagina de registro
 $app->get('/register', RegController::class);
 
@@ -65,6 +67,7 @@ $app->get('/fetch', ProfileController::class . ':getUserData');
 
 $app->post('/profile', ProfileController::class . ':updateInfo')
     ->setName('update-info');
+
 //PRODUCTOS
 $app->get('/myproducts', ProductController::class . ':myprod');
 
@@ -83,12 +86,17 @@ $app
     ->setName('login');
 
 
-//$app
-  //  ->get('/p', ProductReviewController::class);
+$app
+    ->get('/product_review', ProductReviewController::class);
 
 $app
     ->get('/product_review{id:\d+}', ProductReviewController::class. ':getProductData');
 
+$app
+    ->get('/product_review_buyer{id:\d+}', ProductReviewController::class. ':getProductReview');
+    //->get('/product_review', ProductReviewController::class);
+
+//$app->get('/productData', ProductController::class . 'myProd');
 
 //$app->add(SessionMiddleware::class);
 

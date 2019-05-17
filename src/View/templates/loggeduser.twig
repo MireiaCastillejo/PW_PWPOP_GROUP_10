@@ -6,6 +6,7 @@
 {% block scripts %}
     {{ parent() }}
     <script src="{{ base_url() }}/assets/js/homepage.js"></script>
+    <script src="{{ base_url() }}/assets/js/productInfo.js"></script>
 
 {% endblock %}
 
@@ -37,38 +38,38 @@
                     <h5 class="modal-title" id="myModalLabel">Search your product</h5>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="form" action="{{ path_for('search-info') }}" method="POST" enctype="multipart/form-data"  >
                         <div class="form-group">
                             <label for="TitleInput">Title</label>
-                            <input type="text" class="form-control" id="TitleInput" placeholder="Title">
+                            <input type="text" class="form-control" name="TitleInput" placeholder="Title">
                         </div>
 
                         <div class="form-group">
-                            <label for="TitleInput">Select your product:</label>
-                            <div class="dropdown">
-                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Products
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Tecnología</a>
-                                    <a class="dropdown-item" href="#">Ropa</a>
-                                    <a class="dropdown-item" href="#">Juguetes</a>
-                                </div>
-                            </div>
+                            <label>Select Product:</label><br>
+                            <select class="product" name="category">
+                                <option class="dropdown-item" value="Computers and electronic">Computers and electronic</option>
+                                <option class="dropdown-item" value="Cars">Cars</option>
+                                <option  class="dropdown-item" value="Sports">Sports</option>
+                                <option  class="dropdown-item" value="Games">Games</option>
+                                <option  class="dropdown-item" value="Fashion">Fashion</option>
+                                <option  class="dropdown-item" value="Home">Home</option>
+                                <option  class="dropdown-item" value="Other">Other</option>
+                            </select>
+                            <br><br>
+                        </div>
                             <div class="form-group">
                                 <label for="Min">Min</label>
-                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
+                                <input name="pricemin"type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
                                        placeholder="MIN"/>
                             </div>
+
                             <div class="form-group">
                                 <label for="Max">Max</label>
-                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
+                                <input name="pricemax" type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
                                        placeholder="MAX"/>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary" id="searchButton" >Submit</button>
 
-                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -79,9 +80,43 @@
         </div>
     </div>
 
+    <div class="modal fade" id="productModal" role="dialog" tabindex="-5">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
+                <div class="modal-header">
+                    <div class="col-md-5">
+                        <img id="productImage" src="">
+                    </div>
+                    <div class="col-md-7" style="padding-top: 1em;">
+                        <h3 type="text" name="title" id="title"></h3>
+                        <div>
+                            <h6 id="price"></h6>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="modal-body">
 
+                    <div class="col-md-9">
+                        <h6>Category:</h6>
+                        <p id="category"></p>
+                    </div>
+
+                    <div class="col-md-9">
+                        <h6>Description:</h6>
+                        <p rows="3" id="comment"></p>
+                    </div>
+                    <br>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-dismiss="modal">Close</button>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block header %}
@@ -98,21 +133,25 @@
 
                 {% for product in products %}
 
-                    {% if product.isActive==1 and product.isSold==0 %}
+                {% if product.isActive==1 and product.isSold==0 %}
 
-                    {% if product.id<=6 %}
+                    {% if product.userid!=sesion %}
+                     {% if product.id<=6 %}
+
                         <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm moreBox">
+                            <div class="card mb-4 shadow-sm moreBox" ">
 
                                 {% set foo =product.product_image|split('/') %}
-
+                            <!--FALTA PONER EL LINK AL PRODUCT REVIEW-->
+                            <a href="#" onClick="productreview({{ product.id }})">
                                 <div id="carouselExampleControls{{ product.id }}" class="carousel slide"
                                      data-ride="carousel">
+
                                     <div class="carousel-inner">
 
                                         <div class="carousel-item active">
-                                            <img class="d-block w-100" src="uploads/products/{{ foo[0] }}"
-                                                 alt="First slide" id="fotoprod">
+                                             <img class="d-block w-100" src="uploads/products/{{ foo[0] }}"
+                                                                                               alt="First slide" id="fotoprod">
                                         </div>
                                         {% set i=1 %}
                                         {% for i in 1..foo|length %}
@@ -137,6 +176,7 @@
                                         <span class="sr-only">Next</span>
                                     </a>
                                 </div>
+                            </a>
                                 {% set i=i+1 %}
 
                                 <div class="card-body">
@@ -147,8 +187,7 @@
                                     <div class="d-flex justify-content-between align-items-center">
 
                                         <small class="price">{{ product.price }}€</small>
-                                        <button type="button" data-toggle="modal" data-target="#exampleModal"
-                                                class="btn btn-success">Buy
+                                        <button type="button" onclick="buy({{ product.id }})">Buy
                                         </button>
 
                                         {% if product.isFav==1 %}
@@ -241,8 +280,9 @@
                                     </div>
                                 </div>
                             </div>
-
                         {% endif %}
+                        {% endif %}
+
                     {% endif %}
                 {% endfor %}
 
