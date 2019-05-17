@@ -50,7 +50,7 @@ final class SessionMiddleware
                 }
 
                 unset($_COOKIE['user_id']);
-               // unset($_SESSION);
+                //unset($_SESSION);
                 unset($_SESSION['user_id']);
 
 
