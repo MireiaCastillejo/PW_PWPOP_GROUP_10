@@ -112,6 +112,7 @@ final class PDORepositoryProd implements ProductRepositoryInterface
                 "isSold"=> $res['isSold'],
             ];
         } else {
+
             return [];
         }
 

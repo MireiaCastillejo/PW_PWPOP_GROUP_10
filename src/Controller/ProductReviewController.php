@@ -32,7 +32,7 @@ final class ProductReviewController
         //$id = (int)$id['id'];
         if ( isset( $_SESSION['user_id'] ) ) {
 
-            if($products['isSold']==1 ){
+            /*if($products['isSold']==1 ){
                 $error[]="404 el producto ha sido vendido";
                 $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
                 return $response->withStatus(404);
@@ -41,11 +41,11 @@ final class ProductReviewController
                 $error[]="el producto ha sido borrado";
                 $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
 
-            }else {
+            }else {*/
                 $this->container->get('view')->render($response, 'product_review.twig',
                     ['product' => $products, 'sesion' => $_SESSION['user_id']]);
 
-            }
+            //}
         }else{
             $error[]="UN 403";
             $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
@@ -61,16 +61,12 @@ final class ProductReviewController
 
         try {
 
-            if ( isset( $_SESSION['user_id'] ) ) {
+            //if ( isset( $_SESSION['user_id'] ) ) {
 
                 /** @var PDORepository $repository */
                 $repository = $this->container->get('product_repo');
                 $id=$id['id'];
-
                 $data = $repository->getData($id);
-
-
-
 
                 if (!isset($data['title'])) {
 
@@ -82,10 +78,8 @@ final class ProductReviewController
                     $response = $response
                         ->withStatus(200)
                         ->write(json_encode(["message" => "correcto producto", "res" => $data]));
-
-
                 }
-            }
+            //}
         } catch (\Exception $e) {
             $response = $response
                 ->withStatus(500)

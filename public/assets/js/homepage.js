@@ -51,7 +51,7 @@ function like(id) {
     form.setAttribute("asyn",true);
 
     document.body.appendChild(form);
-  form.submit();
+    form.submit();
 
 
 
@@ -67,7 +67,6 @@ function buy(id) {
 
     document.body.appendChild(form);
     form.submit();
-    //location.href ="/";
 
 
 
