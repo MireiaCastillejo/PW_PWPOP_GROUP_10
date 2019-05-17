@@ -83,9 +83,9 @@ final class ProductController
 
                    $name=$uploadedFile->getClientFilename();
                    if($i==0){
-                       $names=$name.'/';
+                       $names=$name;
                    }else{
-                       $names=$names.$name;
+                       $names=$names.'/'.$name;
                    }
                  //  $names=$name.'/'.$names;
 

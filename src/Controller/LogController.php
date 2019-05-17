@@ -11,10 +11,9 @@ namespace SallePW\SlimApp\Controller;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use Dflydev\FigCookies\FigRequestCookies;
-
 use Dflydev\FigCookies\FigResponseCookies;
 use Dflydev\FigCookies\SetCookie;
+
 
 class LogController
 {
@@ -22,8 +21,8 @@ class LogController
     /** @var ContainerInterface */
     private $container;
     private $ismail;
-    private const COOKIES_REMEMBERME = 'rememberme';
 
+    private const COOKIES_REMEMBERME = 'user_id';
 
     /**
      * HelloController constructor.
@@ -43,17 +42,7 @@ class LogController
             $reg_ok = 0;
         }
 
-        $remembermeCookie = FigRequestCookies::get($request, self::COOKIES_REMEMBERME);
 
-        $isRemembered = $remembermeCookie->getValue();
-
-        var_dump($isRemembered);
-
-        if($isRemembered !== NULL){
-            $id = (int)$isRemembered;
-            $userInfo = $this->getInfo($id);
-            var_dump($userInfo);
-        }
 
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'login.twig',
@@ -102,20 +91,6 @@ class LogController
                         $id=$repository->getId($data['login']);
 
 
-                        /*if($enabled["enabled"] == '1'){
-                            //var_dump("esta enabled");
-
-
-                        }else{
-                            //FALTA: añadir el link de activacion
-                            $msg = ('Please check your email or click here to resend the activation link FOOL');
-                            throw new \Exception($msg);
-                        }*/
-
-
-                        //GESTION DEL CHECKBOX
-                        //var_dump($data['rememberme']);
-
                     } else {
                         throw new \Exception('Wrong password');
                     }
@@ -146,10 +121,15 @@ class LogController
        // session_start();
         $_SESSION['user_id'] = $id['id'];
 
+
+
+
+
         //IF CCHECKBOX IS CHEKED
         if(isset($_POST['rememberme'])){
-
-            $response = $this->setCookieCheckBox($response);
+            echo '<script>console.log("dentro")</script>';
+            $id = (int)$id['id'];
+            $response = $this->setCookieCheckBox($response, $id);
          }
 
 
@@ -224,16 +204,17 @@ class LogController
         $this->ismail = $ismail;
     }
 
-    private function setCookieCheckBox(Response $response): Response
+    private function setCookieCheckBox(Response $response, int $id): Response
     {
+
         return FigResponseCookies::set(
             $response,
-            SetCookie::create(self::COOKIES_REMEMBERME)
+            SetCookie::create('user_id')
                 ->withHttpOnly(true)
                 ->withMaxAge(3600)
-                ->withValue($_SESSION['user_id'])
+                ->withValue($id)
                 ->withDomain('pwpop.test')
-                ->withPath('/login')
+                ->withPath('/')
         );
     }
 
@@ -244,6 +225,7 @@ class LogController
         $repository = $this->container->get('user_repo');
 
         $data = $repository->getUsernameAndPassword($id);
+
 
         $userInfo = [];
 
