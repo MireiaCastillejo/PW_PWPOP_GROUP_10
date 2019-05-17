@@ -16,7 +16,7 @@
 
 
 {% block title %}
-    My products
+    Upload product
 {% endblock %}
 
 {% block buttons %}
@@ -34,6 +34,9 @@
 {% endblock %}
 
 {% block modal %}
+
+
+    <!-- Modal -->
     <div class="modal fade" id="searchModal" role="dialog" tabindex="-5" role="dialog">
         <div class="modal-dialog">
 
@@ -43,38 +46,38 @@
                     <h5 class="modal-title" id="myModalLabel">Search your product</h5>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="form" action="{{ path_for('search-info') }}" method="POST" enctype="multipart/form-data"  >
                         <div class="form-group">
                             <label for="TitleInput">Title</label>
-                            <input type="text" class="form-control" id="TitleInput" placeholder="Title">
+                            <input type="text" class="form-control" name="TitleInput" placeholder="Title">
                         </div>
 
                         <div class="form-group">
-                            <label for="TitleInput">Select your product:</label>
-                            <div class="dropdown">
-                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Products
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Tecnología</a>
-                                    <a class="dropdown-item" href="#">Ropa</a>
-                                    <a class="dropdown-item" href="#">Juguetes</a>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="Min">Min</label>
-                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
-                                       placeholder="MIN"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="Max">Max</label>
-                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
-                                       placeholder="MAX"/>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-
+                            <label>Select Product:</label><br>
+                            <select class="product" name="category">
+                                <option class="dropdown-item" value="Computers and electronic">Computers and electronic</option>
+                                <option class="dropdown-item" value="Cars">Cars</option>
+                                <option  class="dropdown-item" value="Sports">Sports</option>
+                                <option  class="dropdown-item" value="Games">Games</option>
+                                <option  class="dropdown-item" value="Fashion">Fashion</option>
+                                <option  class="dropdown-item" value="Home">Home</option>
+                                <option  class="dropdown-item" value="Other">Other</option>
+                            </select>
+                            <br><br>
                         </div>
+                        <div class="form-group">
+                            <label for="Min">Min</label>
+                            <input name="pricemin"type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
+                                   placeholder="MIN"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Max">Max</label>
+                            <input name="pricemax" type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
+                                   placeholder="MAX"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="searchButton" >Submit</button>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -85,69 +88,15 @@
         </div>
     </div>
 
-    <div class="modal fade" id="productModal" role="dialog" tabindex="-5">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <div class="col-md-6">
-                        <img id="productImage" src="">
-                    </div>
-                    <div class="col-md-6" style="vertical-align: middle;">
-                        <input class="form-control" type="text" name="title" id="title">
-                    </div>
-                </div>
-
-                <div class="modal-body">
-
-                    <form id="form" class="form_content" action="{{ path_for('upload') }}" method="POST" enctype="multipart/form-data">
-
-                        <div class="form-group">
-                            <label for="comment">Description:</label>
-                            <textarea name="description" class="form-control" rows="3" id="comment"></textarea>
-                        </div>
-
-                        <div class="form-group row">
-                            <div class="input-group pt1 col-md-6" style="max-height: 38px;padding-top: 1em;">
-                                <div class="input-group-prepend" >
-                                    <span class="input-group-text">Price &euro;</span>
-                                </div>
-                                <input  name="price" type="text" class="form-control" aria-label="Amount" id="price">
-                            </div>
-
-                            <div class="input-group col-md-6">
-                                <label>Category:</label>
-                                <select class="product" name="category" id="category">
-                                    <option class="dropdown-item" value="Computers and electronic">Computers and electronic</option>
-                                    <option class="dropdown-item" value="Cars">Cars</option>
-                                    <option  class="dropdown-item" value="Sports">Sports</option>
-                                    <option  class="dropdown-item" value="Games">Games</option>
-                                    <option  class="dropdown-item" value="Fashion">Fashion</option>
-                                    <option  class="dropdown-item" value="Home">Home</option>
-                                    <option  class="dropdown-item" value="Other">Other</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-dismiss="modal">cancel</button>
-                    <button type="submit" class="btn btn-outline-primary">Update Info</button>
-                    <button type="button" class="btn btn-link" id="deleteButton" data-toggle="modal" data-target="#deleteModal">Delete Product</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal fade" id="deleteModal" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4>Delete product</h4>
+                    <h4>Delete account</h4>
                 </div>
 
                 <div class="modal-body">
-                    <label>Are you sure you want to delete your product?</label>
+                    <label>Are you sure you want to delete your account?</label>
                 </div>
 
                 <div class="modal-footer">

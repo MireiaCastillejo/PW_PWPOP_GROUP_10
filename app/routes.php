@@ -23,6 +23,8 @@ $app->post('/{id:\d+}', HelloController::class . ':likeProduct')
 $app->post('/buy{id:\d+}', HelloController::class .':buyProduct')
     ->setName("buyProduct");
 
+$app->post('/', HelloController::class . ':searchProduct')
+    ->setName('search-info');
 //La pagina de registro
 $app->get('/register', RegController::class);
 
@@ -77,11 +79,14 @@ $app
     ->setName('login');
 
 
-//$app
-  //  ->get('/p', ProductReviewController::class);
+$app
+    ->get('/product_review', ProductReviewController::class);
 
 $app
     ->get('/product_review{id:\d+}', ProductReviewController::class. ':getProductData');
+
+$app
+    ->get('/product_review_buyer{id:\d+}', ProductReviewController::class. ':getProductReview');
     //->get('/product_review', ProductReviewController::class);
 
 //$app->get('/productData', ProductController::class . 'myProd');

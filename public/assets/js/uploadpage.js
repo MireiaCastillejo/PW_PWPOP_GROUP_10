@@ -1,15 +1,11 @@
 
-
 $(document).ready(function(){
     $("select.product").change(function() {
        $(this).children("option:selected").val();
 
     });
 
-    $('input[type="file"]'). change(function(e){
 
-
-    });
 
     var validator = $("#form");
 
@@ -22,7 +18,8 @@ $(document).ready(function(){
             },
             description: {
                 required: true,
-                minlength: 20
+                minlength: 20,
+                maxlength:100
 
             },
             price: {
@@ -30,11 +27,10 @@ $(document).ready(function(){
                 number: true
 
             },
-          /*  product_image:{
-                required: true,
-                extension: "jpg|png"
+            product_image:{
+                required: true
 
-            },*/
+            },
             category:{
                 required: true,
             }
@@ -49,17 +45,17 @@ $(document).ready(function(){
             },
             description:{
                 required: "This field is required",
-                minlength: "Min length 20 characters"
+                minlength: "Min length 20 characters",
+                maxlength: "Max length 100 caracters"
             },
             price: {
                 required: "This field is required",
                 rangeMax: "Please enter a valid range"
             },
-           /* product_image:{
-                required: "Please enter an image",
-                extension:"Please enter an JPG o PNG image"
+            product_image:{
+                required: "Please enter an image"
 
-            },*/
+            },
             category:{
                 required: "Please select a product"
 

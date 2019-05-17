@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js" ></script>
     <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
     <script src="{{ base_url() }}/assets/js/homepage.js"></script>
+
     <script src="{{ base_url() }}/assets/js/profile.js"></script>
 {% endblock %}
 
@@ -23,8 +24,9 @@
 {% endblock %}
 
 {% block modal %}
-    <div class="modal fade" id="searchModal" role="dialog" tabindex="-5">
-        <div class="modal-dialog" >
+    <!-- Modal -->
+    <div class="modal fade" id="searchModal" role="dialog" tabindex="-5" role="dialog">
+        <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
@@ -32,44 +34,47 @@
                     <h5 class="modal-title" id="myModalLabel">Search your product</h5>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="form1" action="{{ path_for('search-info') }}" method="POST" enctype="multipart/form-data"  >
                         <div class="form-group">
                             <label for="TitleInput">Title</label>
-                            <input type="text" class="form-control" id="TitleInput" placeholder="Title">
+                            <input type="text" class="form-control" name="TitleInput" placeholder="Title">
                         </div>
 
                         <div class="form-group">
-                            <label for="TitleInput">Select your product:</label>
-                            <div class="dropdown">
-                                <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Products
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" href="#">Tecnología</a>
-                                    <a class="dropdown-item" href="#">Ropa</a>
-                                    <a class="dropdown-item" href="#">Juguetes</a>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="Min">Min</label>
-                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01" placeholder="MIN"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="Max">Max</label>
-                                <input type="number" class="form-control" min="0.00" max="10000.00" step="0.01" placeholder="MAX"/>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-
+                            <label>Select Product:</label><br>
+                            <select class="product" name="category">
+                                <option class="dropdown-item" value="Computers and electronic">Computers and electronic</option>
+                                <option class="dropdown-item" value="Cars">Cars</option>
+                                <option  class="dropdown-item" value="Sports">Sports</option>
+                                <option  class="dropdown-item" value="Games">Games</option>
+                                <option  class="dropdown-item" value="Fashion">Fashion</option>
+                                <option  class="dropdown-item" value="Home">Home</option>
+                                <option  class="dropdown-item" value="Other">Other</option>
+                            </select>
+                            <br><br>
                         </div>
+                        <div class="form-group">
+                            <label for="Min">Min</label>
+                            <input name="pricemin"type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
+                                   placeholder="MIN"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Max">Max</label>
+                            <input name="pricemax" type="number" class="form-control" min="0.00" max="10000.00" step="0.01"
+                                   placeholder="MAX"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="searchButton" >Submit</button>
+
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
+
         </div>
     </div>
-
     <div class="modal fade" id="deleteModal" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -84,7 +89,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
                     <button type="submit" class="btn btn-danger" id="deleteButtonConfirm">Delete</button>
-                    <form id="form" class="form_content" action="{{ path_for('update') }}" method="POST" enctype="multipart/form-data">
+                    <form id="form2" class="form_content" action="{{ path_for('update') }}" method="POST" enctype="multipart/form-data">
 
                         <input type="submit" name="delete" id="delete" value="Delete" /><br/>
 
@@ -103,7 +108,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form id="form" action="{{ path_for('update-info') }}" method="POST" enctype="multipart/form-data" >
+                    <form id="form3" action="{{ path_for('update-info') }}" method="POST" enctype="multipart/form-data" >
                         <div class="form-group">
                             <label for="validationName" class="formlabel">Name</label>
 

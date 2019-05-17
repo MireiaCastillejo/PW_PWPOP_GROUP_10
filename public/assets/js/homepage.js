@@ -17,8 +17,21 @@ $(document).ready(function(){
             $("#loadMore").fadeOut('slow');
         }
     });
+
+
+    $('#searchButton').click(function () {
+        console.log("update modal abierto");
+
+    })
+
+
 });
 
+/*Le pasamos el ID para poder ir al product review del buyer */
+function productreview(data){
+    console.log(data);
+    location.href ="/product_review_buyer"+data;
+}
 function logout(data){
 
 location.href ="/logout";
@@ -45,6 +58,7 @@ function like(id) {
 }
 
 function buy(id) {
+    console.log(id);
 
     var form = document.createElement('form');
     form.setAttribute('method', 'post');
@@ -53,6 +67,7 @@ function buy(id) {
 
     document.body.appendChild(form);
     form.submit();
+    //location.href ="/";
 
 
 

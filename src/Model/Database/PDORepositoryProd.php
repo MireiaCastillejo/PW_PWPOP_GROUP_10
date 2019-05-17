@@ -8,6 +8,7 @@
 
 namespace SallePW\SlimApp\Model\Database;
 
+use http\Encoding\Stream\Inflate;
 use PDO;
 
 use SallePW\SlimApp\Model\Product;
@@ -28,13 +29,14 @@ final class PDORepositoryProd implements ProductRepositoryInterface
         $this->database = $database;
     }
 
-    public function save(Product $product) {
+    public function save(Product $product)
+    {
         $statement = $this->database->getConnection()->prepare(
             "INSERT into product(userid,title, description, price, product_image,category, isActive) 
                         values(:userid,:title,:description,:price,:product_image,:category,:isActive)"
         );
 
-        $userid=$product->getUserid();
+        $userid = $product->getUserid();
         $title = $product->getTitle();
         $description = $product->getDescription();
         $price = strval($product->getPrice());
@@ -53,7 +55,8 @@ final class PDORepositoryProd implements ProductRepositoryInterface
         $statement->execute();
     }
 
-    public function get(){
+    public function get()
+    {
         $statement = $this->database->getConnection()->prepare(
             "SELECT * FROM product"
         );
@@ -68,13 +71,14 @@ final class PDORepositoryProd implements ProductRepositoryInterface
     {
         $statement = $this->database->getConnection()->prepare(
             'update product set isFav =1 where id =:id');
-      $statement->bindParam('id', $id, PDO::PARAM_INT);
+        $statement->bindParam('id', $id, PDO::PARAM_INT);
         $statement->execute();
 
     }
 
 
-    public function buy(int $id){
+    public function buy(int $id)
+    {
         $statement = $this->database->getConnection()->prepare(
             'update product set isSold =1 where id =:id');
         $statement->bindParam('id', $id, PDO::PARAM_INT);
@@ -83,7 +87,8 @@ final class PDORepositoryProd implements ProductRepositoryInterface
     }
 
 
-    public function getData(int $id){
+    public function getData(int $id)
+    {
         $statement = $this->database->getConnection()->prepare(
             "SELECT * FROM product WHERE id = :id;"
         );
@@ -93,19 +98,120 @@ final class PDORepositoryProd implements ProductRepositoryInterface
         $statement->execute();
         $res = $statement->fetch(PDO::FETCH_ASSOC);
 
-        if($res != null){
+        if ($res != null) {
 
-            return[
+            return [
+                "id"=> $res['id'],
                 "title" => $res['title'],
                 "description" => $res['description'],
                 "price" => $res['price'],
                 "product_image" => $res['product_image'],
                 "category" => $res['category'],
+                "isActive"=> $res['isActive'],
+                "isSold"=> $res['isSold'],
             ];
-        }else{
+        } else {
             return [];
         }
 
 
     }
+
+    public function searchProduct(string $title, string $category, float $pricemin, float $pricemax)
+    {
+
+
+        if (empty($title) and empty($pricemin) and empty($pricemax)) {
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT * FROM product WHERE category = :category ;"
+            );
+
+            $statement->bindParam('category', $category, PDO::PARAM_STR);
+
+            $statement->execute();
+            $product = $statement->fetchAll();
+        } elseif (empty($title) and empty($pricemax)) {
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT * FROM product WHERE category = :category and  price>=:pricemin;"
+            );
+            $statement->bindParam('pricemin', $pricemin, PDO::PARAM_INT);
+            $statement->bindParam('category', $category, PDO::PARAM_STR);
+            $statement->execute();
+            $product = $statement->fetchAll();
+        } elseif (empty($title) and empty($pricemin)) {
+
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT * FROM product WHERE category = :category and  price<:pricemax;"
+            );
+            $statement->bindParam('pricemax', $pricemax, PDO::PARAM_INT);
+            $statement->bindParam('category', $category, PDO::PARAM_STR);
+            $statement->execute();
+            $product = $statement->fetchAll();
+        } elseif (empty($title)) {
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT * FROM product WHERE category = :category and price>=:pricemin and price<:pricemax;"
+            );
+            $statement->bindParam('pricemin', $pricemin, PDO::PARAM_INT);
+            $statement->bindParam('pricemax', $pricemax, PDO::PARAM_INT);
+            $statement->bindParam('category', $category, PDO::PARAM_STR);
+            $statement->execute();
+            $product = $statement->fetchAll();
+
+        } elseif (empty($pricemin)) {
+
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT * FROM product WHERE title = :title and category = :category and price<:pricemax;"
+            );
+            $statement->bindParam('title', $title, PDO::PARAM_STR);
+            $statement->bindParam('category', $category, PDO::PARAM_STR);
+            $statement->bindParam('pricemax', $pricemax, PDO::PARAM_INT);
+
+            $statement->execute();
+            $product = $statement->fetchAll();
+
+        } elseif (empty($pricemin) and empty($pricemax)) {
+
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT * FROM product WHERE title = :title and category = :category ;"
+            );
+            $statement->bindParam('title', $title, PDO::PARAM_STR);
+            $statement->bindParam('category', $category, PDO::PARAM_STR);
+            $statement->execute();
+            $product = $statement->fetchAll();
+        } elseif (empty($pricemax)) {
+
+
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT * FROM product WHERE title = :title and category = :category and price>=:pricemin ;"
+            );
+            $statement->bindParam('title', $title, PDO::PARAM_STR);
+            $statement->bindParam('category', $category, PDO::PARAM_INT);
+            $statement->bindParam('pricemin', $pricemin, PDO::PARAM_INT);
+            $statement->execute();
+            $product = $statement->fetchAll();
+        } else {
+
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT * FROM product WHERE title = :title and category = :category and price>=:pricemin and price<:pricemax;"
+            );
+
+            $statement->bindParam('title', $title, PDO::PARAM_STR);
+            $statement->bindParam('category', $category, PDO::PARAM_STR);
+            $statement->bindParam('pricemin', $pricemin, PDO::PARAM_INT);
+            $statement->bindParam('pricemax', $pricemax, PDO::PARAM_INT);
+
+
+            $statement->execute();
+            $product = $statement->fetchAll();
+        }
+
+        return $product;
+    }
+
+
+
+
+
+
+
 }

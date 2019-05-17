@@ -18,6 +18,7 @@ interface ProductRepositoryInterface
     public function favourite(int $id);
     public function buy(int $id);
     public function getData(int $userid);
+    public function searchProduct(string $title,string $category,float $pricemin,float $pricemax);
 
 
     }
