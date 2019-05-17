@@ -1,7 +1,7 @@
 <?php
 
 use SallePW\SlimApp\Controller\HelloController;
-use SallePW\SlimApp\Controller\Middleware\LoginMiddleware;
+use SallePW\SlimApp\Controller\Middleware\TestMiddleware;
 use SallePW\SlimApp\Controller\Middleware\SessionMiddleware;
 use SallePW\SlimApp\Controller\ProfileController;
 use SallePW\SlimApp\Controller\RegController;
@@ -58,6 +58,7 @@ $app->get('/fetch', ProfileController::class . ':getUserData');
 
 $app->post('/profile', ProfileController::class . ':updateInfo')
     ->setName('update-info');
+
 //PRODUCTOS
 $app->get('/myproducts', ProductController::class . ':myprod');
 
@@ -81,7 +82,9 @@ $app
 
 $app
     ->get('/product_review{id:\d+}', ProductReviewController::class. ':getProductData');
+    //->get('/product_review', ProductReviewController::class);
 
+//$app->get('/productData', ProductController::class . 'myProd');
 
 //$app->add(SessionMiddleware::class);
 

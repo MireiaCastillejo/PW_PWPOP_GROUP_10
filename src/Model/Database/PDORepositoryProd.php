@@ -101,7 +101,6 @@ final class PDORepositoryProd implements ProductRepositoryInterface
                 "price" => $res['price'],
                 "product_image" => $res['product_image'],
                 "category" => $res['category'],
-
             ];
         }else{
             return [];

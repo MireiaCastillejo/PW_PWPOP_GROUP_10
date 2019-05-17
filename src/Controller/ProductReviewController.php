@@ -26,7 +26,7 @@ final class ProductReviewController
 
     }
 
-    public function __invoke(Request $request, Response $response)
+    public function __invoke(Request $request, Response $response, array $args)
     {
         // session_start();
         //$id = (int)$id['id'];
@@ -38,6 +38,7 @@ final class ProductReviewController
             return $response->withStatus(403);
         }
 
+        //$this->container->get('view')->render($response, 'product_review.twig', ['sesion' => $_SESSION['user_id']]);
     }
 
     public function getProductData(Request $request, Response $response, $id): Response
@@ -46,15 +47,14 @@ final class ProductReviewController
 
         try {
 
-
             if ( isset( $_SESSION['user_id'] ) ) {
 
                 /** @var PDORepository $repository */
                 $repository = $this->container->get('product_repo');
                 $id=$id['id'];
 
-
                 $data = $repository->getData($id);
+
                 if (!isset($data['title'])) {
 
                     $response = $response
@@ -64,7 +64,7 @@ final class ProductReviewController
                 } else {
                     $response = $response
                         ->withStatus(200)
-                        ->write(json_encode(["message" => "correcto", "res" => $data]));
+                        ->write(json_encode(["message" => "correcto producto", "res" => $data]));
 
 
                 }
@@ -75,12 +75,7 @@ final class ProductReviewController
                 ->write(json_encode(["message"=>"nope", "res"=>$e]));
 
         }
-
-
         return $response;
-
-
-
     }
 
     /**

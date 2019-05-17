@@ -28,6 +28,11 @@ function loadData() {
     });
 }
 
+function logout(data){
+
+    location.href ="/logout";
+}
+
 $(document).ready(function () {
     loadData();
 });

@@ -1,17 +1,17 @@
 var userData = [];
-$(document).ready(function(){
+$(document).ready(function() {
 
-    $("#deleteButton").click(function(){
+    $("#deleteButton").click(function () {
         //$("#deleteModal").modal({show: true});
         console.log("modal abierto");
     });
 
-    $("#deleteButtonConfirm").click(function() {
+    $("#deleteButtonConfirm").click(function () {
         console.log("confirmar borrar");
         deleteAccount();
     });
 
-    $("#updateButton").click(function() {
+    $("#updateButton").click(function () {
         //$("#updateModal").modal({show: true});
         console.log("update modal abierto");
         console.log(window.userData['res']['username']);
@@ -30,18 +30,18 @@ $(document).ready(function(){
                 email: {
                     email: true
                 },
-                birthdate:{
+                birthdate: {
                     date: true,
                 },
-                phonenumber:{
+                phonenumber: {
                     pattern: /[0-9]{3}[ ][0-9]{3}[ ][0-9]{3}/,
-                    minlength : 9,
+                    minlength: 9,
                 },
-                password:{
+                password: {
                     required: true,
                     minlength: 6
                 },
-                c_password:{
+                c_password: {
                     required: true,
                     equalTo: $('input[name=password]'),
                 }
@@ -55,11 +55,11 @@ $(document).ready(function(){
                     email: "Please enter a valid email*",
                 },
                 date: {
-                    date:"Please enter a valid date*",
+                    date: "Please enter a valid date*",
                 },
                 phonenumber: {
                     pattern: "Please follow the format xxx xxx xxx, only numbers*",
-                    minlength:"Minimum length of 9 characters*"
+                    minlength: "Minimum length of 9 characters*"
                 },
                 password: {
                     required: "This field is required*",
@@ -70,26 +70,27 @@ $(document).ready(function(){
                     equalTo: "Password doesn't match*",
                 },
             },
-            errorClass:"invalid",
+            errorClass: "invalid",
             //Funcion para mostrar el error
-            errorPlacement: function(error, element) {
+            errorPlacement: function (error, element) {
                 element.before(error);
             },
         });
 
-        validator.on('submit', function(e) {
+        validator.on('submit', function (e) {
             var isvalid = validator.valid();
 
             if (isvalid) {
 
-            form.submit();
-        }else{
-            e.preventDefault();
-        }
+                form.submit();
+            } else {
+                e.preventDefault();
+            }
+        });
+
+
+        // loadData();
     });
-
-
-   // loadData();
 });
 
 function loadData() {
@@ -167,3 +168,7 @@ window.onload = function(){
 
     loadData();
 }
+
+
+
+

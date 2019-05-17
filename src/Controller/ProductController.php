@@ -38,10 +38,10 @@ final class ProductController
 
         //session_start();
         $id=$_SESSION['user_id'];
-            $repository = $this->container->get('product_repo');
+        $repository = $this->container->get('product_repo');
 
-            $products = $repository->get();
-            $this->container->get('view')->render($response, 'myproducts.twig', ['products' => $products,'id'=>$id]);
+        $products = $repository->get();
+        $this->container->get('view')->render($response, 'myproducts.twig', ['products' => $products,'id'=>$id]);
 
 
     }
@@ -75,13 +75,13 @@ final class ProductController
                 /** @var UploadedFileInterface $uploadedFile */
                 foreach ($uploadedFiles['files'] as $uploadedFile) {
 
-                   $name=$uploadedFile->getClientFilename();
-                   if($i==0){
-                       $names=$name;
+                    $name=$uploadedFile->getClientFilename();
+                    if($i==0){
+                        $names=$name;
 
-                   }else{
-                      $names=$names.'/'.$name;
-                   }
+                    }else{
+                        $names=$names.'/'.$name;
+                    }
 
 
                     $i++;
@@ -89,7 +89,7 @@ final class ProductController
                 }
                 $data['product_image'] = $names;
                 //$names=$name."/";
-               // var_dump( $names);
+                // var_dump( $names);
                 //echo $data['product_image'];
 
                 if (empty($errors)) {
@@ -123,7 +123,7 @@ final class ProductController
 
         $products = $repository->get();
 
-       $this->container->get('view')->render($response, 'loggeduser.twig', ['products' => $products,'sesion'=>$_SESSION['user_id']]);
+        $this->container->get('view')->render($response, 'loggeduser.twig', ['products' => $products,'sesion'=>$_SESSION['user_id']]);
 
         return $response->withStatus(201);
 
@@ -158,49 +158,49 @@ final class ProductController
             //Falta controlar el precio
         } else {
 
-           $data['price']=(float)$data['price'];
+            $data['price']=(float)$data['price'];
 
 
         }
         $uploadedFiles = $request->getUploadedFiles();
 
 
-            foreach ($uploadedFiles['files'] as $uploadedFile) {
+        foreach ($uploadedFiles['files'] as $uploadedFile) {
+            $name = $uploadedFile->getClientFilename();
+
+            if ($name !== "") {
+
+                if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
+
+                    $errors[] = sprintf(self::UNEXPECTED_ERROR, $uploadedFile->getClientFilename());
+                    return $errors;
+                }
+
                 $name = $uploadedFile->getClientFilename();
+                $size = $uploadedFile->getSize();
+                $fileInfo = pathinfo($name);
 
-                if ($name !== "") {
-
-                    if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
-
-                        $errors[] = sprintf(self::UNEXPECTED_ERROR, $uploadedFile->getClientFilename());
-                        return $errors;
-                    }
-
-                    $name = $uploadedFile->getClientFilename();
-                    $size = $uploadedFile->getSize();
-                    $fileInfo = pathinfo($name);
-
-                    $format = $fileInfo['extension'];
+                $format = $fileInfo['extension'];
 
 
-                    if (!$this->isValidFormat($format)) {
-                        $errors[] = sprintf(self::INVALID_EXTENSION_ERROR, $format);
+                if (!$this->isValidFormat($format)) {
+                    $errors[] = sprintf(self::INVALID_EXTENSION_ERROR, $format);
 
-                    }
-                    if ($size > 1000000) {
-                        $errors[] = "Choosen image must not exceed 1Mb";
+                }
+                if ($size > 1000000) {
+                    $errors[] = "Choosen image must not exceed 1Mb";
 
-                    }
+                }
 
-                    // We generate a custom name here instead of using the one coming form the form
-                   // $uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR. $data['title'] . "." . $format);
+                // We generate a custom name here instead of using the one coming form the form
+                // $uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR. $data['title'] . "." . $format);
 
-                    $uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $name);
-                    if (isset($temp)) {
-                        $errors['product_image'] = $temp;
-                    }
+                $uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $name);
+                if (isset($temp)) {
+                    $errors['product_image'] = $temp;
                 }
             }
+        }
         //}
         //$uploadedFiles = $request->getUploadedFiles();
 
@@ -209,17 +209,17 @@ final class ProductController
         //$aux = $uploadedFiles['product_image']->getClientFilename();
 
 
-       /* if ($aux !== ""){
+        /* if ($aux !== ""){
 
 
-            $temp= $this->imageChecking($uploadedFiles['product_image'], $data['title']);
+             $temp= $this->imageChecking($uploadedFiles['product_image'], $data['title']);
 
 
-            if(isset($temp)){
-                $errors['product_image'] = $temp;
-            }
+             if(isset($temp)){
+                 $errors['product_image'] = $temp;
+             }
 
-        }*/
+         }*/
 
         //CONFIRM Category
         if (empty($data['category'])) {
@@ -238,32 +238,32 @@ final class ProductController
 
         /** @var UploadedFileInterface $uploadedFile */
         //foreach ($uploadedFiles['files'] as $uploadedFile) {
-            if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
+        if ($uploadedFile->getError() !== UPLOAD_ERR_OK) {
 
-                $errors[] = sprintf(self::UNEXPECTED_ERROR, $uploadedFile->getClientFilename());
-              return $errors;
-            }
+            $errors[] = sprintf(self::UNEXPECTED_ERROR, $uploadedFile->getClientFilename());
+            return $errors;
+        }
 
-            $name = $uploadedFile->getClientFilename();
-            $size = $file->getSize();
-            $fileInfo = pathinfo($name);
+        $name = $uploadedFile->getClientFilename();
+        $size = $file->getSize();
+        $fileInfo = pathinfo($name);
 
-            $format = $fileInfo['extension'];
+        $format = $fileInfo['extension'];
 
 
-            if (!$this->isValidFormat($format)) {
-                $errors[] = sprintf(self::INVALID_EXTENSION_ERROR, $format);
-                return $errors;
-            }
-            if ($size > 1000000) {
-                $errors[] = "Choosen image must not exceed 1Mb";
-                return $errors;
-            }
+        if (!$this->isValidFormat($format)) {
+            $errors[] = sprintf(self::INVALID_EXTENSION_ERROR, $format);
+            return $errors;
+        }
+        if ($size > 1000000) {
+            $errors[] = "Choosen image must not exceed 1Mb";
+            return $errors;
+        }
 
-            // We generate a custom name here instead of using the one coming form the form
-            //$uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR. $title . "." . format);
+        // We generate a custom name here instead of using the one coming form the form
+        //$uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR. $title . "." . format);
         $uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $name);
-      //  }
+        //  }
 
 
 

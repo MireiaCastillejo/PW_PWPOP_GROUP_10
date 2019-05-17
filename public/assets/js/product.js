@@ -1,33 +1,32 @@
+$(document).ready(function() {
 
-window.load=function () {
-    loadData();
-    console.log("HOLAAA");
-};
+    $("#deleteButton").click(function () {
+        $("#productModal").modal('hide');
+    });
 
-function loadData() {
+});
 
+
+function loadProduct(id) {
 
     $.ajax({
-
         async : true,
         type : 'get',
-        url: '/prueba',
+        url: '/product_review'+id,
         dataType: 'json',
 
         statusCode: {
             200: function (data) {
 
-console.log(data);
-               // var image = "/uploads/" + data['res']['productfoto'];
-                document.getElementById("title").innerHTML = data['res']['title'];
-                document.getElementById("description").innerHTML = data['res']['despcription'];
-                document.getElementById("price").innerHTML = data['res']['price'];
-                document.getElementById("category").innerHTML = data['res']['category'];
+                console.log(data['res']);
+                //console.dir(JSON.parse(data).responseText);
+                // var image = "/uploads/" + data['res']['productfoto'];
 
+                document.getElementById("title").value = data['res']['title'];
+                document.getElementById("comment").value = data['res']['despcription'];
+                document.getElementById("price").value = data['res']['price'];
+                document.getElementById("category").value = data['res']['category'];
 
-               /* document.getElementById("newName").placeholder = data['res']['name'];
-                document.getElementById("newEmail").placeholder = data['res']['email'];
-                document.getElementById("newPhone").placeholder = data['res']['phonenumber'];*/
             },
 
             404: function () {
@@ -39,4 +38,15 @@ console.log(data);
             }
         }
     });
+}
+
+function showInfo(id){
+
+    $("#productModal").modal('show');
+    loadProduct(id);
+
+}
+
+window.onload=function () {
+
 }
