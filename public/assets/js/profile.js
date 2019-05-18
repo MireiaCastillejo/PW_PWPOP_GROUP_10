@@ -16,7 +16,7 @@ $(document).ready(function() {
         console.log("update modal abierto");
         console.log(window.userData['res']['username']);
 
-        var validator = $('#updateForm');
+        var validator = $('#form3');
         validator.validate({
             // Specify validation rules
 
@@ -38,11 +38,11 @@ $(document).ready(function() {
                     minlength: 9,
                 },
                 password: {
-                    required: true,
+
                     minlength: 6
                 },
                 c_password: {
-                    required: true,
+
                     equalTo: $('input[name=password]'),
                 }
             },
@@ -62,11 +62,11 @@ $(document).ready(function() {
                     minlength: "Minimum length of 9 characters*"
                 },
                 password: {
-                    required: "This field is required*",
+
                     minlength: "Password must be at least 6 characters*",
                 },
                 c_password: {
-                    required: "This field is required*",
+
                     equalTo: "Password doesn't match*",
                 },
             },
@@ -84,6 +84,7 @@ $(document).ready(function() {
 
                 form.submit();
             } else {
+
                 e.preventDefault();
             }
         });

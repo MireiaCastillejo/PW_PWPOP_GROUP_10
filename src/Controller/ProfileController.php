@@ -139,13 +139,14 @@ final class ProfileController
                 }
 
                 $uploadedFiles = $request->getUploadedFiles();
-                $name = $uploadedFiles['profile']->getClientFilename();
-                $fileInfo = pathinfo($name);
-                $format = $fileInfo['extension'];
+
 
                 if(empty($uploadedFiles['profile']->getClientFilename())){
                     $data['profile'] = $currentUser['profileimage'];
                 }else{
+                    $name = $uploadedFiles['profile']->getClientFilename();
+                    $fileInfo = pathinfo($name);
+                    $format = $fileInfo['extension'];
                     $data['profile'] = $data['username'].'.'.$format;
                 }
 
