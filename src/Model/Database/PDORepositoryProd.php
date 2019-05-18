@@ -55,6 +55,22 @@ final class PDORepositoryProd implements ProductRepositoryInterface
         $statement->execute();
     }
 
+    public function update($title, $description, $price, $category, $id_product){
+
+        $statement = $this->database->getConnection()->prepare(
+            "UPDATE product SET title = :title, description = :description, price = :price, category = :category 
+                      WHERE id = :id;");
+
+        $statement->bindParam('title', $title, PDO::PARAM_STR);
+        $statement->bindParam('description', $description, PDO::PARAM_STR);
+        $statement->bindParam('price', $price, PDO::PARAM_STR);
+        $statement->bindParam('category', $category, PDO::PARAM_STR);
+        $statement->bindParam('id', $id_product, PDO::PARAM_INT);
+
+        var_dump($statement);
+        //$statement->execute();h
+    }
+
 
     public function get()
     {
@@ -115,13 +131,10 @@ final class PDORepositoryProd implements ProductRepositoryInterface
 
             return [];
         }
-
-
     }
 
     public function searchProduct(string $title, string $category, float $pricemin, float $pricemax)
     {
-
 
         if (empty($title) and empty($pricemin) and empty($pricemax)) {
             $statement = $this->database->getConnection()->prepare(
@@ -209,11 +222,4 @@ final class PDORepositoryProd implements ProductRepositoryInterface
 
         return $product;
     }
-
-
-
-
-
-
-
 }

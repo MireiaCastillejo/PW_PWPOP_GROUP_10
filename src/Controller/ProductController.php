@@ -35,15 +35,12 @@ final class ProductController
     }
     public function myprod(Request $request, Response $response)
     {
-
         //session_start();
         $id=$_SESSION['user_id'];
         $repository = $this->container->get('product_repo');
 
         $products = $repository->get();
         $this->container->get('view')->render($response, 'myproducts.twig', ['products' => $products,'id'=>$id]);
-
-
     }
 
     public function __invoke(Request $request, Response $response, array $args)
@@ -113,7 +110,7 @@ final class ProductController
 
             //$response->getBody()->write('Unexpected error: ' . $e->getMessage());
 
-            $this->container->get('view')->render($response, 'error.twig', ['errors' => $errors,]);
+            $this->container->get('view')->render($response, 'error.twig', ['errors' => $errors]);
             return $response->withStatus(400);
         }
         $repository = $this->container->get('product_repo');
@@ -124,13 +121,11 @@ final class ProductController
             ['products' => $products, 'sesion' => $_SESSION['user_id']]);
 
         return $response->withStatus(201);
-
-
     }
 
 
     //Funcion para validar todos los campos antes de guardarlo
-    private function validate(array $data, Request $request, Response $response): array
+    private function validate(array $data, Request $request, Response $response)
     {
         $errors = [];
 
@@ -152,7 +147,7 @@ final class ProductController
         }
 
 
-        //PASSWORD
+        //PRICE
         if (empty($data['price'])) {
 
             $errors['price'] = 'The price cannot be empty.';
@@ -220,7 +215,6 @@ final class ProductController
     private function imageChecking(UploadedFileInterface $file, String $title)
     {
 
-
         $errors = [];
 
         /** @var UploadedFileInterface $uploadedFile */
@@ -251,17 +245,9 @@ final class ProductController
             //$uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR. $title . "." . format);
         $uploadedFile->moveTo(self::UPLOADS_DIR . DIRECTORY_SEPARATOR . $name);
       //  }
-
-
-
     }
 
     private function isValidFormat(string $extension ): bool {
         return in_array($extension, self::ALLOWED_EXTENSIONS, true);
     }
-
-
-
-
-
 }

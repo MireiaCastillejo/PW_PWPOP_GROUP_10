@@ -43,6 +43,7 @@ final class ProductReviewController
 
     public function getProductData(Request $request, Response $response,$id): Response
     {
+
         try {
 
                 /** @var PDORepository $repository */
@@ -80,65 +81,64 @@ final class ProductReviewController
      * @param $args
      * @return Response
      */
-    public function updateInfo(Request $request, Response $response):Response
+    public function updateProduct(Request $request, Response $response, $array)
     {
+
         try {
             //session_start();
 
             if ( isset( $_SESSION['user_id'] ) ) {
 
-                // This method decodes the received json
-                $data = $request->getParsedBody();
+                $id = $_SESSION['user_id'];
 
-                $id=(int)$_SESSION['user_id'];
-
-                //add username to data array
-                $data['username']='user1';
+                $title = (json_decode($array['array'], true)['title']);
+                $description = (json_decode($array['array'], true)['description']);
+                $price = (json_decode($array['array'], true)['price']);
+                $category = (json_decode($array['array'], true)['category']);
 
                 /** @var PDORepository $repository * */
-                $repository = $this->container->get('user_repo');
+                $repository = $this->container->get('product_repo');
 
-                //Validamos los campos y guardamos los errores
-                $regController = new RegController($this->container);
-                $errors = $regController->validate($data, $request, true);
+                $errors = [];
 
-                if(empty($data['birthdate'])){
-                    $aux= new DateTime("1000-01-01 00:00:00");
-                    $data['birthdate'] = $aux->format('Y-m-d H:i:s');
+                //Title
+                if (empty($title)) {
+                    $errors['title'] = 'The title cannot be empty.';
                 }
 
-                $uploadedFiles = $request->getUploadedFiles();
-                $name = $uploadedFiles['profile']->getClientFilename();
-                $fileInfo = pathinfo($name);
-
-                $format = $fileInfo['extension'];
-
-                if(empty($uploadedFiles['profile']->getClientFilename())){
-
-                    $data['profile'] = 'defaultProfile.png';
-                }else{
-
-                    $data['profile'] = $data['username'].'.'.$format;
+                //Description
+                if (empty($description)) {
+                    $errors['description'] = 'The description cannot be empty.';
+                } else {
+                    if (strlen($description)<20) {
+                        $errors['description'] = 'The description must have min. 20 characters';
+                    }
+                    if (strlen($description) > 200) {
+                        $errors['description'] = 'The description must have max. 200 characters';
+                    }
                 }
+
+                //PRICE
+                if (empty($price)) {
+
+                    $errors['price'] = 'The price cannot be empty.';
+                } else {
+                    if(!is_numeric($price)) {
+
+                        $errors['price'] = 'The price must be a number.';
+                    }
+                    $data['price'] = (float)$price;
+                }
+
+                //Category
+                if (empty($category)) {
+                    $errors['category'] = 'The category cannot be empty.';
+                }
+
 
                 if(empty($errors)){
-                    $user = new User(
-                        $id,
-                        $data['name'],
-                        $data['username'],
-                        $data['email'],
-                        $data['birthdate'],
-                        $data['phonenumber'],
-                        $data['password'],
-                        $data['profile'],
-                        1,
-                        1,
-                        new DateTime(),
-                        new DateTime()
-                    );
 
-                    $repository->update($user);
-
+                    $repository->update($title, $description, $price, $category, $id);
 
                 }else {
                     //Algo ha ido mal
@@ -149,16 +149,12 @@ final class ProductReviewController
 
         } catch (\Exception $e) {
 
-            //Si hay fallo de validacion, ventana de error
-
-            //$response->getBody()->write('Unexpected error: ' . $e->getMessage());
-            $this->container->get('view')->render($response, 'profile.twig', [
-                'errors' => $errors,
-            ]);
+            $this->container->get('view')->render($response, 'myproducts.twig', ['errors' => $errors,]);
             return $response->withStatus(500);
         }
 
-        return $response->withRedirect('/profile',200);
+
+        //return $response->withStatus(200);
     }
 
     public function getProductReview(Request $request, Response $response, $id): Response

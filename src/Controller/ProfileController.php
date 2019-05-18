@@ -127,6 +127,9 @@ final class ProfileController
                 if($data['phonenumber'] === ''){
                     $data['phonenumber'] = $currentUser['phonenumber'];
                 }
+                if($data['enabled'] === ''){
+                    $data['enabled'] = $currentUser['enabled'];
+                }
 
                 //Validamos los campos y guardamos los errores
                 $regController = new RegController($this->container);
@@ -158,7 +161,7 @@ final class ProfileController
                         $data['password'],
                         $data['profile'],
                         1,
-                        0,
+                        $data['enabled'],
                         new DateTime(),
                         new DateTime()
                     );

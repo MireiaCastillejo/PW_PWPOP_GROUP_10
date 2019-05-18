@@ -33,8 +33,7 @@ $app->get('/register', RegController::class);
 
 
 //La pagina de perfil
-$app
-    ->get('/profile', ProfileController::class);
+$app->get('/profile', ProfileController::class);
 
 //UPLOAD PRODUCT
 $app->get('/uploadproduct', ProductController::class);
@@ -44,21 +43,17 @@ $app->post('/uploadproduct', ProductController::class . ':uploadAction')
     ->setName("upload");
 
 //REGISTER
-$app
-    ->post('/register', RegController::class . ':regAction')
+$app->post('/register', RegController::class . ':regAction')
     ->setName('register');
 //VERIFY
 
-$app
-    ->get('/verify', RegController::class . ':verifyUser');
+$app->get('/verify', RegController::class . ':verifyUser');
 
 //RESEND EMAIL
-$app
-    ->get('/resend', Email::class . ':reSendEmail');
+$app->get('/resend', Email::class . ':reSendEmail');
 
 //DELETE
-$app
-    ->post('/update', UserController::class . ':put')
+$app->post('/update', UserController::class . ':put')
     ->setName('update');
 
 //$app->get('/profile', ProfileController::class);
@@ -71,30 +66,28 @@ $app->post('/profile', ProfileController::class . ':updateInfo')
 //PRODUCTOS
 $app->get('/myproducts', ProductController::class . ':myprod');
 
+$app->get('/product_review', ProductReviewController::class);
+
+$app->get('/product_update{id:/d+}', ProductReviewController::class);
+$app->post('/product_update{array}', ProductReviewController::class . ':updateProduct');
+
+$app->get('/product_review{id:\d+}', ProductReviewController::class. ':getProductData');
+$app->get('/product_review_buyer{id:\d+}', ProductReviewController::class. ':getProductReview');
+
 
 //FAVORITOS
-$app
-    ->get('/favourite', FavouriteController::class);
+$app->get('/favourite', FavouriteController::class);
 
 
 //LOGIN
-$app
-    ->get('/login', LogController::class);
-    //->add(LoginMiddleware::class);;
-$app
-    ->post('/login', LogController::class . ':logAction')
+$app->get('/login', LogController::class);
+    //->add(LoginMiddleware::class);
+
+$app->post('/login', LogController::class . ':logAction')
     ->setName('login');
 
 
-$app
-    ->get('/product_review', ProductReviewController::class);
-
-$app
-    ->get('/product_review{id:\d+}', ProductReviewController::class. ':getProductData');
-
-$app
-    ->get('/product_review_buyer{id:\d+}', ProductReviewController::class. ':getProductReview');
-    //->get('/product_review', ProductReviewController::class);
+//->get('/product_review', ProductReviewController::class);
 
 //$app->get('/productData', ProductController::class . 'myProd');
 

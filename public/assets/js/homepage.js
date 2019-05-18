@@ -37,7 +37,6 @@ function logout(data){
 location.href ="/logout";
 }
 
-
 var valor = true
 
 function like(id) {
@@ -52,9 +51,6 @@ function like(id) {
 
     document.body.appendChild(form);
     form.submit();
-
-
-
 }
 
 function buy(id) {
@@ -67,17 +63,8 @@ function buy(id) {
 
     document.body.appendChild(form);
     form.submit();
-
-
-
 }
 
-
-
-
 window.onload = function loadAll() {
-
-
-
 
 };

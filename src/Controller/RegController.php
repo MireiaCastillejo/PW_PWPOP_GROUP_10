@@ -54,8 +54,7 @@ class RegController
 
         ]);
     }
-    public function regAction(Request $request
-        , Response $response): Response
+    public function regAction(Request $request, Response $response): Response
     {
 
         //poner return de la vista

@@ -110,7 +110,6 @@ final class PDORepository implements UserRepositoryInterface
         $statement->bindParam('updated_at', $updatedAt, PDO::PARAM_STR);
         $statement->bindParam('id', $id_user, PDO::PARAM_STR);
 
-        var_dump($statement);
         $statement->execute();
     }
 
@@ -274,8 +273,6 @@ final class PDORepository implements UserRepositoryInterface
     }
 
     public function checkEnabled(){
-
-
 
 
         $statement = $this->database->getConnection()->prepare(

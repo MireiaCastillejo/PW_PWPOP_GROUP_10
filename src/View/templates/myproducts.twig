@@ -35,7 +35,6 @@
 
 {% block modal %}
 
-
     <!-- Modal -->
     <div class="modal fade" id="searchModal" role="dialog" tabindex="-5" role="dialog">
         <div class="modal-dialog">
@@ -116,19 +115,18 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
-                <div class="modal-header">
-                    <div class="col-md-6">
-                        <img id="productImage" src="">
-                    </div>
-                    <div class="col-md-6" style="vertical-align: middle;">
-                        <input class="form-control" type="text" name="title" id="title">
-                    </div>
-                </div>
+                <div class="modal-body pb2">
 
-                <div class="modal-body">
+                    <form id="form">
 
-                    <form id="form" class="form_content" action="{{ path_for('upload') }}" method="POST" enctype="multipart/form-data">
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img id="productImage" src="">
+                            </div>
+                            <div class="col-md-6" style="vertical-align: middle;">
+                                <input class="form-control" type="text" name="title" id="title">
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="comment">Description:</label>
                             <textarea name="description" class="form-control" rows="3" id="comment"></textarea>
@@ -155,59 +153,49 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-dismiss="modal">cancel</button>
+                            <button type="button" class="btn btn-outline-primary" id="updateProductBtn">Update Info</button>
+                            <button type="button" class="btn btn-link" id="deleteButton" data-toggle="modal" data-target="#deleteModal">Delete Product</button>
+                        </div>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-dismiss="modal">cancel</button>
-                    <button type="submit" class="btn btn-outline-primary">Update Info</button>
-                    <button type="button" class="btn btn-link" id="deleteButton" data-toggle="modal" data-target="#deleteModal">Delete Product</button>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+
+    {% block content %}
+        <h1 class="form_title">My products</h1>
+        <div class="album py-6 bg-light">
+            <div class="container">
+                <div class="row">
+                    {% for product in products %}
+                        {% if product.userid==id%}
+                            {% if product.isActive==1%}
+                                <div class="col-md-4">
+                                    <div class="card mb-4 shadow-sm">
+                                        <!--<a title="ejemplo" href="/product_review{{ product.id }}">-->
+                                        <a title="ejemplo" onclick=showInfo({{ product.id }})>
+                                            {% set foo =product.product_image|split('/') %}
+                                            <img src="/uploads/products/{{ foo[0] }}" id="fotoprod" >
+                                        </a>
+                                        <div class="card-body">
+                                            <h5 id="title" class="title">{{ product.title }} </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
         </div>
-    </div>
 
-{% endblock %}
+    {% endblock %}
 
-
-{% block content %}
-    <h1 class="form_title">My products</h1>
-
-    <div class="album py-6 bg-light">
-        <div class="container">
-            <div class="row">
-                {% for product in products %}
-                    {% if product.userid==id%}
-                        {% if product.isActive==1%}
-
-                            <div class="col-md-4">
-
-                                <div class="card mb-4 shadow-sm">
-                                    <!--<a title="ejemplo" href="/product_review{{ product.id }}">-->
-
-                                    <a title="ejemplo" onclick=showInfo({{ product.id }})>
-                                        {% set foo =product.product_image|split('/') %}
-                                        <img src="/uploads/products/{{ foo[0] }}" id="fotoprod" >
-                                    </a>
-
-                                    <div class="card-body">
-
-                                        <h5 id="title" class="title">{{ product.title }} </h5>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-
-                    {% endif %}
-                {% endfor %}
-
-
-            </div>
-        </div>
-    </div>
-
-{% endblock %}
-
-{% block footer %}
-{% endblock %}
+    {% block footer %}
+    {% endblock %}
