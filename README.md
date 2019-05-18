@@ -13,7 +13,7 @@ Este proyecto ha sido realizado con la ayuda de Trello en la cual hemos repartid
 
 Este proyecto nos ha llevado más tiempo de lo esperado, hemos tardado
 
-## Comments⚙️
+## Comentarios⚙️
 Sera necesario modificar el archivo settings.php 
 
 Los Parámetros a cambiar son:
