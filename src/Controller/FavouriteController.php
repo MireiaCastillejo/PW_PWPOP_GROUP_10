@@ -35,8 +35,15 @@ final class FavouriteController
         $repository_u = $this->container->get('user_repo');
         $enabled = $repository_u->checkEnabled();
 
+        for ($i = 0; $i <sizeof($products); $i++) {
+            $id=(int)$_SESSION['user_id'];
+            $fav = $repository->mirafav($id,$products[$i]['id']);
+
+            $favs[$i]=$fav;
+        }
+
         //Lo que le pasamos a la vista
-        return $this->container->get('view')->render($response, 'favourite.twig', ['products' => $products, 'enabled' => $enabled]
+        return $this->container->get('view')->render($response, 'favourite.twig', ['products' => $products, 'enabled' => $enabled,'favs'=>$favs]
         );
     }
 

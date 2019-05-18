@@ -27,6 +27,8 @@ h1{
 
 #botNav{
     background-color: /*#9162e4*/#7355a0;
+
+
 }
 
 #topJumbo{
@@ -93,5 +95,13 @@ h1{
 }
 .invalid{
     color:red;
+}
+#fotoprod1{
+    width: 50%;
+    height: 50%;
+}
+#fotoprod2{
+    width: 50%;
+    height: 50%;
 }
 

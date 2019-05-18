@@ -63,9 +63,6 @@ final class ProductController
                 //Validamos los campos y guardamos los errores
                 $errors = $this->validate($data, $request, $response);
 
-
-
-
                 $uploadedFiles = $request->getUploadedFiles();
                 $names ="";
                 $i=0;

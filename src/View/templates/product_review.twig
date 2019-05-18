@@ -84,13 +84,14 @@
 
 
 {% block content %}
+
     <!--<div class="row" style="margin: 0;padding: 0;width: 100%;">-->
+
 
     <div class="row" id="productData">
 
         <div class="col-md-5">
             {% set foo =product.product_image|split('/') %}
-            <!--FALTA PONER EL LINK AL PRODUCT REVIEW-->
 
                 <div id="carouselExampleControls{{ product.id }}" class="carousel slide"
                      data-ride="carousel">
@@ -149,15 +150,14 @@
     </div>
 
     <div id="profileButtons">
-        <button type="button" onclick="buy({{ product.id }})">Buy
+        <button  class="btn btn-success" type="button" onclick="buy({{ product.id }})">Buy
         </button>
 
-        {% if product.isFav==1 %}
+        {% if fav.productid==product.id %}
             <button  class="btn btn-link" type="submit" id={{ product.id }}  onclick="like({{ product.id }})">
                 ❤
             </button>
         {% else %}
-
             <button type="submit" id={{ product.id }}  onclick="like({{ product.id }})">
                 💙
             </button>

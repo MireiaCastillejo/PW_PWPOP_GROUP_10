@@ -16,6 +16,8 @@ interface ProductRepositoryInterface
     public function get();
 
     public function favourite(int $id);
+    public function fav(int $userid,int $productid);
+    public function mirafav(int $userid,int $productid);
     public function buy(int $id);
     public function getData(int $userid);
     public function searchProduct(string $title,string $category,float $pricemin,float $pricemax);

@@ -95,13 +95,17 @@
 
 {% block content %}
     <h1 class="form_title">Favourite items</h1>
-
+    {% set var=0 %}
     <div class="album py-6 bg-light">
         <div class="container">
             <div class="row">
                 {% for product in products %}
+                    {% for fav in favs if fav['productid']==product.id%}
+                        {% set var=fav['productid'] %}
+                    {% endfor %}
                     {% if product.isActive==1 %}
-                    {% if product.isFav==1 %}
+
+                    {% if var==product.id %}
                     <div class="col-md-4">
 
                         <div class="card mb-4 shadow-sm" id="product">

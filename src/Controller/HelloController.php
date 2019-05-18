@@ -28,30 +28,10 @@ final class HelloController
 
     public function __invoke(Request $request, Response $response)
     {
-        /*$messages = $this->container
-            ->get('flash')
-            ->getMessage('test');*/
-
-        /* $adviceCookie = FigRequestCookies::get($request, self::COOKIES_ADVICE);
-
-         $isWarned = $adviceCookie->getValue();
-
-         if (!$isWarned) {
-             $response = $this->setAdviceCookie($response);
-         }
-
-         $_SESSION['counter'] = isset($_SESSION['counter']) ?
-             $_SESSION['counter'] + 1 : 1;*/
-
-
-        // Always start this first
-        //session_start();
 
         $repository = $this->container->get('product_repo');
 
         $products = $repository->get();
-
-
 
 
             if (!isset($_SESSION['user_id'])) {
@@ -62,16 +42,22 @@ final class HelloController
                 ]);
 
         }
+        for ($i = 0; $i <sizeof($products); $i++) {
+            $id=(int)$_SESSION['user_id'];
+            $fav = $repository->mirafav($id,$products[$i]['id']);
+
+            $favs[$i]=$fav;
+        }
 
         $repository_u = $this->container->get('user_repo');
         $enabled = $repository_u->checkEnabled();
-
 
         //Lo que le pasamos a la vista
         return $this->container->get('view')->render($response, 'loggeduser.twig',
             ['products' => $products,
                 'sesion'=>$_SESSION['user_id'],
-                'enabled' => $enabled, ]
+                'enabled' => $enabled,
+                'favs'=> $favs]
 
         //'messages' => $messages,
         );
@@ -100,6 +86,8 @@ final class HelloController
 
             $repository = $this->container->get('product_repo');
             $repository->favourite($id);
+            $repository->fav($_SESSION['user_id'],$id);
+
 
 
         } catch (\Exception $e) {

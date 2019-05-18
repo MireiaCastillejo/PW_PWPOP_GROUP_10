@@ -91,7 +91,28 @@ final class PDORepositoryProd implements ProductRepositoryInterface
         $statement->execute();
 
     }
+    public function fav(int $userid,int $productid)
+    {
+        $statement = $this->database->getConnection()->prepare(
+            'insert into favourite(userid,productid)VALUES(:userid,:productid)');
 
+        $statement->bindParam('userid', $userid, PDO::PARAM_INT);
+        $statement->bindParam('productid', $productid, PDO::PARAM_INT);
+        $statement->execute();
+
+    }
+    public function mirafav(int $userid,int $productid)
+    {
+        $statement = $this->database->getConnection()->prepare(
+            "SELECT * FROM favourite WHERE userid =:userid and productid=:productid");
+
+        $statement->bindParam('userid', $userid, PDO::PARAM_INT);
+        $statement->bindParam('productid', $productid, PDO::PARAM_INT);
+        $statement->execute();
+        $res = $statement->fetch(PDO::FETCH_ASSOC);
+        return $res;
+
+    }
 
     public function buy(int $id)
     {
@@ -130,8 +151,6 @@ final class PDORepositoryProd implements ProductRepositoryInterface
 
             return [];
         }
-
-
     }
 
     public function searchProduct(string $title, string $category, float $pricemin, float $pricemax)

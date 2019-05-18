@@ -7,6 +7,7 @@
     {{ parent() }}
     <script src="{{ base_url() }}/assets/js/homepage.js"></script>
     <script src="{{ base_url() }}/assets/js/productInfo.js"></script>
+
 {% endblock %}
 
 {% block title %}
@@ -17,7 +18,7 @@
      <div class="col-md-9 text-right">
 
          <button  style="margin-right: 11px" type="button" class="btn btn-light" onclick="location.href='/login'">Log In</button>
-         <button  style="margin-right: 11px" type="button" class="btn btn-outline-light" onclick="location.href='/register'" >Sign Up</button>
+         <button  style="margin-right: 11px"type="button" class="btn btn-outline-light" onclick="location.href='/register'" >Sign Up</button>
 
          <button id="searchBtn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal" >
              <span class="fa fa-search"></span>
@@ -78,55 +79,6 @@
 
         </div>
     </div>
-    <!--<div class="modal fade" id="productModal" role="dialog" tabindex="-5">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <div class="col-md-6">
-                        <img id="productImage" src="">
-                    </div>
-                    <div class="col-md-6" style="vertical-align: middle;">
-                        <input class="form-control" type="text" name="title" id="title">
-                    </div>
-                </div>
-
-                <div class="modal-body">
-
-                    <form id="form" class="form_content" action="{{ path_for('upload') }}" method="POST" enctype="multipart/form-data">
-
-                        <div class="form-group">
-                            <label for="comment">Description:</label>
-                            <textarea name="description" class="form-control" rows="3" id="comment"></textarea>
-                        </div><br>
-
-                        <div class="input-group mb-9">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Price &euro;</span>
-                            </div>
-                            <input  name="price" type="text" class="form-control" aria-label="Amount" id="price">
-                        </div><br>
-
-                        <label>Select Product:</label><br>
-                        <select class="product" name="category" id="category">
-                            <option class="dropdown-item" value="Computers and electronic">Computers and electronic</option>
-                            <option class="dropdown-item" value="Cars">Cars</option>
-                            <option  class="dropdown-item" value="Sports">Sports</option>
-                            <option  class="dropdown-item" value="Games">Games</option>
-                            <option  class="dropdown-item" value="Fashion">Fashion</option>
-                            <option  class="dropdown-item" value="Home">Home</option>
-                            <option  class="dropdown-item" value="Other">Other</option>
-                        </select>
-                        <br><br>
-                        <div class="modal-footer">
-                            <button type="button" class="btn" data-dismiss="modal">Close</button>
-                        </div>
-                        <br>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>-->
 
     <div class="modal fade" id="productModal" role="dialog" tabindex="-5">
         <div class="modal-dialog">
@@ -165,7 +117,6 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
 
 {% block header %}

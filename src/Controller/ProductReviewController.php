@@ -95,7 +95,9 @@ final class ProductReviewController
                 $category = (json_decode($array['array'], true)['category']);
                 $id = (json_decode($array['array'], true)['id']);
 
+                /** @var PDORepository $repository * */
                 $repository = $this->container->get('product_repo');
+
                 $errors = [];
 
                 //Title
@@ -107,7 +109,6 @@ final class ProductReviewController
                 if (empty($description)) {
                     $errors['description'] = 'The description cannot be empty.';
                 } else {
-
                     if (strlen($description)<20) {
                         $errors['description'] = 'The description must have min. 20 characters';
                     }
@@ -118,6 +119,7 @@ final class ProductReviewController
 
                 //PRICE
                 if (empty($price)) {
+
                     $errors['price'] = 'The price cannot be empty.';
                 } else {
                     if(!is_numeric($price)) {
@@ -139,9 +141,9 @@ final class ProductReviewController
                     //$repository->updateProduct();
                 }else {
                     //Algo ha ido mal
+
                     throw new \Exception('The validation went wrong');
                 }
-            //}
 
 
         } catch (\Exception $e) {
@@ -162,6 +164,7 @@ final class ProductReviewController
 
             if ( isset( $_SESSION['user_id'] ) ) {
 
+                /** @var PDORepository $repository */
                 $repository = $this->container->get('product_repo');
                 $id=$id['id'];
 
@@ -176,16 +179,19 @@ final class ProductReviewController
                     $error[]="el producto ha sido borrado";
                     $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
 
-                }else {
+                } else {
+
+                    $favs = $repository->mirafav($_SESSION['user_id'], $products['id']);
+
                     $this->container->get('view')->render($response, 'product_review.twig',
-                        [ 'product'=>$products,'sesion' => $_SESSION['user_id']]);
+                        ['product' => $products, 'sesion' => $_SESSION['user_id'], 'fav' => $favs]);
 
                 }
                 if (!isset($products['title'])) {
 
                     $response = $response
                         ->withStatus(404)
-                        ->write(json_encode(["message" => "oof"]));
+                        ->write(json_encode(["message" => "oof", "res" => $products]));
 
                 } else {
                     $response = $response
