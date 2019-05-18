@@ -148,8 +148,8 @@ final class ProductReviewController
 
         } catch (\Exception $e) {
 
-            $this->container->get('view')->render($response, 'myproducts.twig', ['errors' => $errors,]);
-            return $response->withStatus(500);
+            $this->container->get('view')->render($response, 'myproducts.twig', ['errors' => $errors]);
+            return $response->withStatus(400);
         }
 
 
