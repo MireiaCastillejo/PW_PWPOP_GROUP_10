@@ -19,16 +19,13 @@ $(document).ready(function(){
                 required: true,
                 minlength: 20,
                 maxlength:100
-
             },
             price: {
                 required: true,
                 number: true
-
             },
             product_image:{
-                required: true
-
+                required: true,
             },
             category:{
                 required: true,
@@ -40,7 +37,6 @@ $(document).ready(function(){
         messages: {
             title: {
                 required: "This field is required"
-
             },
             description:{
                 required: "This field is required",
@@ -53,11 +49,9 @@ $(document).ready(function(){
             },
             product_image:{
                 required: "Please enter an image"
-
             },
             category:{
                 required: "Please select a product"
-
             }
 
         },

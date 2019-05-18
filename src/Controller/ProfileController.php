@@ -36,12 +36,6 @@ final class ProfileController
             $upd_ok = 0;
         }
 
-        /*if (isset($_SESSION['updchange'])) {
-            if ($_SESSION['updchange'] == 1) {
-                $upd_ok = (1) ? 0 : 1;
-            }
-        }*/
-
         // session_start();
         if ( isset( $_SESSION['user_id'] ) ) {
             $this->container->get('view')->render($response, 'profile.twig', ['sesion' => $_SESSION['user_id'],'upd_ok'=>$upd_ok]);
@@ -241,6 +235,6 @@ final class ProfileController
             return $response->withStatus(500);
         }
 
-        return $response->withRedirect('/profile',300);
+        return $response->withRedirect('/profile',303);
     }
 }

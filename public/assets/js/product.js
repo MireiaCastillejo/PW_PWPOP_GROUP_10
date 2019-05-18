@@ -91,36 +91,9 @@ function updateProduct(id) {
 
     document.body.appendChild(form);
     form.submit();
-
     document.body.removeChild(form);
-    //location.reload();
-
-    /*$.ajax({
-        async : true,
-        type : "POST",
-        url: '/product_update'+id,
-        contentType: 'application/json',
-        data: {data: obj},
-
-        statusCode: {
-            200: function () {
-
-                console.log("all gucci gaaanggangangangang")
-            },
-
-            404: function () {
-                alert("Data not found");
-            },
-
-            500: function () {
-                console.log("OOF")
-            }
-        }
-    });*/
 
 }
-
-
 
 function showInfo(id){
 

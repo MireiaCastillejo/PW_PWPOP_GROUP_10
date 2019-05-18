@@ -107,7 +107,7 @@ final class ProductController
 
             //$response->getBody()->write('Unexpected error: ' . $e->getMessage());
 
-            $this->container->get('view')->render($response, 'error.twig', ['errors' => $errors]);
+            $this->container->get('view')->render($response, 'upload.twig', ['errors' => $errors]);
             return $response->withStatus(400);
         }
         $repository = $this->container->get('product_repo');
@@ -129,7 +129,6 @@ final class ProductController
             if (isset($_SESSION['user_id'])) {
 
                 $id=$id['id'];
-                var_dump($id);
 
                 /** @var PDORepositoryProd $repository */
                 $repository = $this->container->get('product_repo');

@@ -98,23 +98,43 @@
     <form id="form1" class="form_content" action="{{ path_for('upload') }}" method="POST" enctype="multipart/form-data">
 
         Title:<br>
-        <input class="form-control" type="text" name="title"><br>
+        <input class="form-control" type="text" name="title">
+        <div class="invalid">
+        {% if errors is defined %}
+            {{ errors['title'] }}
+        {% endif %}
+        </div>
 
         <div class="form-group">
             <label for="comment">Description:</label>
             <textarea name="description" class="form-control" rows="3" id="comment"></textarea>
-        </div><br>
+        </div>
+        <div class="invalid">
+        {% if errors is defined %}
+            {{ errors['description'] }}
+        {% endif %}<br>
+        </div>
 
         <div class="input-group mb-9">
             <div class="input-group-prepend">
                 <span class="input-group-text">Price &euro;</span>
             </div>
             <input  name="price" type="text" class="form-control" aria-label="Amount">
-        </div><br>
-
+        </div>
+        <div class="invalid">
+            {% if errors is defined %}
+                {{ errors['price'] }}
+            {% endif %}
+        </div>
         Product image:<br>
         <input  id="product_image" type="file" name="files[]" multiple>
-        <label>Select Product:</label><br>
+        <div class="invalid">
+            {% if errors is defined %}
+                {{ errors['product_image'] }}
+            {% endif %}
+        </div>
+        <br>
+        <label>Select Product:</label>
         <select class="product" name="category">
             <option class="dropdown-item" value="Computers and electronic">Computers and electronic</option>
             <option class="dropdown-item" value="Cars">Cars</option>
@@ -124,7 +144,11 @@
             <option  class="dropdown-item" value="Home">Home</option>
             <option  class="dropdown-item" value="Other">Other</option>
         </select>
-        <br><br>
+        <div class="invalid">
+        {% if errors is defined %}
+            {{ errors['category'] }}
+        {% endif %}
+        </div>
 
         <button type="submit" class="btn btn-outline-primary">Upload</button>
         <br>
