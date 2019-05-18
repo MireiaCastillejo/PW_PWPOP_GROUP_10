@@ -113,11 +113,8 @@ final class ProfileController
                 $repository = $this->container->get('user_repo');
                 $currentUser = $repository->getData($_SESSION['user_id']);
 
-                var_dump($currentUser);
-
                 $data['username'] = $currentUser['username'];
                 $data['enabled'] = $currentUser['enabled'];
-                var_dump($data);
 
 
                 //Rellenar los campos vacíos
@@ -128,7 +125,8 @@ final class ProfileController
                     $data['email'] = $currentUser['email'];
                 }
                 if($data['birthdate'] === ''){
-                    $data['birthdate'] = $currentUser['birthdate'];
+                    $b = explode(" ", $currentUser['birthdate']);
+                    $data['birthdate'] = $b[0];
                 }
                 if($data['phonenumber'] === ''){
                     $data['phonenumber'] = $currentUser['phonenumber'];

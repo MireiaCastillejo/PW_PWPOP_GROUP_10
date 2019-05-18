@@ -49,12 +49,13 @@ function updateProduct(id) {
     data.description = description;
     data.price = price;
     data.category = category;
+    data.id = id;
 
     var obj= JSON.stringify(data);
 
-    console.log(data);
+    //console.log(data);
     console.log(obj);
-    console.log(id);
+    //console.log(id);
 
     var form = document.createElement('form');
     form.setAttribute('method', 'post');
@@ -68,7 +69,7 @@ function updateProduct(id) {
     form.submit();
 
     document.body.removeChild(form);
-    location.reload();
+    //location.reload();
 
     /*$.ajax({
         async : true,

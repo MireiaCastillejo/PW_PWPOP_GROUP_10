@@ -46,7 +46,6 @@ final class ProductReviewController
 
         try {
 
-                /** @var PDORepository $repository */
                 $repository = $this->container->get('product_repo');
                 $id=$id['id'];
 
@@ -87,18 +86,16 @@ final class ProductReviewController
         try {
             //session_start();
 
-            if ( isset( $_SESSION['user_id'] ) ) {
+            //if ( isset( $_SESSION['user_id'] ) ) {
 
-                $id = $_SESSION['user_id'];
 
                 $title = (json_decode($array['array'], true)['title']);
                 $description = (json_decode($array['array'], true)['description']);
                 $price = (json_decode($array['array'], true)['price']);
                 $category = (json_decode($array['array'], true)['category']);
+                $id = (json_decode($array['array'], true)['id']);
 
-                /** @var PDORepository $repository * */
                 $repository = $this->container->get('product_repo');
-
                 $errors = [];
 
                 //Title
@@ -110,6 +107,7 @@ final class ProductReviewController
                 if (empty($description)) {
                     $errors['description'] = 'The description cannot be empty.';
                 } else {
+
                     if (strlen($description)<20) {
                         $errors['description'] = 'The description must have min. 20 characters';
                     }
@@ -120,7 +118,6 @@ final class ProductReviewController
 
                 //PRICE
                 if (empty($price)) {
-
                     $errors['price'] = 'The price cannot be empty.';
                 } else {
                     if(!is_numeric($price)) {
@@ -138,14 +135,14 @@ final class ProductReviewController
 
                 if(empty($errors)){
 
-                    $repository->update($title, $description, $price, $category, $id);
-
+                    $repository->updateProduct($title, $description, $price, $category, $id);
+                    //$repository->updateProduct();
                 }else {
                     //Algo ha ido mal
-
                     throw new \Exception('The validation went wrong');
                 }
-            }
+            //}
+
 
         } catch (\Exception $e) {
 
@@ -154,7 +151,7 @@ final class ProductReviewController
         }
 
 
-        //return $response->withStatus(200);
+        return $response->withRedirect('/myproducts',200);
     }
 
     public function getProductReview(Request $request, Response $response, $id): Response
@@ -165,7 +162,6 @@ final class ProductReviewController
 
             if ( isset( $_SESSION['user_id'] ) ) {
 
-                /** @var PDORepository $repository */
                 $repository = $this->container->get('product_repo');
                 $id=$id['id'];
 
@@ -189,7 +185,7 @@ final class ProductReviewController
 
                     $response = $response
                         ->withStatus(404)
-                        ->write(json_encode(["message" => "oof", "res" => $data]));
+                        ->write(json_encode(["message" => "oof"]));
 
                 } else {
                     $response = $response

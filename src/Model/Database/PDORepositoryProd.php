@@ -55,7 +55,7 @@ final class PDORepositoryProd implements ProductRepositoryInterface
         $statement->execute();
     }
 
-    public function update($title, $description, $price, $category, $id_product){
+    public function updateProduct($title, $description, $price, $category, $id_product){
 
         $statement = $this->database->getConnection()->prepare(
             "UPDATE product SET title = :title, description = :description, price = :price, category = :category 
@@ -67,8 +67,7 @@ final class PDORepositoryProd implements ProductRepositoryInterface
         $statement->bindParam('category', $category, PDO::PARAM_STR);
         $statement->bindParam('id', $id_product, PDO::PARAM_INT);
 
-        var_dump($statement);
-        //$statement->execute();h
+        $statement->execute();
     }
 
 
