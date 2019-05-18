@@ -9,7 +9,6 @@
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js" ></script>
     <script src="http://jqueryvalidation.org/files/dist/additional-methods.min.js"></script>
     <script src="{{ base_url() }}/assets/js/homepage.js"></script>
-
     <script src="{{ base_url() }}/assets/js/profile.js"></script>
 {% endblock %}
 
@@ -100,7 +99,7 @@
     </div>
 
     <div class="modal fade" id="updateModal" role="dialog" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -201,11 +200,9 @@
     <!--<div class="row" style="margin: 0;padding: 0;width: 100%;">-->
 
     <div class="row" id="profileData">
-
         <div class="col-md-5">
             <img src="" id="profileImage">
         </div>
-
         <div class="col-md-2" >
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Name</li>
@@ -229,16 +226,12 @@
         </div>
         <div class="col-md-1"></div>
     </div>
-
     <div id="profileButtons">
         <button type="button" class="btn btn-link" id="updateButton" data-toggle="modal" data-target="#updateModal">Update Info</button>
         <button type="button" class="btn btn-link" id="deleteButton" data-toggle="modal" data-target="#deleteModal">Delete Account</button>
 
     </div>
-
-
 {% endblock %}
-
 
 {% block footer %}
 {% endblock %}

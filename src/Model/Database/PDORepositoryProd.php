@@ -55,6 +55,7 @@ final class PDORepositoryProd implements ProductRepositoryInterface
         $statement->execute();
     }
 
+
     public function get()
     {
         $statement = $this->database->getConnection()->prepare(
@@ -111,6 +112,7 @@ final class PDORepositoryProd implements ProductRepositoryInterface
                 "isSold"=> $res['isSold'],
             ];
         } else {
+
             return [];
         }
 

@@ -5,8 +5,8 @@ $(document).ready(function() {
     });
 });
 
-$( "#product" ).click(function() {
-    console.log( "Handler for .click() called." );
+$("#product").click(function() {
+    console.log("Handler for .click() called.");
 });
 
 function loadProduct(id) {
@@ -19,8 +19,6 @@ function loadProduct(id) {
 
         statusCode: {
             200: function (data) {
-
-                //console.dir(JSON.parse(data).responseText);
                 var image = "/uploads/products/" + data['res']['product_image'];
                 document.getElementById("productImage").src = image;
                 document.getElementById("title").innerHTML = data['res']['title'];
@@ -39,15 +37,13 @@ function loadProduct(id) {
         }
     });
 }
-
 function showInfo(id){
 
-    $("p").click(function() {
+    /*$("p").click(function() {
         var htmlString = $( this ).html();
         console.log(htmlString);
-    });
+    });*/
 
     $("#productModal").modal('show');
     loadProduct(id);
 }
-

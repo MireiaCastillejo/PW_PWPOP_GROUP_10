@@ -30,10 +30,9 @@ final class ProfileController
         $enabled = $repository_u->checkEnabled();
 
 
+        //$this->container->get('view')->render($response, 'profile.twig', ['sesion'=>$_SESSION['user_id'], 'enabled' => $enabled]);
 
-        $this->container->get('view')->render($response, 'profile.twig', ['sesion'=>$_SESSION['user_id'], 'enabled' => $enabled]);
-
-       // session_start();
+        //session_start();
         if ( isset( $_SESSION['user_id'] ) ) {
             $this->container->get('view')->render($response, 'profile.twig', ['sesion' => $_SESSION['user_id']]);
         }else{

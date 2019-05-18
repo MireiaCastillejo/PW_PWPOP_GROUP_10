@@ -51,7 +51,7 @@ function like(id) {
     form.setAttribute("asyn",true);
 
     document.body.appendChild(form);
-  form.submit();
+    form.submit();
 
 
 
@@ -59,8 +59,6 @@ function like(id) {
 
 function buy(id) {
     console.log(id);
-
-
 
     var form = document.createElement('form');
     form.setAttribute('method', 'post');
