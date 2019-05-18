@@ -116,7 +116,6 @@ final class ProfileController
                 $data['username'] = $currentUser['username'];
                 $data['enabled'] = $currentUser['enabled'];
 
-
                 //Rellenar los campos vacíos
                 if($data['name'] === ''){
                     $data['name'] = $currentUser['name'];
@@ -163,6 +162,7 @@ final class ProfileController
 
                 if($data['password'] === ''){
                     $data['password'] = $currentUser['password'];
+                    $enc = 0;
                 }else{
                     if(strlen($data['password']) < 6){
                         $errors['password'] = 'The password must have min. 6 characters';
@@ -170,7 +170,7 @@ final class ProfileController
                     if($data['password']!== $data['c_password']){
                         $errors['c_password'] = 'The password confirmation doesnt match.';
                     }
-
+                    $enc = 1;
                 }
 
                 $uploadedFiles = $request->getUploadedFiles();
@@ -199,15 +199,17 @@ final class ProfileController
                         new DateTime()
                     );
 
-                    $repository->update($user, $id);
+                    if($enc) {
+                        $repository->update($user, $id, 1);
+                    }else{
+                        $repository->update($user, $id, 0);
+                    }
+
                     $_SESSION['upd_ok'] = 1;
                 }else {
                     //Algo ha ido mal
-
                     throw new \Exception('The validation went wrong');
                 }
-
-
             }
 
         } catch (\Exception $e) {

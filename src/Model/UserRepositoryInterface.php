@@ -8,7 +8,7 @@ interface UserRepositoryInterface
 
     public function getData(int $id);
 
-    public function update(User $user, int $id);
+    public function update(User $user, int $id, int $enc);
 
     public function deleteAccount(int $id);
 

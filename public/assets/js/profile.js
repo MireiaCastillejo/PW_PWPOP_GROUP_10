@@ -12,9 +12,6 @@ $(document).ready(function() {
     });
 
     $("#updateButton").click(function () {
-        //$("#updateModal").modal({show: true});
-        console.log("update modal abierto");
-        console.log(window.userData['res']['username']);
 
         var validator = $('#form3');
         validator.validate({
@@ -78,8 +75,8 @@ $(document).ready(function() {
         });
 
         validator.on('submit', function (e) {
-            var isvalid = validator.valid();
 
+            var isvalid = validator.valid();
             if (isvalid) {
 
                 form.submit();
@@ -87,7 +84,9 @@ $(document).ready(function() {
 
                 e.preventDefault();
             }
+            console.log("despues de todo");
         });
+        console.log("despues de todo111");
 
 
         loadData();

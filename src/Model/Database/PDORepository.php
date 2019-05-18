@@ -78,6 +78,7 @@ final class PDORepository implements UserRepositoryInterface
                 "phonenumber" => $res['phonenumber'],
                 "profileimage" => $res['profileimage'],
                 "enabled" => $res['enabled'],
+                "password" => $res['password'],
             ];
         }else{
             return [];
@@ -85,7 +86,7 @@ final class PDORepository implements UserRepositoryInterface
 
     }
 
-    public function update(User $user, int $id_user){
+    public function update(User $user, int $id_user, int $enc){
 
         $statement = $this->database->getConnection()->prepare(
             "UPDATE user SET name = :name, email = :email, birthdate = :birthdate, phonenumber = :phonenumber, 
@@ -93,13 +94,17 @@ final class PDORepository implements UserRepositoryInterface
                       WHERE id = :id;");
 
         $name = $user->getName();
-        $username = $user->getUserName();
         $email = $user->getEmail();
         $birthdate = $user->getBirthDate();
         $phonenumber = $user->getPhonenumber();
-        $password = sha1($user->getPassword());
         $profileimage = $user->getProfileimage();
         $updatedAt = date('Y-m-d H:i:s');
+
+        if($enc){
+            $password = sha1($user->getPassword());
+        }else{
+            $password = $user->getPassword();
+        }
 
         $statement->bindParam('name', $name, PDO::PARAM_STR);
         $statement->bindParam('email', $email, PDO::PARAM_STR);
