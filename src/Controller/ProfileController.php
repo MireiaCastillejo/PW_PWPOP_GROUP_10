@@ -29,12 +29,18 @@ final class ProfileController
         $repository_u = $this->container->get('user_repo');
         $enabled = $repository_u->checkEnabled();
 
+        if(isset($_SESSION['upd_ok'])){
+            $upd_ok = $_SESSION['upd_ok'];
+        }else{
+            $upd_ok = 0;
+        }
 
-        //$this->container->get('view')->render($response, 'profile.twig', ['sesion'=>$_SESSION['user_id'], 'enabled' => $enabled]);
 
-        //session_start();
+       // $this->container->get('view')->render($response, 'profile.twig', ['sesion'=>$_SESSION['user_id'], 'enabled' => $enabled]);
+
+       // session_start();
         if ( isset( $_SESSION['user_id'] ) ) {
-            $this->container->get('view')->render($response, 'profile.twig', ['sesion' => $_SESSION['user_id']]);
+            $this->container->get('view')->render($response, 'profile.twig', ['sesion' => $_SESSION['user_id'],'upd_ok'=>$upd_ok]);
         }else{
             $error[]="ERROR 403 NO PUEDE ACCEDER SIN HACER LOGIN";
             $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
@@ -127,6 +133,9 @@ final class ProfileController
                 if($data['phonenumber'] === ''){
                     $data['phonenumber'] = $currentUser['phonenumber'];
                 }
+                if($data['enabled'] === ''){
+                    $data['enabled'] = $currentUser['enabled'];
+                }
 
                 //Validamos los campos y guardamos los errores
                 $regController = new RegController($this->container);
@@ -159,19 +168,20 @@ final class ProfileController
                         $data['password'],
                         $data['profile'],
                         1,
-                        0,
+                        $data['enabled'],
                         new DateTime(),
                         new DateTime()
                     );
 
                     $repository->update($user, $id);
-
-
+                    $_SESSION['upd_ok'] = 1;
                 }else {
                     //Algo ha ido mal
 
                     throw new \Exception('The validation went wrong');
                 }
+
+
             }
 
         } catch (\Exception $e) {
@@ -186,5 +196,6 @@ final class ProfileController
         }
 
         return $response->withRedirect('/profile',200);
+
     }
 }

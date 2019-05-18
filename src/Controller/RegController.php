@@ -9,8 +9,6 @@
 namespace SallePW\SlimApp\Controller;
 
 
-
-
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -54,8 +52,7 @@ class RegController
 
         ]);
     }
-    public function regAction(Request $request
-        , Response $response): Response
+    public function regAction(Request $request, Response $response): Response
     {
 
         //poner return de la vista
@@ -127,7 +124,7 @@ class RegController
 
         //Enviamos el correo de verificacion
         $e = $this->container->get('email');
-        //$e->sendEmail($data['email']);
+        $e->sendEmail($data['email']);
 
 
 
@@ -211,7 +208,6 @@ class RegController
             $year = $dateExploded[0];
 
             if(!checkdate($month, $day, $year)){
-
                 $errors['birthdate'] = 'The birthdate is not valid.';
             }
 
@@ -325,9 +321,7 @@ class RegController
             $repository->enableUserWithId();
         }
 
-
-
-        echo ("Successful validation!");
+        header('Location: /login');
 
     }
 

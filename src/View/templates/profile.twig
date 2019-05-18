@@ -87,10 +87,9 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
-                    <button type="submit" class="btn btn-danger" id="deleteButtonConfirm">Delete</button>
                     <form id="form2" class="form_content" action="{{ path_for('update') }}" method="POST" enctype="multipart/form-data">
 
-                        <input type="submit" name="delete" id="delete" value="Delete" /><br/>
+                        <input type="submit" class="btn btn-danger" name="delete" id="delete" value="Delete" /><br/>
 
                     </form>
                 </div>
@@ -225,12 +224,19 @@
             </ul>
         </div>
         <div class="col-md-1"></div>
+
     </div>
     <div id="profileButtons">
         <button type="button" class="btn btn-link" id="updateButton" data-toggle="modal" data-target="#updateModal">Update Info</button>
         <button type="button" class="btn btn-link" id="deleteButton" data-toggle="modal" data-target="#deleteModal">Delete Account</button>
 
     </div>
+
+{% if upd_ok %}
+
+Update profile went ok!
+
+{% endif %}
 {% endblock %}
 
 {% block footer %}
