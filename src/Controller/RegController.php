@@ -201,7 +201,9 @@ class RegController
         //DATE OF BIRTH
         if(!empty($data['birthdate'])){
 
+
             $dateExploded = explode("-", $data['birthdate']);
+
 
             $day = $dateExploded[2];
             $month = $dateExploded[1];
