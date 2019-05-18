@@ -155,7 +155,6 @@ final class PDORepositoryProd implements ProductRepositoryInterface
 
     public function searchProduct(string $title, string $category, float $pricemin, float $pricemax)
     {
-
         if (empty($title) and empty($pricemin) and empty($pricemax)) {
             $statement = $this->database->getConnection()->prepare(
                 "SELECT * FROM product WHERE category = :category ;"
@@ -166,6 +165,7 @@ final class PDORepositoryProd implements ProductRepositoryInterface
             $statement->execute();
             $product = $statement->fetchAll();
         } elseif (empty($title) and empty($pricemax)) {
+
             $statement = $this->database->getConnection()->prepare(
                 "SELECT * FROM product WHERE category = :category and  price>=:pricemin;"
             );
@@ -183,6 +183,7 @@ final class PDORepositoryProd implements ProductRepositoryInterface
             $statement->execute();
             $product = $statement->fetchAll();
         } elseif (empty($title)) {
+
             $statement = $this->database->getConnection()->prepare(
                 "SELECT * FROM product WHERE category = :category and price>=:pricemin and price<:pricemax;"
             );
@@ -192,17 +193,6 @@ final class PDORepositoryProd implements ProductRepositoryInterface
             $statement->execute();
             $product = $statement->fetchAll();
 
-        } elseif (empty($pricemin)) {
-
-            $statement = $this->database->getConnection()->prepare(
-                "SELECT * FROM product WHERE title = :title and category = :category and price<:pricemax;"
-            );
-            $statement->bindParam('title', $title, PDO::PARAM_STR);
-            $statement->bindParam('category', $category, PDO::PARAM_STR);
-            $statement->bindParam('pricemax', $pricemax, PDO::PARAM_INT);
-
-            $statement->execute();
-            $product = $statement->fetchAll();
 
         } elseif (empty($pricemin) and empty($pricemax)) {
 
@@ -211,6 +201,18 @@ final class PDORepositoryProd implements ProductRepositoryInterface
             );
             $statement->bindParam('title', $title, PDO::PARAM_STR);
             $statement->bindParam('category', $category, PDO::PARAM_STR);
+            $statement->execute();
+            $product = $statement->fetchAll();
+
+        } elseif(empty($pricemin)) {
+
+            $statement = $this->database->getConnection()->prepare(
+                "SELECT * FROM product WHERE title = :title and category = :category and price<:pricemax;"
+            );
+            $statement->bindParam('title', $title, PDO::PARAM_STR);
+            $statement->bindParam('category', $category, PDO::PARAM_STR);
+            $statement->bindParam('pricemax', $pricemax, PDO::PARAM_INT);
+
             $statement->execute();
             $product = $statement->fetchAll();
         } elseif (empty($pricemax)) {
@@ -225,7 +227,6 @@ final class PDORepositoryProd implements ProductRepositoryInterface
             $statement->execute();
             $product = $statement->fetchAll();
         } else {
-
             $statement = $this->database->getConnection()->prepare(
                 "SELECT * FROM product WHERE title = :title and category = :category and price>=:pricemin and price<:pricemax;"
             );

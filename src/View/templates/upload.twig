@@ -48,6 +48,7 @@
                     <h5 class="modal-title" id="myModalLabel">Search your product</h5>
                 </div>
                 <div class="modal-body">
+
                     <form id="form" action="{{ path_for('search-info') }}" method="POST" enctype="multipart/form-data"  >
                         <div class="form-group">
                             <label for="TitleInput">Title</label>
@@ -94,7 +95,7 @@
     <h1 class="form_title">Upload product</h1>
 <div class="col-sm-6 offset-sm-3 text-center">
 
-    <form id="form" class="form_content" action="{{ path_for('upload') }}" method="POST" enctype="multipart/form-data">
+    <form id="form1" class="form_content" action="{{ path_for('upload') }}" method="POST" enctype="multipart/form-data">
 
         Title:<br>
         <input class="form-control" type="text" name="title"><br>

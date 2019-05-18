@@ -153,7 +153,7 @@ final class ProductReviewController
         }
 
 
-        return $response->withRedirect('/myproducts',200);
+        return $response->withRedirect('/myproducts',303);
     }
 
     public function getProductReview(Request $request, Response $response, $id): Response

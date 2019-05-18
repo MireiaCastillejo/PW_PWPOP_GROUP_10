@@ -36,16 +36,13 @@ class UserController
 
         try {
             $data = $request->getParsedBody();
-            //session_start();
             if (isset($_SESSION['user_id'])) {
                 /** @var PDORepository $repository */
                 $repository = $this->container->get('user_repo');
-                var_dump($_SESSION['user_id']);
                 // We should validate the information before creating the entity
                 $repository->deleteAccount($_SESSION['user_id']);
 
                 $repository->deleteProducts($_SESSION['user_id']);
-                session_destroy ( );
                 //Redireccionamos a la pagina principal despues de eliminar la cuenta
                 header('Location: /');
                 return $response->withStatus(200);

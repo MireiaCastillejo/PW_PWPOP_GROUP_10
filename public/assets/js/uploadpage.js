@@ -6,8 +6,7 @@ $(document).ready(function(){
     });
 
 
-
-    var validator = $("#form");
+    var validator = $("#form1");
 
     validator.validate({
 
@@ -62,6 +61,7 @@ $(document).ready(function(){
             }
 
         },
+        errorClass:"invalid",
 
         //Funcion para mostrar el error
         errorPlacement: function(error, element) {
