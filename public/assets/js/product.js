@@ -37,6 +37,30 @@ function loadProduct(id) {
     });
 }
 
+function deleteProduct(id){
+
+    console.log(id);
+    $.ajax({
+
+        async: true,
+        type: 'get',
+        url: '/remove'+id,
+
+        statusCode: {
+            200: function (data) {
+                console.log(data);
+                window.location.href = '/profile';
+            },
+            404: function () {
+                alert("malamente");
+            },
+            500: function () {
+                console.log("OOF")
+            }
+        }
+    });
+}
+
 function updateProduct(id) {
 
     var title = document.getElementById("title").value;
@@ -105,6 +129,10 @@ function showInfo(id){
 
     $("#updateProductBtn").click(function () {
         updateProduct(id);
+    });
+
+    $("#deleteProduct").click(function () {
+        deleteProduct(id);
     });
 }
 

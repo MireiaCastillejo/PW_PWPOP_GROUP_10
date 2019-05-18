@@ -121,6 +121,32 @@ final class ProductController
     }
 
 
+    public function deleteProduct(Request $request, Response $response, $id): Response
+    {
+
+        try {
+
+            if (isset($_SESSION['user_id'])) {
+
+                $id=$id['id'];
+                var_dump($id);
+
+                /** @var PDORepositoryProd $repository */
+                $repository = $this->container->get('product_repo');
+
+                // We should validate the information before creating the entity
+                $repository->delete($id);
+            }
+
+        } catch (\Exception $e) {
+            $response->getBody()->write('Unexpected error: ' . $e->getMessage());
+            return $response->withStatus(500);
+        }
+        return $response->withStatus(200);
+
+    }
+
+
     //Funcion para validar todos los campos antes de guardarlo
     private function validate(array $data, Request $request, Response $response)
     {
@@ -247,4 +273,6 @@ final class ProductController
     private function isValidFormat(string $extension ): bool {
         return in_array($extension, self::ALLOWED_EXTENSIONS, true);
     }
+
+
 }

@@ -35,6 +35,9 @@ $app->get('/register', RegController::class);
 //La pagina de perfil
 $app->get('/profile', ProfileController::class);
 
+$app->get('/profilecheck', ProfileController::class . ':updUncheck');
+
+
 //UPLOAD PRODUCT
 $app->get('/uploadproduct', ProductController::class);
 
@@ -59,6 +62,8 @@ $app
 //DELETE
 $app->post('/update', UserController::class . ':put')
     ->setName('update');
+
+$app->get('/remove{id:\d+}', ProductController::class . ':deleteProduct');
 
 //$app->get('/profile', ProfileController::class);
 
