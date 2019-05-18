@@ -56,6 +56,10 @@ $app
 $app
     ->get('/resend', Email::class . ':reSendEmail');
 
+//RESEND EMAIL
+$app
+    ->post('/emailToOwner{id:\d+}', Email::class . ':sendEmailToOwner');
+
 //DELETE
 $app
     ->post('/update', UserController::class . ':put')

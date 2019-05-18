@@ -134,8 +134,15 @@ final class HelloController
             $this->container->get('view')->render($response, 'error.twig', []);
             return $response->withStatus(400);
         }
+
+
+
         header('Location: /');
         $this->__invoke($request, $response);
+
+        $email = $this->container->get('email');
+        $response = $email->sendEmailToOwner($request, $response, $ide);
+
         return $response->withStatus(201);
     }
 

@@ -210,6 +210,18 @@ final class PDORepositoryProd implements ProductRepositoryInterface
 
 
 
+    public function getOwnerId(int $id){
+        $statement = $this->database->getConnection()->prepare(
+            "SELECT userid FROM product WHERE id=:id"
+        );
+
+
+        $statement->bindParam('id', $id, PDO::PARAM_STR);
+
+        $statement->execute();
+        $res=$statement->fetch();
+        return $res['userid'];
+    }
 
 
 

@@ -349,17 +349,35 @@ final class PDORepository implements UserRepositoryInterface
         }
     }
 
-    public function getEmail(){
+    public function getEmail(int $id){
         $statement = $this->database->getConnection()->prepare(
             "SELECT email FROM user WHERE id=:id"
         );
 
-        $id = (int)$_SESSION['user_id'];
+
         $statement->bindParam('id', $id, PDO::PARAM_STR);
 
         $statement->execute();
         $res=$statement->fetch();
         return $res['email'];
+    }
+
+
+
+
+    public function getPhone(int $id){
+
+        $statement = $this->database->getConnection()->prepare(
+            "SELECT phonenumber FROM user WHERE id=:id"
+        );
+
+        $statement->bindParam('id', $id, PDO::PARAM_STR);
+
+        $statement->execute();
+        $res=$statement->fetch();
+
+        return $res['phonenumber'];
+
     }
 
     public function getUsernameAndPassword(int $id){

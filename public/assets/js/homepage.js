@@ -60,6 +60,8 @@ function like(id) {
 function buy(id) {
     console.log(id);
 
+
+
     var form = document.createElement('form');
     form.setAttribute('method', 'post');
     form.setAttribute('action', "/buy"+id);
@@ -67,12 +69,24 @@ function buy(id) {
 
     document.body.appendChild(form);
     form.submit();
-    //location.href ="/";
-
 
 
 }
 
+function send(id){
+    //send email
+    var formemail = document.createElement('form');
+    formemail.setAttribute('method', 'post');
+    formemail.setAttribute('action', "/emailToOwner"+id);
+    formemail.setAttribute("asyn",true);
+
+    document.body.appendChild(formemail);
+    formemail.submit();
+
+    document.body.removeChild(formemail);
+
+    buy(id);
+}
 
 
 

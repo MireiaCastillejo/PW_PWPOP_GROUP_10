@@ -17,16 +17,10 @@ final class SessionMiddleware
     public function __invoke(Request $request, Response $response, callable $next)
     {
         //SIEMPRE PASA POR AQUI PRIMERO
-
-
            if(isset($_COOKIE['user_id']) ){
 
                 $_SESSION['user_id']= $_COOKIE['user_id'];
-
             }
-
-
-
         return $next($request, $response);
     }
 
@@ -35,32 +29,20 @@ final class SessionMiddleware
 
         if(isset($_COOKIE['user_id'])){
 
-           //
-
-
-            if (isset($_SERVER['HTTP_COOKIE']))
-            {
+            if (isset($_SERVER['HTTP_COOKIE'])) {
                 $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
-                foreach($cookies as $cookie)
-                {
+                foreach ($cookies as $cookie) {
                     $mainCookies = explode('=', $cookie);
                     $name = trim($mainCookies[0]);
-                    setcookie($name, '', time()-1000);
-                    setcookie($name, '', time()-1000, '/');
+                    setcookie($name, '', time() - 1000);
+                    setcookie($name, '', time() - 1000, '/');
                 }
-
                 unset($_COOKIE['user_id']);
                 //unset($_SESSION);
                 unset($_SESSION['user_id']);
-
-
                 session_destroy();
-
                 header('Location: /');
             }
-
-
-
         }else{
             //unset($_SESSION);
             unset($_SESSION['user_id']);
