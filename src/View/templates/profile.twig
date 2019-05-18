@@ -188,6 +188,22 @@
         </div>
     </div>
 
+    <div class="modal fade" id="updateMessage" role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <h5>Update profile went ok!</h5>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Confirm</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block header %}
@@ -228,15 +244,18 @@
     </div>
     <div id="profileButtons">
         <button type="button" class="btn btn-link" id="updateButton" data-toggle="modal" data-target="#updateModal">Update Info</button>
-        <button type="button" class="btn btn-link" id="deleteButton" data-toggle="modal" data-target="#deleteModal">Delete Account</button>
+        <button type="button" class="btn btn-link" id="deleteButton" data-toggle="modal" data-target="#updateMessage">Delete Account</button>
 
     </div>
 
-{% if upd_ok %}
+{% if upd_ok == 1 %}
 
-Update profile went ok!
-
+    <script type="text/javascript">
+        alert("Your data has been updated successfully!");
+        window.location.href = '/profilecheck';
+    </script>
 {% endif %}
+
 {% endblock %}
 
 {% block footer %}

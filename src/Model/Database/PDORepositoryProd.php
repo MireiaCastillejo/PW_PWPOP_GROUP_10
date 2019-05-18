@@ -243,8 +243,6 @@ final class PDORepositoryProd implements ProductRepositoryInterface
         return $product;
     }
 
-
-
     public function getOwnerId(int $id){
         $statement = $this->database->getConnection()->prepare(
             "SELECT userid FROM product WHERE id=:id"
@@ -259,6 +257,13 @@ final class PDORepositoryProd implements ProductRepositoryInterface
     }
 
 
+    public function delete(int $id)
+    {
+        $statement = $this->database->getConnection()->prepare(
+            "UPDATE product SET isActive = 0 WHERE id = :id"
+        );
+        $statement->bindParam('id', $id, PDO::PARAM_STR);
 
-
+        $statement->execute();
+    }
 }

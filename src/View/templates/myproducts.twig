@@ -100,12 +100,10 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#productModal">cancel</button>
-                    <!--<button type="submit" class="btn btn-danger" id="deleteButtonConfirm">Delete</button>-->
-                    <form id="form" class="form_content" action="{{ path_for('update') }}" method="POST" enctype="multipart/form-data">
+                    <button type="submit" class="btn btn-danger" name="delete" id="deleteProduct" value="Delete">
+                        Delete
+                    </button>
 
-                        <input type="submit" name="delete" id="delete" value="Delete" /><br/>
-
-                    </form>
                 </div>
             </div>
         </div>
@@ -161,7 +159,6 @@
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
 

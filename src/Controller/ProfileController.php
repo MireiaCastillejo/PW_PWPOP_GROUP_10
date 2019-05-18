@@ -16,6 +16,7 @@ final class ProfileController
 {
 
     protected $container;
+    private const UPLOADS_DIR = __DIR__ . '/../../public/uploads';
 
     public function __construct(ContainerInterface $container)
     {
@@ -35,16 +36,31 @@ final class ProfileController
             $upd_ok = 0;
         }
 
+        /*if (isset($_SESSION['updchange'])) {
+            if ($_SESSION['updchange'] == 1) {
+                $upd_ok = (1) ? 0 : 1;
+            }
+        }*/
 
-       // $this->container->get('view')->render($response, 'profile.twig', ['sesion'=>$_SESSION['user_id'], 'enabled' => $enabled]);
-
-       // session_start();
+        // session_start();
         if ( isset( $_SESSION['user_id'] ) ) {
             $this->container->get('view')->render($response, 'profile.twig', ['sesion' => $_SESSION['user_id'],'upd_ok'=>$upd_ok]);
         }else{
             $error[]="ERROR 403 NO PUEDE ACCEDER SIN HACER LOGIN";
             $this->container->get('view')->render($response, 'error.twig', ['errors' => $error]);
             return $response->withStatus(403);
+        }
+    }
+
+    public function updUncheck(Request $request, Response $response, array $args):Response
+    {
+
+        if ( isset( $_SESSION['user_id'] ) ) {
+
+            $_SESSION['upd_ok'] = 0;
+            $upd_ok = $_SESSION['upd_ok'];
+            $this->container->get('view')->render($response, 'profile.twig', ['sesion' => $_SESSION['user_id'],'upd_ok' =>$upd_ok]);
+            return $response->withStatus(200);
         }
     }
 
@@ -55,7 +71,6 @@ final class ProfileController
      */
     public function getUserData(Request $request, Response $response)
     {
-
 
         try {
 
@@ -79,6 +94,7 @@ final class ProfileController
 
                 }
             }
+
         } catch (\Exception $e) {
             $response = $response
                 ->withStatus(500)
@@ -182,6 +198,7 @@ final class ProfileController
                     $fileInfo = pathinfo($name);
                     $format = $fileInfo['extension'];
                     $data['profile'] = $data['username'].'.'.$format;
+                    $uploadedFiles['profile']->moveTo(self::UPLOADS_DIR .'/'. $data['profile']);
                 }
 
                 if(empty($errors)){
@@ -206,6 +223,7 @@ final class ProfileController
                     }
 
                     $_SESSION['upd_ok'] = 1;
+
                 }else {
                     //Algo ha ido mal
                     throw new \Exception('The validation went wrong');
@@ -223,7 +241,6 @@ final class ProfileController
             return $response->withStatus(500);
         }
 
-        return $response->withRedirect('/profile',200);
-
+        return $response->withRedirect('/profile',300);
     }
 }
