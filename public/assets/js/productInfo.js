@@ -19,7 +19,9 @@ function loadProduct(id) {
 
         statusCode: {
             200: function (data) {
-                var image = "/uploads/products/" + data['res']['product_image'];
+
+                prueba=data['res']['product_image'].split('/');
+                var image = "/uploads/products/" + prueba[0];
                 document.getElementById("productImage").src = image;
                 document.getElementById("title").innerHTML = data['res']['title'];
                 document.getElementById("comment").innerHTML = data['res']['description'];

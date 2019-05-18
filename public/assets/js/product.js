@@ -15,10 +15,10 @@ function loadProduct(id) {
 
         statusCode: {
             200: function (data) {
-
-                console.log(data['res']);
+                prueba=data['res']['product_image'].split('/')
+                console.log(prueba[0]);
                 //console.dir(JSON.parse(data).responseText);
-                var image = "/uploads/products/" + data['res']['product_image'];
+                var image = "/uploads/products/" +prueba[0];
                 document.getElementById("productImage").src = image;
                 document.getElementById("title").value = data['res']['title'];
                 document.getElementById("comment").value = data['res']['description'];
