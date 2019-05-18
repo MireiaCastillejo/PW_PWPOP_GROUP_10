@@ -120,32 +120,60 @@ final class ProfileController
                 //Rellenar los campos vacíos
                 if($data['name'] === ''){
                     $data['name'] = $currentUser['name'];
+                }else{
+                    if (!ctype_alnum($data['name'])){
+                        $errors['name'] = 'The name must be alphanumeric.';
+                    }
                 }
+
                 if($data['email'] === ''){
                     $data['email'] = $currentUser['email'];
+                }else{
+                    if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+                        $errors['email'] = 'The email is not valid.';
+                    }
                 }
+
                 if($data['birthdate'] === ''){
                     $b = explode(" ", $currentUser['birthdate']);
                     $data['birthdate'] = $b[0];
+                }else {
+
+                    $dateExploded = explode("-", $data['birthdate']);
+                    $day = $dateExploded[2];
+                    $month = $dateExploded[1];
+                    $year = $dateExploded[0];
+
+                    if (!checkdate($month, $day, $year)) {
+                        $errors['birthdate'] = 'The birthdate is not valid.';
+                    }
                 }
+
                 if($data['phonenumber'] === ''){
                     $data['phonenumber'] = $currentUser['phonenumber'];
+                }else{
+                    if (!preg_match( '/[0-9]{3}[ ][0-9]{3}[ ][0-9]{3}/', $data['phonenumber'])) {
+                        $errors['phonenumber'] = 'The phone number must follow the format xxx xxx xxx, only numbers.';
+                    }
                 }
+
                 if($data['enabled'] === ''){
                     $data['enabled'] = $currentUser['enabled'];
                 }
 
-                //Validamos los campos y guardamos los errores
-                $regController = new RegController($this->container);
-                $errors = $regController->validate($data, $request, true);
+                if($data['password'] === ''){
+                    $data['password'] = $currentUser['password'];
+                }else{
+                    if(strlen($data['password']) < 6){
+                        $errors['password'] = 'The password must have min. 6 characters';
+                    }
+                    if($data['password']!== $data['c_password']){
+                        $errors['c_password'] = 'The password confirmation doesnt match.';
+                    }
 
-                if(empty($data['birthdate'])){
-                    $aux= new DateTime("1000-01-01 00:00:00");
-                    $data['birthdate'] = $aux->format('Y-m-d H:i:s');
                 }
 
                 $uploadedFiles = $request->getUploadedFiles();
-
 
                 if(empty($uploadedFiles['profile']->getClientFilename())){
                     $data['profile'] = $currentUser['profileimage'];
